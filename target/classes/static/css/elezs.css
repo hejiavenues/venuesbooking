@@ -1,0 +1,103 @@
+[v-cloak] {display: none;}
+
+
+
+.zs_tableRow td{
+	padding: 5px,0;
+}
+
+.el-collapse-item__header {
+height:30px;
+}
+.el-table .cell{
+	text-align: center;
+}
+
+.el-input.is-disabled .el-input__inner {
+    background-color: rgb(245, 247, 250);
+    color: #111;
+    cursor: not-allowed;
+    border-color: rgb(228, 231, 237);
+}
+.zsresf{
+
+	position: fixed;
+	left:96%; 
+	overflow-x: hidden;
+	 z-index: 999;
+	 background:#fff0;
+     top: 4%; 
+     width:8%;
+
+}
+
+.el-table td,.el-table th{padding:6px 0;min-width:0;-webkit-box-sizing:border-box;box-sizing:border-box;text-overflow:ellipsis;vertical-align:middle;position:relative;text-align:left}
+.el-table--mini td,.el-table--mini th{padding:2px 0}
+.el-checkbox__inner{/* background-color:#F2F6FC; */border-color:#DCDFE6}
+body ,html{
+	/* background:#f0f2f5; */
+	background:#fff;
+}
+
+.el-checkbox__inner {
+    border-color: #000;
+}
+ .el-table--border td, .el-table--border th, .el-table__body-wrapper .el-table--border.is-scrolling-left~.el-table__fixed {
+    border-right: 1px solid #dfdfdf;
+}
+
+.el-table td, .el-table th.is-leaf {
+    border-bottom: 1px solid #dfdfdf;
+    
+} 
+ .el-table--border, .el-table--group {
+        
+      border: 1px solid #dfdfdf;
+} 
+ body .el-table th.gutter{
+    display: table-cell!important;
+}
+ 
+body .el-table colgroup.gutter{
+    display: table-cell!important;
+} 
+.el-table {
+   overflow: auto;
+}
+
+.el-table th.is-leaf {
+    border-bottom: 1px solid rgb(235, 238, 245);
+    background:#5698c3;
+    color:#fff;
+}
+
+
+/*拷贝用以滚动条
+*/
+ /* 滚动条 */
+::-webkit-scrollbar-thumb:horizontal { /*水平滚动条的样式*/
+    width: 4px;
+    background-color: #CCCCCC;
+    -webkit-border-radius: 6px;
+}
+::-webkit-scrollbar-track-piece {
+    background-color: #fff; /*滚动条的背景颜色*/
+    -webkit-border-radius: 0; /*滚动条的圆角宽度*/
+}
+::-webkit-scrollbar {
+    width: 10px; /*滚动条的宽度*/
+    height: 8px; /*滚动条的高度*/
+}
+::-webkit-scrollbar-thumb:vertical { /*垂直滚动条的样式*/
+    height: 50px;
+    background-color: #999;
+    -webkit-border-radius: 4px;
+    outline: 2px solid #fff;
+    outline-offset: -2px;
+    border: 2px solid #fff;
+}
+::-webkit-scrollbar-thumb:hover { /*滚动条的hover样式*/
+    height: 50px;
+    background-color: #9f9f9f;
+    -webkit-border-radius: 4px;
+}

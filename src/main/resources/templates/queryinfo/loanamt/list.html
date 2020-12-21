@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('放款额度查询')"></head>
+<body>
+<div id="cashbangLTE" class="container-fluid" v-cloak>
+	
+	<div class="panel panel-primary">
+		  <div class="panel-heading">今日放款信息</div>
+		  <div class="panel-body">
+		  	<table class="table text-center table-hover table-condensed text-nowrap">
+		  		<tbody>  
+                    <tr>  
+                        <td>今日放款额度[元]</td>  
+                        <td>{{queryLoanamtHistory.loanamtSum}}</td>  
+                        <td><a v-if="hasPermission('query:loanamt:edit')" class="btn btn-primary btn-sm" @click="edit" style="padding: 3px 10px;"><i class="fa fa-pencil-square-o"></i>&nbsp;修改</a></td>
+                    </tr>  
+                    <tr>  
+                        <td>今日已放款额度[元]</td>  
+                        <td>{{queryLoanamtHistory.loanamtSum - queryLoanamtHistory.loanamtRemain}}</td>  
+                        <td></td>
+                    </tr>  
+                    <tr>  
+                        <td>今日剩余放款额度[元]</td>  
+                        <td>{{queryLoanamtHistory.loanamtRemain}}</td>  
+                        <td><a class="btn btn-primary btn-sm" @click="load" style="padding: 3px 10px;"><i class="fa fa-refresh"></i>&nbsp;刷新</a></td>
+                    </tr>  
+                </tbody>  
+		  	</table>
+			<!-- <ul style="margin-top: 5px;margin-bottom: 5px;">
+				<li style="margin-bottom: 10px;">
+					今日放款额度<mark>{{queryLoanamtHistory.loanamtSum}}</mark>元
+		            <a v-if="hasPermission('query:loanamt:edit')" class="btn btn-primary btn-sm" @click="edit"><i class="fa fa-pencil-square-o"></i>&nbsp;点击修改</a>
+				</li>
+				<li>
+					今日已放款额度<mark>{{queryLoanamtHistory.loanamtSum - queryLoanamtHistory.loanamtRemain}}</mark>元
+				</li>
+				<li>
+					今日剩余放款额度<mark>{{queryLoanamtHistory.loanamtRemain}}</mark>元
+				</li>
+			</ul> -->
+		  </div>
+	</div>
+	<hr>
+	<!-- <a v-if="hasPermission('query:loanamt:list')" class="btn btn-default" onclick="reload();"><i class="fa fa-refresh"></i>&nbsp;刷新</a> -->
+	<div class="panel panel-primary">
+		<div class="panel-heading">放款额度修改历史</div>
+		<div class="panel-body">
+			<div class="row">
+				<table id="dataGrid"></table>
+			</div>
+		</div>
+	</div>
+</div>
+<div th:include="include/footer_js::footer"></div>
+<script th:src="@{/js/queryinfo/loanamt/list.js}"></script>
+</body>
+</html>

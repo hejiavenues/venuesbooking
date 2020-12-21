@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('催收申请（减免或者对公）')"></head>
+<style>
+body ,html{
+  background:#eee;
+}
+</style>
+<body>
+<div id="zsvm"  v-cloak>
+
+
+
+  <el-row  :gutter="12" >
+    <el-col :span="11" >
+     <el-card class="box-card" style="margin:80px 40px;" > 
+      <el-form  ref="ruleForm" label-width="100px" class="demo-ruleForm" style="padding:20px;">
+		  <el-form-item label="渠道">
+                <el-select v-model="params.channel" placeholder="请选择划扣期数" style="width:300px" >
+		           <el-option v-for="c in channels" :label="c.channelName+'('+c.channelCode+')'" :value="c.channelCode"></el-option> 
+				 </el-select>
+		  </el-form-item>
+		  
+		  <el-form-item label="产品">
+                <el-select v-model="params.productCode" placeholder="请选择划扣期数" style="width:300px" >
+		           <el-option v-for="c in products" :label="c.name+'('+c.code+')'" :value="c.code"></el-option> 
+				 </el-select>
+		  </el-form-item>
+		  
+		   <el-form-item label="金额">
+             <el-input v-model="params.applyAmount"  style="width:300px" ></el-input>
+		  </el-form-item>
+		  
+		  <el-form-item label="期数">
+             <el-input v-model.trim="params.period"  style="width:300px" ></el-input>
+		  </el-form-item>
+		  
+		  <el-form-item >
+		    <el-button type="primary" @click="tryCalculator" style="width:300px">确认</el-button>
+		  </el-form-item>
+     	</el-form> 
+	  </el-card>
+	 </el-col>
+	     <el-col :span="13" >
+	 	  <el-row style="height:600px;overflow-y:auto;">
+ 	 	 <el-col :span="12" v-for="r in res"  style="padding:10px;">
+		  <el-card class="box-card" >
+			  <!-- <el-row> 申请渠道:{{r.params.channel}} </el-row>
+		      <el-row> 申请产品:{{r.params.productCode}} </el-row>
+		      <el-row> 申请金额:{{r.params.applyAmount}} </el-row>
+		      <el-row> 产品期数:{{r.params.period}}</el-row> -->
+		      <el-row>合同金额: {{r.result.contractAmount}} </el-row>
+			  <el-row>每期应还: {{r.result.repayAmountPeriod}} </el-row>
+			 <el-row> 应还总额: {{r.result.contractAmount}} </el-row>
+		 </el-card>
+		 </el-col>
+  		</el-row>
+	 </el-col>
+	</el-row>
+	 
+
+ 
+  
+
+   <div  class="zsresf"><el-button type="" icon="el-icon-refresh"  style="display:block"  onclick="reload()" circle></el-button></div>
+  
+</div>
+
+<div th:include="include/footer_element::footer"></div>
+<script type="text/javascript">
+
+var vm = new Vue({
+    el:'#zsvm',
+	data: {
+		params:{
+			  "applyAmount": null,
+			  "channel": null,
+			  "period": null,
+			  "productCode": null
+		},
+		channels:[],
+		products:[],
+		res:{},
+		index:0,
+	},
+	watch:{
+		"params.applyAmount":function(a,b){
+			if(a!=null){
+				if(isNaN(a)){
+					this.params.applyAmount=null;
+					return ;
+				}
+				if(a<0){
+					this.params.applyAmount=b;
+				}
+			}
+		},
+		"params.period":function(a,b){
+			if(a!=null){
+				if(isNaN(a)){
+					this.params.period=null;
+					return ;
+				}
+				if(a<0||!(a%1 === 0)){
+					this.params.period=b;
+				}
+			}
+		},
+	},
+	methods : {
+		getChannels:function (){
+			var th=this;
+			zs_post({
+				url: '../../channel/info/list?_' + $.now(),
+				success: function(data) {
+					th.channels=data.rows;
+				}
+		      });
+		},
+	 	 getProducts:function(){//加载产品
+	   		  var th=this;
+		  	   zs_post({
+		  			url: '../../m/product/list?_' + $.now(),
+		  			param:{
+		  				channel:th.channel,
+		  			},
+		  			success: function(data) {
+		  				th.products=data.rows;
+		  			}
+		  	   });
+		 },
+		tryCalculator:function(){
+			var th=this;
+			
+			zs_postA(th,{
+				url: '../../channel/info/tryCalculator?_' + $.now(),
+				param:th.params,
+				success:function(r){
+					if(r.code==0){
+						console.log(r);
+						var tr={params:th.params,result:r.msg};
+						th.$set(th.res,th.index++,tr);
+						
+					}
+				}
+			})
+		},
+	
+	 },
+	 mounted:function(){
+		 this.getChannels();
+		 this.getProducts();
+	 }
+})
+
+</script>
+
+</body>
+</html>

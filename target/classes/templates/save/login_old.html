@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>管理平台</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/login.min.css">
+<link href="plugins/layui-v2.4.3/layui/css/layui.css" rel="stylesheet"/>
+
+<style type="text/css">
+
+.login{
+padding-top:20px;
+margin-top:100px;
+}
+
+.message font {
+font-size:10px;
+}
+.message .layui-btn {
+    background-color: #27a9e3;
+    border-color: #27a9e3;
+    color: #FFF;
+    font-size:11px;
+   text-align:left;
+   padding-left:0px;
+}
+.message button:hover {
+    background-color: #27A9E3;
+    border-color: #4cb0f9;
+    color: #FFF;
+} 
+
+.chaa{
+position: fixed; 
+ left:80%;
+ bottom: 0;
+ right: 0px;
+ overflow-x: hidden;
+ z-index: 999;
+ background:#00000045;  
+ top: 0%; 
+ bottom: 0%;
+}
+.chaa div{
+background:#27a9e3;
+margin-bottom:1%;
+
+}
+form{
+background:#fff;
+}
+.hr15 ,.hr20{
+background:#fff;
+}
+[v-cloak]{
+display:none;
+}
+</style>
+</head>
+<body>
+
+	
+
+	<div class="login" id="cashbangLTE" v-cloak>
+	  <div  v-if="international" v-show="chLanguage" class="layui-row  layui-anim layui-anim-up chaa" style="  ">
+       <a><div class="layui-btn layui-btn-fluid" style="margin-top:140px" @click="clang('zh')">中文</div></a>
+  	   <a><div class="layui-btn layui-btn-fluid"  @click="clang('en')">English</div></a>
+  	     	   <a><div class="layui-btn layui-btn-fluid"  @click="clang('id')">Bahasa Indonesia</div></a>
+  	   
+ 	 </div> 
+	
+      <!--   <img src="images/jxzr1.png" style=" margin-left:20px;  width:80%; height: 50px;" class="user-image" alt="User Image"> -->
+	
+		<div class="message">{{sysName}}{{$t("lgr.name")}}
+		<button class="layui-btn layui-btn-fluid"  v-if="international" @click="chLanguage=true">
+	    click here to change operational language
+	  </button></div>
+		<div id="darkbannerwrap"></div>
+		<form method="post">
+			<div v-if="error" class="alert alert-danger alert-dismissible">
+				<h4 style="margin-bottom: 0px;font-size:13px;">
+					<i class="fa fa-exclamation-triangle"></i> {{errorMsg}}
+				</h4>
+			</div>
+			<input placeholder="user" v-model="username" type="text" @keyup.enter="login">
+			<hr class="hr15">
+			<input placeholder="password" v-model="password" type="password" @keyup.enter="login">
+			<hr class="hr15">
+			<input :value="$t('lgr.login')" style="width: 100%;" type="button" @click="login">
+			<hr class="hr20">
+			<!-- 帮助 <a onClick="alert('请联系管理员')">忘记密码</a> -->
+		</form>
+	</div>
+	<div class="copyright">
+		©ZS<a href="" target="_blank"> ZS</a>
+	</div>
+	<script src="libs/jquery.min.js"></script>
+	<script src="plugins/layer/layer.js"></script>
+	<script src="libs/vue.min.js"></script>
+<!--     <script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+ -->    				<script src="plugins/vue-i18n.js"></script>
+
+    
+	<script src="js/lang/system_main.js"></script>
+	<script src="js/lang/lang.js"></script>
+	<script type="text/javascript">
+		var vm = new Vue({
+			el : '#cashbangLTE',
+			i18n,
+			data : {
+				username : '',
+				password : '',
+				error : false,
+				errorMsg : '',
+				chLanguage:false,
+		        international:false,//是否国际化
+		        sysName:"",//系统名称
+			},
+			beforeCreate : function() {
+				if (self != top) {
+					top.location.href = self.location.href;
+				}
+			},
+			created:function(){
+				this.getInternational();
+				this.geSysName();
+			},
+			methods : {
+				clang:function(la){
+					this.chLanguage=false;
+					localStorage.setItem('locale',la);
+					i18n.locale=la;
+				},
+				getInternational: function () {
+					$.ajax({
+						type : "POST",
+		            	url:"sys/international?_" + $.now(),
+						dataType : "json",
+		            	success:function(r){
+		            		console.log(r);
+			                if(r.msg=="true"){
+			                	  vm.international = true;
+			                }else{
+			                	vm.international = false;
+								localStorage.setItem('locale',"zh");
+
+			                }
+		            	}
+		            }); 
+		        },
+		        geSysName: function () {
+					$.ajax({
+						type : "POST",
+		            	url:"sys/sysName?_" + $.now(),
+						dataType : "json",
+		            	success:function(r){
+			               vm.sysName = r.msg;
+		            	}
+		            }); 
+		        },
+				login : function(event) {
+					if (vm.username == '') {
+						vm.error = true;
+						vm.errorMsg = '用户名为空';
+						return false;
+					}
+					if (vm.password == '') {
+						vm.error = true;
+						vm.errorMsg = '密码为空';
+						return false;
+					}
+					var data = "username=" + vm.username + "&password="
+							+ vm.password;
+					$.ajax({
+						type : "POST",
+						url : "sys/login",
+						data : data,
+						dataType : "json",
+						success : function(result) {
+							if (result.code == 0) {//登录成功
+								localStorage.setItem("token", result.token);
+								parent.location.href = 'index_tab.html';
+							} else {
+								vm.error = true;
+								vm.errorMsg = result.msg;
+							}
+						}
+					});
+				}
+			}
+		});
+	</script>
+</body>
+
+</html>

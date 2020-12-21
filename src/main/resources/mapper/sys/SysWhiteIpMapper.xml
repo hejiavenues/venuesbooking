@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.sys.dao.SysWhiteIpMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.sys.entity.SysWhiteIpEntity">
+		SELECT
+			a.`id`, 
+			a.`only_id`, 
+			a.`user_name`, 
+			a.`user_id`, 
+			a.`text`, 
+			a.`type`, 
+			a.`create_time`, 
+			a.`update_time`,
+			b.username login_name
+		FROM
+			sys_white_ip a left join sys_user b on a.type='user' and a.only_id=b.user_id
+		<where>
+		
+			<if test="onlyId!=null and onlyId !=''">
+				 a.only_id like concat("%",#{onlyId},'%')
+			</if>
+			<if test="type!=null and type !=''">
+				 and a.type= #{type}
+			</if>
+			<if test="loginName !=null and loginName !=''">
+				 and b.username like concat("%",#{loginName},'%') 
+			</if>
+		</where>
+		ORDER BY
+			id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO sys_white_ip (
+			`id`, 
+			`only_id`, 
+			`user_name`, 
+			`user_id`, 
+			`text`, 
+			`type`, 
+			`create_time`
+		)
+		VALUES (
+			#{id}, 
+			#{onlyId}, 
+			#{userName}, 
+			#{userId}, 
+			#{text}, 
+			#{type}, 
+			#{createTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.sys.entity.SysWhiteIpEntity">
+		SELECT
+			`id`, 
+			`only_id`, 
+			`user_name`, 
+			`user_id`, 
+			`text`, 
+			`type`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			sys_white_ip
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE sys_white_ip
+	 	<set>
+			<if test="onlyId != null">`only_id` = #{onlyId}, </if>
+			<if test="userName != null">`user_name` = #{userName}, </if>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="text != null">`text` = #{text}, </if>
+			<if test="type != null">`type` = #{type}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			sys_white_ip
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+<select id="getByUserAndIp" resultType="cn.cashbang.core.modules.sys.entity.SysWhiteIpEntity">
+		SELECT
+			a.`only_id`
+		FROM
+			sys_white_ip a left join sys_user b on a.type='user' and a.only_id=b.user_id
+		where 
+		(type="user" and only_id=#{0})  or 	(type="ip" and only_id=#{1}) 
+	</select>
+</mapper>

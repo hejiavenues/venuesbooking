@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+	<link th:href="@{../../plugins/layui-v2.4.3/layui/css/layui.css}" rel="stylesheet"/>
+	<link th:href="@{../../css/style.min.css}" rel="stylesheet"/>
+	<link th:href="@{../../css/common.zs.css}" rel="stylesheet"/>
+<style>
+ body{
+/* background:#f0f2f5; */
+background:#eee;
+width:100%;
+}
+.layui-row{margin-top:0px;}
+.eee{background:#eee;}
+.f0f{background:#f0f2f5;}
+.fff{background:#fff;}
+.layui-card:{
+font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+}
+.layui-card {
+	line-height: 20px;
+    font-size: 13px;
+}
+.layui-card h3 {
+    padding-bottom: 10px;
+    font-size: 12px;
+    color: rgba(0,0,0,.45);
+}
+.layui-card p cite {
+    font-style: normal;
+    font-size: 30px;
+    font-weight: 300;
+    color: #009688;
+}
+.layui-card h3 cite {
+    font-style: normal;
+    font-size: 20px;
+    font-weight: 300;
+    color: #009688;
+    right:0px;
+}
+.layui-card-body .layui-row{
+	padding:0px;
+}
+hr{
+padding-left:5px;
+padding-right:5px;
+margin-top:4px;
+margin-bottom:4px;
+}
+
+.layui-form-pane .layui-form-label{
+	padding-left:0px;
+	padding-right:0px;
+} 
+.layui-input-inline{
+width:110px;
+}
+</style>
+<body>
+
+
+
+
+
+
+
+<div  id ="changeChannelmain" class="layui-row  layui-anim layui-anim-up" 
+ style=" position: fixed; left:0%;bottom: 0;right: 0px; overflow-x: hidden; z-index: 999; background:#eeeeee91;   top: 0%;  bottom: 0%; display:none; ">
+</div> 
+
+<div id="changeChannel" style=" position: fixed; left:80%; overflow-x: hidden; z-index: 999;  background:#fff0; height: 35px;top: 1%;  width:20%;display:none" >
+  <button class="layui-btn layui-btn-radius layui-btn-sm" >  <font  style="font-size: 12px; color: #fff;" id="nowChannel"></font></button>
+</div>
+
+
+
+<div id="vmMain">
+<!-- 基本信息 -->
+ <div class="layui-row layui-col-space10 eee" >
+    <div class="layui-col-xs12">
+   		<div class="layui-card">
+   			  <div class="layui-card-body">
+		   		 <div class="layui-row layui-col-space10" >
+		   		 <div class="layui-col-xs6 ">
+	                       <h3>点击量</h3>
+	                       <p><cite class="addmsg" id="m_clickSum">...</cite></p>
+                     </div>
+                     <div class="layui-col-xs6 ">
+	                       <h3>注册数</h3>
+	                       <p><cite class="addmsg"  id="m_mobileSum">...</cite></p>
+                     </div>
+           		 </div>
+          
+         		<div  style="width:98%;height:40px;" id="echart0"></div>
+           		<hr>
+                <div class="layui-row layui-col-space10" >
+	                   	  <p class="addmsg" id="msg_click">加载中...</p>
+				</div>
+	  		</div>
+      </div>
+   </div>
+   
+     <div class="layui-col-xs12">
+   		<div class="layui-card">
+   			  <div class="layui-card-body">
+		   		 <div class="layui-row layui-col-space10" >
+		   			 <div class="layui-col-xs6 ">
+	                       <h3>授信总数</h3>
+	                       <p><cite class="addmsg" id="m_creditSum">...</cite></p>
+                     </div>
+                     <div class="layui-col-xs6 ">
+	                       <h3>授信通过</h3>
+	                       <p><cite class="addmsg"  id="m_creditSuccess">...</cite></p>
+                     </div>
+           		 </div>
+          
+         		<div  style="width:98%;height:40px;" id="echart3"></div>
+           		<hr>
+                <div class="layui-row layui-col-space10" >
+	                   	  <p class="addmsg" id="msg_credit">加载中...</p>
+				</div>
+	  		</div>
+      </div>
+   </div>
+    
+    <div class="layui-col-xs12">
+   		<div class="layui-card">
+   			  <div class="layui-card-body">
+		   		 <div class="layui-row layui-col-space10" >
+		   		 <div class="layui-col-xs6 ">
+	                       <h3>当日放款人数</h3>
+	                       <p><cite class="addmsg" id="m_tradeSuccess">...</cite></p>
+                     </div>
+                     <div class="layui-col-xs6 ">
+	                       <h3>当日放款金额</h3>
+	                       <p><cite class="addmsg" id="m_payAmountSum">...</cite></p>
+                     </div>
+           		 </div>
+           		 <!-- <div style="width:98%;height:40px; position: relative;" >
+	           		 <div class="layui-progress layui-progress-big" style="width:98%; position:absolute;bottom:0px;"  lay-showPercent="true">
+					  <div class="layui-progress-bar layui-bg-blue" lay-percent="0%"></div>
+					</div>
+           		 </div> -->
+          		         		<div  style="width:98%;height:40px;" id="echart1"></div>
+          		
+           		<hr>
+                <div class="layui-row layui-col-space10" >
+	                   	  <p id="msg_trade" class="addmsg">加载中...</p>
+				</div>
+	  		</div>
+      </div>
+   </div>
+      <div class="layui-col-xs12">
+   		<div class="layui-card">
+   			  <div class="layui-card-body">
+		   		 <div class="layui-row layui-col-space10" >
+		   		 <div class="layui-col-xs6 ">
+	                       <h3>当日应还</h3>
+	                       <p><cite  class="addmsg"  id="m_repaymentSum">...</cite></p>
+                     </div>
+                     <div class="layui-col-xs6 ">
+	                       <h3>已还(全部/当日)</h3>
+	                       <p><cite class="addmsg" id="m_repaidSum">...</cite><cite>/</cite><cite class="addmsg" id="m_repaidSumToday">...</cite></p>
+                     </div>
+           		 </div>
+          
+         		<div  style="width:98%;height:40px;" id="echart2"></div>
+
+           		<hr>
+                <div class="layui-row layui-col-space10" >
+	                   	  <p class="addmsg" id="msg_repay">加载中...</p>
+				</div>
+	  		</div>
+      </div>
+   </div>
+</div>
+ </div>
+<!-- 基本信息 -->
+ <div class="layui-row layui-col-space10 eee  "  >
+    <div class="layui-col-xs12">
+    	<div class="layui-card">
+    	  <div class="layui-card-header"  style="height: 30px; line-height: 30px;">
+		  <i class="layui-icon " style="font-size: 13px; color: #009688;"> 各环节数据</i>  
+		 </div>
+   			  <div class="layui-card-body ">
+			    				<div  style="width:98%;height:200px;" id="bigEchart0"></div>
+			</div>
+		</div> 
+	</div>
+	 <div class="layui-col-xs12">
+    	<div class="layui-card">
+    	<div class="layui-card-header"  style="height: 30px; line-height: 30px;">
+		  <i class="layui-icon " style="font-size: 13px; color: #009688;"> 转换率</i>  
+		 </div>
+   			  <div class="layui-card-body ">
+								<div class="layui-btn-group" style="" id="schannelArr"></div>
+			    				<div  style="width:98%;height:300px;" id="bigEchart1"></div>
+			    			</div>
+			</div>
+		</div> 
+	</div>
+</div>
+   
+<div th:include="include/footer_js_report::footer"></div>
+<script src="main.js"></script>
+</body>
+</html>

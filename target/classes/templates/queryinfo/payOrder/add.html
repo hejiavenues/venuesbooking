@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('')"></head>
+<body>
+	<div id="cashbangLTE" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.payOrderId" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">交易单<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="交易单" v-model="payOrder.tradeOrderId" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">渠道<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="渠道" v-model="payOrder.channel" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.money" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">账户名<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="账户名" v-model="payOrder.accountName" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">银行卡<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="银行卡" v-model="payOrder.bankCard" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">身份证<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="身份证" v-model="payOrder.identityCard" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">手机号<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="手机号" v-model="payOrder.mobile" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">支付渠道<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="支付渠道" v-model="payOrder.payChannel" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">支付类型<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="支付类型" v-model="payOrder.payType" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">支付单状态<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="支付单状态" v-model="payOrder.payOrderStatus" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.createTime" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.updateTime" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.productCode" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">业务渠道码<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="业务渠道码" v-model="payOrder.businessChannelCode" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">批次单<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="批次单" v-model="payOrder.batchId" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">验证码<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="验证码" v-model="payOrder.confirmCode" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.remark" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">通知交易状态位<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="通知交易状态位" v-model="payOrder.notifyTrade" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.version" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.retryCount" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.errorCode" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.errorMessage" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.userId" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle"><span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="" v-model="payOrder.outerPayOrderId" isvalid="yes" checkexpession="NotNull">
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/payOrder/add.js}"></script>
+</body>
+</html>

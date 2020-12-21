@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+ <head>
+  <link th:href="@{../../plugins/element/element.css}" rel="stylesheet" /> 
+  <link th:href="@{../../css/elezs.css}" rel="stylesheet" /> 
+  <style>
+</style> 
+ </head>
+ <body style="background: #f0f2f5; font-famliy: SimHei"> 
+  <div id="zhishu" v-cloak="" style="padding-top: 30px; padding-left: 30px; padding-right: 30px;"> 
+   <el-row :gutter="20"> 
+    <el-col  :xs="6" :sm="6" :md="3" :lg="3" :xl="3"> 
+     <el-card v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" shadow="always" style="font-weight: bold; 	font-size:15px; height:100px;width:100%;box-shadow: -6px 8px 12px 0px rgba(0,0,0,.1)" class="changer"> 
+      <el-row style=" 	font-size:13px;color: #67C23A; margin-bottom:15px;">
+        {{$t("clicks")}}
+      </el-row> 
+      <el-row>
+        {{m.clickSum}} 
+      </el-row> 
+     </el-card> 
+    </el-col> 
+    <el-col :xs="6" :sm="6" :md="3" :lg="3" :xl="3"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="font-weight: bold; 	font-size:15px; height:100px;width:100%;box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1)" class="changer"> 
+      <el-row style=" 	font-size:13px;color:#409EFF; margin-bottom:15px;">
+       {{$t("register")}}
+      </el-row> 
+      <el-row>
+        {{m.mobileSum}} 
+      </el-row> 
+     </el-card> 
+    </el-col> 
+    <el-col :xs="6" :sm="6" :md="3" :lg="3" :xl="3"> 
+     <el-card v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" shadow="always" style="font-weight: bold; 	font-size:15px; height:100px;width:100%;box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1)" class="changer"> 
+      <el-row style=" 	font-size:13px;color:#F56C6C; margin-bottom:15px;">
+        	进件数
+      </el-row> 
+      <el-row>
+        {{m.decisionSum}} 
+      </el-row> 
+     </el-card> 
+    </el-col> 
+    <el-col :xs="6" :sm="6" :md="3" :lg="3" :xl="3"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="font-weight: bold; 	font-size:15px; height:100px;width:100%;box-shadow: -6px 8px 12px 0px rgba(0,0,0,.1)" class="changer"> 
+      <el-row style=" 	font-size:13px;color: #E6A23C; margin-bottom:15px;">
+      	进件通过
+      </el-row> 
+      <el-row>
+        {{m.riskResultSuccess}} 
+      </el-row> 
+     </el-card> 
+    </el-col> 
+    <el-col :xs="6" :sm="6" :md="3" :lg="3" :xl="3"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="font-weight: bold; 	font-size:15px; height:100px;width:100%;box-shadow: -6px 8px 12px 0px rgba(0,0,0,.1)" class="changer"> 
+      <el-row style=" 	font-size:13px;color: #ad9e5f; margin-bottom:15px;">
+        {{$t("tradeSuccess")}}
+      </el-row> 
+      <el-row>
+        {{m.tradeSuccess}} 
+      </el-row> 
+     </el-card> 
+    </el-col> 
+    <el-col :xs="6" :sm="6" :md="3" :lg="3" :xl="3"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="font-weight: bold; 	font-size:15px; height:100px;width:100%;box-shadow: -6px 8px 12px 0px rgba(0,0,0,.1)" class="changer"> 
+      <el-row style=" 	font-size:13px;color: #983680; margin-bottom:15px;">
+        {{$t("payAmountSum")}}
+      </el-row> 
+      <el-row>
+        {{m.payAmountSum}} 
+      </el-row> 
+     </el-card> 
+    </el-col> 
+    <el-col :xs="6" :sm="6" :md="3" :lg="3" :xl="3"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="font-weight: bold; 	font-size:15px; height:100px;width:100%;box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1)" class="changer"> 
+      <el-row style=" 	font-size:13px;color: #1a94bc; margin-bottom:15px;">
+        {{$t("repaymentSum")}}
+      </el-row> 
+      <el-row>
+        {{m.repaymentSum}} 
+      </el-row> 
+     </el-card> 
+    </el-col> 
+    <el-col :xs="6" :sm="6" :md="3" :lg="3" :xl="3"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="font-weight: bold; 	font-size:15px; height:100px;width:100%;box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1)" class="changer"> 
+      <el-row style=" 	font-size:13px;color: #eea08c; margin-bottom:15px;">
+       {{$t("repaidSum")}}
+      </el-row> 
+      <el-row>
+        {{m.repaidSum}} /{{m.repaidSumToday}}
+      </el-row> 
+     </el-card> 
+    </el-col> 
+   </el-row> 
+   <el-row :gutter="20" style="margin-top:20px; "> 
+    <el-col :xs="24" :sm="24" :md="24" :lg="15" :xl="15" v-if="!parent.vm.isM"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1);margin-bottom:20px;"> 
+      <div style="width: 100%; height: 380px;" id="bigEchart0"></div> 
+     </el-card> 
+     <el-card shadow="always" v-loading="loadr" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1)"> 
+      <div style="width: 100%; height: 410px;" id="bigEchart1"></div> 
+     </el-card> 
+    </el-col> 
+    <el-col  :xs="24" :sm="24" :md="24" :lg="9" :xl="9"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1);margin-bottom:20px;"> 
+      <el-progress type="circle" status="text" :percentage="m.repaymentSum==0?100:m.repaidSum/m.repaymentSum*100" color="#E6A23C" >
+         <el-row style="font-size:10px;margin-bottom:10px;">已还/应还</el-row> 
+           <el-row >{{m.repaymentSum==0?100:parseInt(m.repaidSum/m.repaymentSum*100)}}%</el-row> 
+      </el-progress> 
+      <el-progress type="circle" status="text" :percentage="msg.credit" color="#409EFF"	>
+          <el-row style="font-size:10px;margin-bottom:10px;">进件通过/进件</el-row> 
+           <el-row > {{msg.credit}}%</el-row> 
+      </el-progress> 
+      <el-progress type="circle" status="text" :percentage="msg.click" color="#67C23A" size="mini">
+         <el-row style="font-size:10px;margin-bottom:10px;">注册/点击</el-row> 
+           <el-row > {{msg.click}}%</el-row> 
+      </el-progress> 
+     </el-card> 
+     <el-card shadow="always" v-loading="load7" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1);margin-bottom:20px;"> 
+      <div style="width: 100%; height: 180px;" id="echart1"></div> 
+     </el-card> 
+     <el-card shadow="always" v-loading="load7" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1);margin-bottom:20px;"> 
+      <div style="width: 98%; height: 180px;" id="echart3"></div> 
+     </el-card> 
+     <el-card shadow="always" v-loading="load7" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1);margin-bottom:20px;"> 
+      <div style="width: 98%; height: 175px;" id="echart0"></div> 
+     </el-card> 
+    </el-col> 
+     <el-col :xs="24" :sm="24" :md="24" :lg="15" :xl="15" v-if="parent.vm.isM"> 
+     <el-card shadow="always" v-loading="loadm" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1);margin-bottom:20px;"> 
+      <div style="width: 100%; height: 380px;" id="bigEchart0"></div> 
+     </el-card> 
+     <el-card shadow="always" v-loading="loadr" element-loading-text=" " element-loading-spinner="el-icon-loading" element-loading-background="rgba(255,255,255,0.8)" style="box-shadow:-6px 8px 12px 0px rgba(0,0,0,.1)"> 
+      <div style="width: 100%; height: 410px;" id="bigEchart1"></div> 
+     </el-card> 
+    </el-col> 
+   </el-row> 
+  </div> 
+  <div th:include="include/footer_element::footer"></div> 
+  <script th:src="@{/js/lang/system_main.js}"></script> 
+  <script th:src="@{/js/lang/lang.js}"></script> 
+  <script th:src="@{/js/main_approval.js}"></script>  
+ </body>
+</html>

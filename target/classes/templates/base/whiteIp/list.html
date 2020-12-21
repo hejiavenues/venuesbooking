@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('')"></head>
+<style>
+
+.el-form-item {
+    margin-bottom: 10px;
+}
+
+</style>
+<body>
+<div id="zsvm"  v-cloak>
+
+  <el-card class="box-card"> 
+  
+  <!-- 搜索 -->
+   <el-collapse v-model="activeNames"><!-- 可展开搜索 -->
+     <el-collapse-item title="" name="1" >
+     
+	   <el-form ref="form"  :inline="true" label-width="80px" size="mini"><!-- 搜索框 -->
+		 <el-form-item label="ip/userId" >
+		        <el-input v-model="param.onlyId" placeholder="请输入查询关键字" ></el-input>
+		  </el-form-item>
+		   <el-form-item label="登陆名" >
+		        <el-input v-model="param.loginName" placeholder="请输入查询关键字" v-if="param.type=='user'"></el-input>
+		  </el-form-item>
+		  <el-form-item label="类型" prop="type">
+			    <el-select v-model="param.type" placeholder="请选择" style="width:100%" >
+				    <el-option label="ip" value="ip"></el-option>
+				    <el-option label="无视ip用户" value="user"></el-option>
+				  </el-select>
+			  </el-form-item>
+		  <el-button onclick="reload();"   icon="el-icon-refresh" circle  ></el-button>
+		  <el-button type="" icon="el-icon-search" circle  @click="load(1,10)" ></el-button>
+		  <el-button type="warning" v-if="true||hasPermission('sys:whiteIp:save')"    @click="save" circle icon="el-icon-plus"></el-button>
+		</el-form-item>
+		
+		</el-form>
+	 </el-collapse-item>
+	</el-collapse>
+	
+	<!-- table -->
+    <el-table :data="table.data"   border style="width: 100%"   height="450"  size="mini" highlight-current-row >
+       <el-table-column   type="index"  width="40"></el-table-column>
+       <!-- <el-table-column type="selection"  width="40"> </el-table-column> --> <!-- 选择框 -->
+       <el-table-column   label="登陆名"   width="200" v-if="param.type=='user'">
+              <template scope="scope" >
+                 {{scope.row.loginName}}
+              </template>
+         </el-table-column>
+       <el-table-column  v-for="col in table.col" :prop="col.field" :label="col.title"  :width="col.width" ></el-table-column>
+       <el-table-column   label="操作"  fixed="right"  width="200">
+              <template scope="scope" >
+                  <el-button :plain="true" v-if="scope.row.type!='user'" type="" size="mini" 
+                  icon="el-icon-edit" @click="edit(scope.row)" ></el-button><!-- 修改 -->
+                  <el-button :plain="true" type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)"
+                  v-if="true||hasPermission('sys:whiteIp:remove')"  ></el-button><!-- 删除 -->
+              </template>
+         </el-table-column>
+    </el-table>
+	 <div class="block"> <!-- 页码 -->
+    <el-pagination
+      @size-change="handleSizeChange"  @current-change="handleCurrentChange" :current-page.sync="table.sync"
+      :page-sizes="table.pagesizes"  :page-size="table.pagesize"  layout="total, sizes, prev, pager, next, jumper"  :total="table.total">
+    </el-pagination>
+  </div>
+  </el-card>
+</div>
+
+<div th:include="include/footer_element::footer"></div>
+<script th:src="@{/js/base/whiteIp/list.js}"></script>
+
+</body>
+</html>

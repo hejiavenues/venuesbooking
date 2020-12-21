@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('${comments}')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="${objName}" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+#foreach($column in $columns)
+#if($column.columnName != $pk.columnName)
+			 <el-form-item label="${column.columnComment}" prop="${column.fieldName}">
+			    <el-input v-model="${objName}.${column.fieldName}"></el-input>
+			  </el-form-item>
+#end
+#end
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/${viewPath}/add.js}"></script>
+</body>
+</html>

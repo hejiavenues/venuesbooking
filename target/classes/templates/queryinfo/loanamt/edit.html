@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('放款额度查询')"></head>
+<body>
+	<div id="cashbangLTE" class="container-fluid" v-cloak>
+		<table class="form" id="form">
+			<tr>
+	            <td class="formTitle">修改前金额</td>
+	            <td class="formValue">
+					<input type="text" class="form-control" v-model="queryLoanamtHistory.loanamtBefore" readonly="readonly">
+	            </td>
+        	</tr>
+			<tr>
+	            <td class="formTitle">修改后金额<span>*</span></td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="修改后金额" v-model="queryLoanamtHistory.loanamtAfter" isvalid="yes" checkexpession="Num">
+	            </td>
+        	</tr>
+		</table>
+	</div>
+	<div th:include="include/footer_js::footer"></div>
+	<script th:src="@{/js/queryinfo/loanamt/edit.js}"></script>
+</body>
+</html>

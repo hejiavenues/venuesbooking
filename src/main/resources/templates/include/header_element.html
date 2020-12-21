@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+	<title th:text="${title}"></title>
+	<meta charset="UTF-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"></meta>
+	<link rel="stylesheet" href="../../plugins/element/element.css">
+	<link rel="stylesheet" href="../../css/elezs.css">
+		<link th:href="@{../../css/font-awesome.min.css}" rel="stylesheet"/>
+	
+	<!-- 引入样式 -->
+ <!--      <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css"> -->
+</head>
+
+<!-- 催收用，只用element ,vue,echarts , 暂时用jqery 弹框暂时用layer 之后替换
+cdn 方式引入开发中用直接引入方式，部署后用cdn方式 -->

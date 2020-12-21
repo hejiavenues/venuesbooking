@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('每日应还未还提醒表')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="mRepayRemind" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+			 <el-form-item label="进件单号" prop="applyCode">
+			    <el-input v-model="mRepayRemind.applyCode"></el-input>
+			  </el-form-item>
+			 <el-form-item label="姓名" prop="userName">
+			    <el-input v-model="mRepayRemind.userName"></el-input>
+			  </el-form-item>
+			 <el-form-item label="电话" prop="userMobile">
+			    <el-input v-model="mRepayRemind.userMobile"></el-input>
+			  </el-form-item>
+			 <el-form-item label="是否老用户" prop="isReloan">
+			    <el-input v-model="mRepayRemind.isReloan"></el-input>
+			  </el-form-item>
+			 <el-form-item label="总期数" prop="periods">
+			    <el-input v-model="mRepayRemind.periods"></el-input>
+			  </el-form-item>
+			 <el-form-item label="期数" prop="period">
+			    <el-input v-model="mRepayRemind.period"></el-input>
+			  </el-form-item>
+			 <el-form-item label="处理人id" prop="userId">
+			    <el-input v-model="mRepayRemind.userId"></el-input>
+			  </el-form-item>
+			 <el-form-item label="类型（0，不需要处理，1需要处理）" prop="type">
+			    <el-input v-model="mRepayRemind.type"></el-input>
+			  </el-form-item>
+			 <el-form-item label="状态（0，未处理，1已经处理，2,处理中）" prop="status">
+			    <el-input v-model="mRepayRemind.status"></el-input>
+			  </el-form-item>
+			 <el-form-item label="备注" prop="text">
+			    <el-input v-model="mRepayRemind.text"></el-input>
+			  </el-form-item>
+			 <el-form-item label="" prop="createTime">
+			    <el-input v-model="mRepayRemind.createTime"></el-input>
+			  </el-form-item>
+			 <el-form-item label="" prop="updateTime">
+			    <el-input v-model="mRepayRemind.updateTime"></el-input>
+			  </el-form-item>
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/repayRemind/add.js}"></script>
+</body>
+</html>

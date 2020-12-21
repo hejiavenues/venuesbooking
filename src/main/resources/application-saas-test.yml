@@ -1,0 +1,179 @@
+server:
+    port: 9069
+
+application-properties:
+    server-url:
+        bizServer: http://172.17.101.194:9081
+        riskServer: http://172.17.101.194:9082
+        
+        riskManualApprove: riskServer/api/manualApprove
+        customerInfoQuery: riskServer/thirdApi/invoke
+        ServiceListPull: riskServer/thirdApi/getServiceList #拉取风控服务
+        ServiceRequestFormat: riskServer/thirdApi/getRequestFormat  #获取接口请求格式
+        ServiceInvoke: riskServer/thirdApi/invoke #调用第三方接口
+        ServiceReApprove: riskServer/api/reApprove #调用第三方接口
+        
+        loanAmountQuery: bizServer/app/queryAmount
+        maxAmountSetting: bizServer/app/setMaxAmount
+        applyInfoUnlock: bizServer/app/unlock #被锁申请单解锁接口
+        retryLoan: bizServer/app/retryLoan #尝试重试放款
+        toPublic: bizServer/collection/earlyPublicRepay #提前对公还款
+        queryReduce:  bizServer/collection/queryReduce #询问是否可以减免
+        reduceRepay:  bizServer/collection/reduceRepay #减免接口
+        batchRepay:  bizServer/collection/batchRepay #手动批扣
+        overdueTask:  bizServer/collection/overdueTask #手动跑批计息接口
+        pushCollection:  bizServer/collection/pushCollection #入催接口
+        tryCalculator:  bizServer/app/tryCalculator #试算接口
+        activeCancelLoan: bizServer/app/activeCancelLoan  #放弃借款接口 
+        trustedPayment: bizServer/collection/trustedPayment #委托付款
+        afterLoanByPayday: bizServer/report/afterLoanByPayday #贷后统计
+        closeOrder: bizServer/app/closeOrder #关闭订单接口
+
+        showContract: true #综合查询是否展示合同
+        needCheckMobile: true #是否空号监测
+        checkMobileUrl: riskServer/thirdApi/getMobileStatusList #空号监测接口
+
+        BlackListInsert:  http://172.17.101.194:9082/blackList/insert #添加黑名单调用
+   
+   
+    cs:
+        repaymentPlan:  bizServer/collection/repaymentPlan #查询还款计划
+        queryTrade: bizServer/collection/queryTrade #交易流水日志
+        realtimeRepay: bizServer/collection/realtimeRepay #实时划扣
+        queryReduce: bizServer/collection/queryReduce #查询可减免接口
+        publicRepay: bizServer/collection/publicRepay #对公还款
+        reduceRepay: bizServer/collection/reduceRepay #减免接口
+        csUpdateRule: noUpdate #催收是否同步旧系统, updateOne,updateEveryDay,noUpdate
+        
+        
+        getOldCaseUrl: http://172.17.101.194:8100/collection/getCollectorList #获取旧的催收系统的情况
+        
+        
+        S1END: 7 #s1期限
+        S2END: 14 #s2期限
+        S3END: 21 #s3期限
+        S4END: 30 #s4期限
+        
+    sms:
+        SMSTOPEOPLES: 18610711553,17610410225
+        SMSSERVER: http://172.17.101.194:8999/sms/sendMessage.do
+        APPID: dbz #构造短信内容入参appid
+      
+    sys:
+        evn: dev #上传图片至oss 只有online 和dev
+        apiMaster: saas_api_master
+        bsManage: saas_bs_manage
+        SECRETKEY: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIJmmSFEDQetLYp5nSMEG5Su4LewxD95DhloNH262ap6GKtRrtCvhbdPKW4t58IeLPvZhobBL3A69dve340FxkXGZSB5n9hMUoG03xlIZyTuznlFDQuKK8zwg5t+F9ZxZLtxJA6+cb96g6T87dTybXGNem9PygS8V9HLzQXJT1SdAgMBAAECgYAyBpY8ctTk2wUbmKg15L+H/Mbs8X14NEK6cIWirmoOwqRwJPgByzRrLI1iXW4JxHXRcJPxYm+GiLgFT61Hdq2nTp15iaYUzSFLO2+HUHpmbd9tQP13vFIICiKWFk4oE2SfKzz/wHfL0oAKFI0VixPqqXoPnqRxo/8yIQLDmCXggQJBAMD71c61D1swjR8epYMFcmKXecM2eLzi4xTf0uflf9gNC7jM8A/AKE+7kIrR06r9/pilGKCxOh0jhHoZqHHp+hECQQCs+z3D/U/X4UEWGbOSiOjwJOH5gxKCPqA4BsB+NHj/ui7V7Y+67/FwbdG55vR33gJ4UYeNG64rHn2Um9ZwU8XNAkAsgiiWqwWmp3T0x3Gu3TO7b2oizs5b6gwrhU+0MichIikg7wsy5sOlWAIHMkuaNUhh1jnu3dEkZUupiX9i/m6xAkEAn4qV3BbdNjHmUtjfm440sZCC7xspzgCuyx3HGl+RHeN9YQfbYcH+AAD5xykxXwDfbFNd3xKhn9leX9sfe7h4HQJASXvqV2gRhA0mS5Dp2hQ3INkpyBxRActcYbjhuQtTyYpBGONbD3UsI0EbMy1bZPw00DqqMLb9eXqsAghaV7pENg==
+        international: false #国际化
+        sysName: 世祥贷后管理系统 #系统名称
+        saveTokenType: redis #调用token方式
+        IPRestriction: false #ip限制
+        mainType: credit #首页展示类型 approval 决策类型，其他为有授信(credit)
+        channel: APP #默认渠道
+        userMobileInfoEncryptFlag: true #案件详情关于用户联系人和通话记录手机号是否加密标识
+        
+    uploadInfo: 
+        imageurl: /opt/deploy/sxImageFile/
+        
+    ins:
+        ytUrl: http://218.17.200.232:66/NetPersonServlet
+        USER_CODE: MA000198 # 保险公司提供的系统对接用户名
+        PASSWORD: E10ADC3949BA59ABBE56E057F20F883E #保险公司提供的系统对接的密码
+        RISK_PLAN_CODE: 1156005 #保险公司提供的产品方案编码
+        companyName: 北京博益普惠信息科技有限公司 #第一受益人信用名称
+        companyCreditCode: 91110105MA00D3LQ2R #第一受益人信用代码
+
+    oss:
+        ali_accessKeyId: LTAIxtst48jFlodU #阿里云秘钥
+        ali_accessKeySecret: qHiKLTOYgmdYCTHwLTh7nlwTvoxpbL #阿里云秘钥      
+        ali_endpoint: oss-cn-beijing.aliyuncs.com #阿里云节点名
+        ali_endpoint_read: oss-cn-beijing-internal.aliyuncs.com #阿里云节点名,是否内网读
+        ali_bucketName: dbzloan-test #阿里云存储根目录
+        csimg_DISKIMAGENAME: /sxCs/image/ #催收图片存放文件夹
+        managerImg_DISKIMAGENAME: /sx/image/ #管理后台图片存放文件夹
+        managerPDF_DISKIMAGENAME: /manager/companyPdf/ #管理后台pdf存放文件夹
+        Expires_ADD: 60 #访问链接超时时间min
+  
+    ossUrl:  
+        R360MobileReportAction: /SYS_EVN/r360/r360report_mobile_MATCH_MOBILE.txt  #融360报告
+        R360MobileOperateAction: /SYS_EVN/r360/r360raw_mobile_MATCH_MOBILE.txt  #360原始数据
+        R360MobileRawAction: /SYS_EVN/r360/r360raw_credit_email_MATCH_MOBILE.txt  #融3600邮箱信用卡原始数据
+        CashPieAppInfoAction: /SYS_EVN/dbz/applyInfo/new_MATCH_APPLYCODE.txt  #进件报文
+        
+        cashUrl: /SYS_EVN/dbz/applyInfo/new_ #进件报告地址
+        cashUrlBy: /product/dbz/applyInfo/new_ #进件报告地址
+        r360MobileRaw: /SYS_EVN/r360/r360raw_mobile_ #360原始数据分析
+        
+    quartz:
+        autoStartup: true
+
+spring:
+    # rabbitmq
+    rabbitmq:
+        host: 172.17.179.198
+        port: 5673
+        username: dev
+        password: dev_123
+        #publisher-confirms: true
+        virtual-host: /sxcs_test
+        exchange: sxcs
+        concurrentConsumers: 1
+        consumerStartup: true
+        producerStartup: true
+    # 数据源
+    datasource:
+        type: com.alibaba.druid.pool.DruidDataSource
+        driverClassName: com.mysql.jdbc.Driver
+        druid:
+            masterDataSource:  #主库数据源
+              url: jdbc:mysql://172.17.179.198:3307/sx_manage_test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: dev
+              password: dev_123
+            slaveDataSourceWrite:  #从库数据源
+              url: jdbc:mysql://172.17.179.198:3307/saas_api_master?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: dev_risk
+              password: dev_123
+            slaveDataSourceRead:  #从库数据源
+              url: jdbc:mysql://172.17.179.198:3307/saas_api_master?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: dev_risk
+              password: dev_123
+            initial-size: 10
+            max-active: 100
+            min-idle: 10
+            max-wait: 60000
+            pool-prepared-statements: true
+            max-pool-prepared-statement-per-connection-size: 20
+            time-between-eviction-runs-millis: 60000
+            min-evictable-idle-time-millis: 300000
+            validation-query: SELECT 1 FROM DUAL
+            test-while-idle: true
+            test-on-borrow: false
+            test-on-return: false
+            stat-view-servlet:
+                enabled: true
+                url-pattern: /druid/*
+                #login-username: admin
+                #login-password: admin
+            filter:
+                stat:
+                    log-slow-sql: true
+                    slow-sql-millis: 1000
+                    merge-sql: true
+                wall:
+                    config:
+                        multi-statement-allow: true
+    redis:
+        open: true  # 是否开启redis缓存  true开启   false关闭
+        database: 6
+        host: 172.17.179.198  
+        port: 6379
+        password: cashbang_test123  
+        timeout: 6000  # 连接超时时长（毫秒）
+        pool:
+            max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
+            max-wait: -1      # 连接池最大阻塞等待时间（使用负值表示没有限制）
+            max-idle: 10      # 连接池中的最大空闲连接
+            min-idle: 5       # 连接池中的最小空闲连接
+
+logback:
+    file: /opt/app/log/saas-sx-application-risk-ui

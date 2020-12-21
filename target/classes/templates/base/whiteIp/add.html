@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="sysWhiteIp" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="margin-top:5%;overflow-y:auto;height:95%;
+padding-right:5%" >
+		
+			 <el-form-item label="创建用户" prop="userName">
+			    <el-input v-model="sysWhiteIp.userName" disabled></el-input>
+			  </el-form-item>
+			<!--  <el-form-item label="用户iP" prop="userId">
+			    <el-input v-model="sysWhiteIp.userId"></el-input>
+			  </el-form-item> -->
+			  <el-form-item label="类型" prop="type">
+			    <el-select v-model="sysWhiteIp.type" placeholder="请选择" style="width:100%" >
+				    <el-option label="ip" value="ip"></el-option>
+				    <el-option label="无视ip用户" value="user"></el-option>
+				  </el-select>
+			  </el-form-item>
+			  
+			  <el-form-item label="ip" prop="onlyId" v-if="sysWhiteIp.type=='ip'">
+			    <el-input v-model="sysWhiteIp.onlyId"></el-input>
+			  </el-form-item>
+			  
+			  <el-form-item label="账号" prop="onlyId" v-if="sysWhiteIp.type=='user'" >
+			    <el-select v-model="sysWhiteIp.onlyId" placeholder="请选择" style="width:100%" filterable>
+				    <el-option v-for="u in users " :label="u.chnName+'/'+u.username+'/'+u.userId" :value="u.userId"></el-option>
+				 </el-select>
+			  </el-form-item>
+			  
+			 <el-form-item label="备注" prop="text">
+			    <el-input v-model="sysWhiteIp.text"></el-input>
+			  </el-form-item>
+			
+			<!--  <el-form-item label="创建时间" prop="createTime">
+			    <el-input v-model="sysWhiteIp.createTime"></el-input>
+			  </el-form-item>
+			 <el-form-item label="更新时间" prop="updateTime">
+			    <el-input v-model="sysWhiteIp.updateTime"></el-input>
+			  </el-form-item> -->
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/base/whiteIp/add.js}"></script>
+</body>
+</html>

@@ -1,0 +1,51 @@
+/**
+ * 编辑-${comments}js
+ */
+var vm = new Vue({
+	el:'#zsvm',
+	data: {
+		${objName}: {
+			${pk.fieldName}: 0
+		},
+		rules:{//form 规则
+		
+	#foreach($column in $columns)
+#if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+		    $column.fieldName: [ {  required: true, message: '$column.columnComment', trigger: 'blur' } ]#if($velocityCount != $columns.size()), 
+#end
+#end
+#end$!empty
+			
+		}
+			
+	},
+	methods : {
+	   setForm: function() {
+			$.SetForm({
+				url: '../../${requestMapping}/info?_' + $.now(),
+		    	param: vm.${objName}.${pk.fieldName},
+		    	success: function(data) {
+		    		vm.${objName} = data;
+		    	}
+			});
+		},
+		acceptClick: function() {
+		
+		  this.$refs
+		  ["ruleForm"].validate(function(yes,b){
+				if(yes){
+			 $.ConfirmForm({
+				    	url: '../../${requestMapping}/update?_' + $.now(),
+				    	param: vm.${objName},
+				    	success: function(data) {
+				    		$.currentIframe().vm.load();
+				    	}
+				    });
+				}else{
+					 return false;
+				}
+				 
+			 });
+		}
+	}
+})

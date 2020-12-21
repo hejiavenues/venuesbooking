@@ -1,0 +1,153 @@
+* {
+	padding: 0;
+	margin: 0;
+}
+
+html,
+body {
+	width: 100%;
+	height: 100%;
+	min-width: 900px;
+	overflow-x: auto;
+	overflow-y: hidden;
+	background: rgb(85, 93, 236);
+}
+
+#login {
+	width: 100%;
+	max-width: 1920px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background: rgb(85, 93, 236);
+	margin: auto;
+}
+
+.login-box {
+	width: 97.65%;
+		min-width: 900px;
+	position: relative;
+	margin: auto;
+}
+
+.login-box h1 {
+	width: 40%;
+	height: 9.5%;
+	margin-bottom: 4.7%;
+	background: url(../../images/newLogin/bt@1x.png) no-repeat;
+	background-size: 100%;
+}
+
+.loginImg {
+	display: block;
+	width: 100%;
+}
+
+.loginDiv {
+	width: 42.7%;
+	height: 57%;
+	position: absolute;
+	top: 14.9%;
+	bottom: 0;
+	right: 3.6%;
+}
+
+.el-form {
+	width: 62%;
+	position: relative;
+}
+
+.el-form-item__content {
+	color: #080D99;
+	font-size: 24px;
+}
+
+.el-input {
+	border-bottom: 1px solid #2328A4;
+	margin: 2.3% 0 4%;
+}
+
+.el-input input {
+	height: 40px;
+	width: 100%;
+	border: none;
+	outline: none;
+	font-size: 20px;
+	color: #333;
+}
+
+input::-webkit-input-placeholder {
+	color: #999999;
+}
+
+input::-moz-placeholder {
+	color: #999999;
+}
+
+/* firefox 19+ */
+input:-ms-input-placeholder {
+	color: #999999;
+}
+
+/* Internet Explorer 10+ */
+input:-moz-placeholder {
+	color: #999999;
+}
+
+/* firefox 14-18 */
+.el-checkbox__label {
+	color: #999999;
+	margin: 0 0 0 10px;
+	font-size: 20px;
+}
+
+.el-checkbox__input {
+	cursor: pointer;
+	line-height: 1;
+}
+
+.el-checkbox img {
+	width: 16px;
+	height: 16px;
+	vertical-align: middle;
+	position: relative;
+	bottom: 2px;
+}
+
+.el-checkbox,
+.el-checkbox__input {
+	display: inline-block;
+	position: relative;
+}
+
+
+
+.el-form-item__content {
+	line-height: 40px;
+	position: relative;
+}
+
+#login .login-box .el-form .el-button {
+	width: 47%;
+	height: 94px;
+	letter-spacing: 3px;
+	margin: 8% 0 0 0;
+}
+
+.el-button--primary {
+	color: #FFF;
+	background: url(../../images/newLogin/button@1x.png) no-repeat;
+	background-size: 100%;
+	border-color: #409EFF;
+	border: none;
+	outline: none;
+	border-radius: 30px;
+}
+
+.formItemImg {
+	width: 10.6%;
+	position: absolute;
+	right: 5.7%;
+	bottom: 9.5%;
+}

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('运营商报文推送')"></head>
+<body>
+	<div id="cashbangLTE" class="container-fluid" v-cloak>
+		<div class="panel panel-primary" >
+		
+			<div class="panel-heading">
+		       	运营商报文推送
+		    </div>
+		    <div class="panel-body" style="padding-bottom: 10px;">
+		    	<div class="row">
+			    	<textarea v-model="msgBody" class="form-control" rows="20"></textarea>
+		    	</div>
+		    	<hr>
+		    	<div class="row">
+		    		<div class="col-md-12">
+						<div class="btn-toolbar pull-right">
+							<div class="btn-group">
+					            <a v-if="hasPermission('sys:org:list')" class="btn btn-primary btn-sm" @click="refresh"><i class="fa fa-refresh"></i>&nbsp;重置</a>
+					            <a v-if="hasPermission('sys:org:list')" class="btn btn-primary btn-sm" @click="push"><i class="fa fa-cloud-upload"></i>&nbsp;发送</a>
+					        </div>
+				        </div>
+					</div>
+		    	</div>
+		    </div>
+		</div>
+		
+		
+	</div>
+<div th:include="include/footer_js::footer"></div>
+
+
+<script type="text/javascript">
+	var vm = new Vue({
+		el : '#cashbangLTE',
+		data:{
+			msgBody:''
+		},
+		methods : {
+			refresh : function() {
+				this.msgBody = '';
+			},
+			push: function() {
+				
+			}
+		},
+		created : function() {
+		
+		}
+	});
+
+</script>
+</body>
+</html>

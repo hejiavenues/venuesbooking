@@ -1,0 +1,51 @@
+
+.layui-form{
+	background:#fff;
+}
+
+
+/* .layui-tab-title .layui-this {
+    color:#337ab7;
+}
+.layui-tab-card>.layui-tab-more .layui-this {
+    color: #337ab7;
+}
+.panel-primary>.panel-heading {
+    background-color: #3c8dbc;
+}
+.layui-nav-side-mystyle {
+    
+};
+.mystyle {
+  
+};
+
+.layui-nav-tree {
+    width: 15%;
+    padding: 0;
+}
+
+.layui-row{
+    padding-left: 10px;
+    padding-right: 10px;
+    background:#fff; 
+}
+.msg1{
+    border: 0;
+    background: #f2f2f2;
+    	 width:100%;
+    }
+ .msg2{
+	 border: 0;
+	 background: #fff;
+	 width:100%;
+ }
+ .eee{
+ background:#eee
+ }
+ .fff{
+ background:#fff
+ } */
+ .layui-form-label{
+ width:110px;
+ }

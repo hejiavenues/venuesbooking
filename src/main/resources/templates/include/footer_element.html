@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+	<div th:fragment="footer">
+		<script th:src="@{../../libs/jquery.min.js}"></script>
+	    <script th:src="@{../../js/lang/commen_lang.js}"></script>
+<!-- 	<script th:src="@{../../libs/echarts.js}"></script>
+ -->    <script th:src="@{../../plugins/layer/layer.js}"></script>
+		<script th:src="@{../../js/form.js}"></script>
+		<script th:src="@{../../libs/vue.min.js}"></script>
+		<script th:src="@{../../js/common_ele.js}"></script>
+		<script th:src="@{../../plugins/vue-i18n.js}"></script>
+	    <script src="../../plugins/element/element.js"></script>
+	    <script th:src="@{../../plugins/validator/validator_ele.js}"></script>
+		
+		
+        <script src="https://dbzloan-pkg.oss-cn-beijing.aliyuncs.com/static/libs/echarts.js"></script>
+
+
+
+
+	</div>
+</body>
+</html>
+
+
+<!-- 催收用，只用element ,vue,echarts , 暂时用jqery 弹框暂时用layer 之后替换
+cdn 方式引入开发中用直接引入方式，部署后用cdn方式 -->

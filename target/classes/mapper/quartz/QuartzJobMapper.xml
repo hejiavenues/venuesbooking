@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.quartz.dao.QuartzJobMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.quartz.entity.QuartzJobEntity">
+		SELECT
+			JOB_ID,
+			BEAN_NAME,
+			METHOD_NAME,
+			PARAMS,
+			CRON_EXPRESSION,
+			STATUS,
+			REMARK,
+			GMT_CREATE
+		FROM
+			QUARTZ_JOB
+		<where>
+			<if test="name != null and name.trim() != ''">
+				AND BEAN_NAME LIKE concat('%',#{name},'%')
+			</if>
+		</where>
+		ORDER BY
+			GMT_CREATE DESC
+	</select>
+	
+	<select id="list" resultType="cn.cashbang.core.modules.quartz.entity.QuartzJobEntity">
+		SELECT
+			JOB_ID,
+			BEAN_NAME,
+			METHOD_NAME,
+			PARAMS,
+			CRON_EXPRESSION,
+			STATUS
+		FROM
+			QUARTZ_JOB
+	</select>
+	
+	<insert id="save" parameterType="cn.cashbang.core.modules.quartz.entity.QuartzJobEntity" useGeneratedKeys="true" keyProperty="jobId">
+		INSERT INTO QUARTZ_JOB (
+			BEAN_NAME,
+			METHOD_NAME,
+			PARAMS,
+			CRON_EXPRESSION,
+			STATUS,
+			REMARK,
+			GMT_CREATE
+		)
+		VALUES (
+			#{beanName}, 
+			#{methodName},
+			#{params},
+			#{cronExpression}, 
+			#{status}, 
+			#{remark},
+			NOW()
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.quartz.entity.QuartzJobEntity">
+		SELECT
+			JOB_ID,
+			BEAN_NAME,
+			METHOD_NAME,
+			PARAMS,
+			CRON_EXPRESSION,
+			STATUS,
+			REMARK,
+			GMT_CREATE
+		FROM
+			QUARTZ_JOB
+		WHERE
+			JOB_ID = #{value}
+	</select>
+	
+	<update id="update">
+		UPDATE QUARTZ_JOB
+		<set>
+			<if test="beanName != null">BEAN_NAME = #{beanName}, </if>
+			<if test="methodName != null">METHOD_NAME = #{methodName}, </if>
+			<if test="params != null">PARAMS = #{params}, </if>
+			<if test="cronExpression != null">CRON_EXPRESSION = #{cronExpression}, </if>
+			<if test="status != null">STATUS = #{status}, </if>
+			<if test="remark != null">REMARK = #{remark}, </if>
+			GMT_MODIFIED = NOW()
+		</set>
+		WHERE
+			JOB_ID = #{jobId}
+	</update>
+	
+	<update id="batchUpdate">
+		UPDATE QUARTZ_JOB 
+		SET STATUS = #{status} 
+		WHERE
+			JOB_ID in
+		<foreach item="jobId" collection="jobIdList"  open="(" separator="," close=")">
+			#{jobId}
+		</foreach> 
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			QUARTZ_JOB
+		WHERE
+			JOB_ID IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>	
+
+</mapper>

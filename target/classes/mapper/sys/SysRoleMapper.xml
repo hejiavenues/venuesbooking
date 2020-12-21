@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.sys.dao.SysRoleMapper">
+	
+	<select id="list" resultType="cn.cashbang.core.modules.sys.entity.SysRoleEntity">
+		SELECT
+			r.role_id,
+			r.role_name
+		FROM
+			sys_role r
+		LEFT JOIN sys_org o ON r.org_id = o.org_id	
+		
+		WHERE
+			o.org_id_path LIKE concat(#{orgIdPath},'%')
+			
+			<if test="notAdmin != null and notAdmin.trim() != ''">
+				AND r.role_sign!=#{notAdmin}
+			</if>
+			
+		ORDER BY
+			role_id ASC
+	</select>
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.sys.entity.SysRoleEntity">
+		SELECT
+			r.`role_id`,
+			r.`org_id`,
+			o.`name` AS orgName,
+			r.`role_name`,
+			r.`role_sign`,
+			r.`remark`,
+			r.`gmt_create`
+		FROM
+			sys_role r
+		LEFT JOIN sys_org o ON r.org_id = o.org_id
+		<where>
+			<!-- <if test="userIdCreate != null">
+				and r.user_id_create = #{userIdCreate} 
+			</if> -->
+			<if test="roleName != null and roleName.trim() != ''">
+				AND r.role_name LIKE concat('%',#{roleName},'%') 
+			</if>
+			<if test="orgIdPath != null and orgIdPath.trim() != ''">
+				AND o.org_id_path LIKE concat(#{orgIdPath},'%') 
+			</if>
+			
+			<if test="notAdmin != null and notAdmin.trim() != ''">
+				AND r.role_sign!=#{notAdmin}
+			</if>
+			
+		</where>
+		ORDER BY
+			r.role_id ASC
+	</select>
+	
+	
+	<select id="listForChannelPage" resultType="cn.cashbang.core.modules.sys.entity.SysRoleEntity">
+		SELECT
+			r.`role_id`,
+			r.`org_id`,
+			o.`name` AS orgName,
+			r.`role_name`,
+			r.`role_sign`,
+			r.`remark`,
+			r.`gmt_create`
+		FROM
+			sys_role r
+		LEFT JOIN sys_org o ON r.org_id = o.org_id
+		<where>
+				 ( o.org_id_path LIKE concat(#{orgIdPath},'%') 
+				or r.role_sign = #{roleSign})
+			
+				AND r.role_sign!=#{notAdmin}
+			
+		</where>
+		ORDER BY
+			r.role_id ASC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO sys_role (
+			role_name,
+			role_sign,
+			remark,
+			user_id_create,
+			org_id,
+			gmt_create
+		)
+		VALUES (
+			#{roleName},
+			#{roleSign}, 
+			#{remark}, 
+			#{userIdCreate},
+			#{orgId}, 
+			now()
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.sys.entity.SysRoleEntity">
+		SELECT
+			r.role_id,
+			r.org_id,
+			(
+				SELECT 
+					name 
+				FROM 
+					sys_org o 
+				WHERE 
+					o.org_id = r.org_id
+			) AS orgName,
+			r.role_name,
+			r.role_sign,
+			r.remark
+		FROM
+			sys_role r
+		WHERE
+			r.role_id = #{roleId}
+	</select>
+	
+	
+	<select id="userContainRole" resultType="cn.cashbang.core.modules.sys.entity.SysUserEntity">
+		select a.* from sys_user  a left join sys_user_role b on a.user_id=b.user_id
+			left join sys_role c on b.role_id=c.role_id
+			where c.role_sign =#{sign} and a.user_id=#{userId}
+	</select>
+	
+	<update id="update">
+		UPDATE sys_role
+	 	<set> 
+			<if test="roleName != null">role_name = #{roleName}, </if>
+			<if test="roleSign != null">role_sign = #{roleSign}, </if>
+			<if test="remark != null">remark = #{remark}, </if>
+			<if test="orgId != null">org_id = #{orgId}, </if>
+			gmt_modified = NOW()
+		</set>
+		WHERE
+			role_id = #{roleId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			sys_role
+		WHERE
+			role_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	<select id="listUserRoles" parameterType="long" resultType="string">
+		SELECT DISTINCT
+			r.role_sign
+		FROM
+			sys_user_role ur
+		LEFT JOIN sys_role r ON ur.role_id = r.role_id
+		LEFT JOIN sys_user u ON ur.user_id = u.user_id
+		WHERE
+			u.user_id = #{role}
+	</select>
+	
+    <select id="selectByRole" resultType="cn.cashbang.core.modules.sys.entity.SysRoleEntity">
+		SELECT
+			r.`role_id`,
+			r.`org_id`,
+			r.`role_name`,
+			r.`role_sign`,
+			r.`remark`,
+			r.`gmt_create`
+		FROM
+			sys_role r
+		
+		WHERE
+			org_id=#{orgId} 
+			and role_sign=#{roleSign}
+			
+		ORDER BY
+			role_id ASC limit 1
+	</select>
+
+</mapper>

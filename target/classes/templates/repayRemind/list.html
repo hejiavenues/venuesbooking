@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('每日应还未还提醒表')"></head>
+<style>
+body ,html{
+  background:#fff;
+}
+
+.el-form-item {
+    margin-bottom: 10px;
+}
+
+</style>
+<body>
+<div id="zsvm"  v-cloak>
+
+  <el-card class="box-card"> 
+  
+  <!-- 搜索 -->
+     
+	   <el-form ref="form"  :inline="true" size="small"><!-- 搜索框 -->
+		 <el-form-item  >
+		        <el-input v-model="param.userMobile" placeholder="电话"  style="width:150px;"></el-input>
+		  </el-form-item>
+		  <el-form-item  >
+			    <el-date-picker style="width:150px;" 
+			      align="right"
+			      type="date"
+			      placeholder="提醒日期"
+			      value-format="yyyy-MM-dd"
+			      v-model="param.remindDay"
+			      :picker-options="pickerOptions1">
+			    </el-date-picker>
+	  	</el-form-item>
+	  	<el-form-item  >
+		    <el-select v-model="param.status" placeholder="处理状态"  style="width:150px;">
+		      <el-option label="全部" value=""></el-option>
+   		      <el-option label="未处理" value="0"></el-option>
+    		  <el-option label="已处理" value="1"></el-option>
+    		  <el-option label="处理中" value="2"></el-option>
+		    </el-select>
+		  </el-form-item>
+	  		  	<el-form-item  >
+		    <el-select v-model.number="param.type" placeholder="类型"  style="width:150px;">
+		      <el-option label="全部" value=""></el-option>
+   		      <el-option label="不需要处理" :value="0"></el-option>
+    		  <el-option label="需要处理" :value="1"></el-option>
+		    </el-select>
+		  </el-form-item>
+		     <el-form-item label=""   v-if="!isReminder" >
+				    <el-select v-model="param.userId" placeholder="提醒专员"  style="width:150px;">
+				      <el-option v-for=" user in userList" :label="user.chnName" :value="user.userId"></el-option>
+				    </el-select>
+			  </el-form-item>
+		 <el-form-item>
+<!-- 		  <el-button onclick="reload();"   icon="el-icon-refresh"  size="small"  ></el-button>
+ -->		  <el-button type="" icon="el-icon-search"   @click="load(1,10)" size="small" ></el-button>
+		   <el-button type=""    @click="deal(table.selects)"  v-if="isReminder" size="small">处理</el-button>
+		    <el-button type=""    @click="transferCase" v-if="!isReminder"  size="small">调案</el-button>
+		   <el-button type=""    @click="addMsg" v-if="!isReminder"  size="small">执行定时</el-button>
+		  
+		</el-form-item>
+		
+		</el-form>
+	
+	<!-- table -->
+    <el-table :data="table.data"  border  style="width: 100%"   @selection-change="selectCases" @row-dblclick="doDeal"  :height="$(window).height()*0.7" highlight-current-row  size="small">
+        <el-table-column type="selection"  width="40"> </el-table-column> 
+       <!-- <el-table-column type="selection"  width="40"> </el-table-column> --> <!-- 选择框 -->
+      
+      <el-table-column  :label="col.title"      :width="col.width"  v-for="col in table.col"    >
+	       <template slot-scope="scope"  >
+	       		<div v-if="col.formatter==undefined"> {{scope.row[col.field]}}</div>
+	       		<div v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='string'"> 
+	       			{{col.formatter(scope.row[col.field],scope.row)}}
+	       	   </div>
+	       	    <div v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='object'"> 
+	       			 <el-tag :type="col.formatter(scope.row[col.field],scope.row).type"   effect="dark" style="width:100%" >
+	       				{{col.formatter(scope.row[col.field],scope.row).value}}
+	       			</el-tag>
+	       	   </div>
+	      </template>
+       </el-table-column>
+    </el-table>
+	 <div class="block"> 
+    <el-pagination
+      @size-change="handleSizeChange"  @current-change="handleCurrentChange" :current-page.sync="table.sync"
+      :page-sizes="table.pagesizes"  :page-size="table.pagesize"  layout="total, sizes, prev, pager, next, jumper"  :total="table.total">
+    </el-pagination>
+  </div> 
+  </el-card>
+  
+  
+  	<el-dialog title="调案" :visible.sync="transferCaseMsg.formVisible">
+	      <el-form >
+	      	      <el-form-item   >
+	      		  	    <el-alert :title="'调案数量:'+transferCaseMsg.ids.length +(transferCaseMsg.oldUsers?',警告：存在已分配的情况':'')+
+	      		  	    (transferCaseMsg.ids.length==0?',警告：请选择正确提醒专员':'')
+	      		  	    "  :type="transferCaseMsg.oldUsers||transferCaseMsg.ids.length==0?'warning':'success'" :closable="false"> </el-alert>
+			      </el-form-item>
+			       <el-form-item label="提醒专员"    >
+				    <el-select v-model="transferCaseMsg.userId" placeholder="提醒专员" style="width:150px;">
+				      <el-option v-for=" user in userList" :label="user.chnName" :value="user.userId"></el-option>
+				    </el-select>
+			  </el-form-item>
+	 		 </el-form>
+	  <div slot="footer" class="dialog-footer">
+	    <el-button @click="transferCaseMsg.formVisible = false">取 消</el-button>
+	    <el-button type="primary" @click="transferCaseSure">确 定</el-button>
+	  </div>
+	</el-dialog> 
+	
+	
+	
+ <el-dialog title="处理" :visible.sync="dealMsg.show" style="padding:20px;">
+		 <el-row :gutter="20" style="margin-top:10px;">
+		  <el-col v-for="obj in  table.col"  style="margin-top:10px;" :span="12">
+		  {{obj.title}}:	<font v-if="obj.formatter==undefined"> {{dealMsg.msg[obj.field]}}</font>
+	      <font v-if="obj.formatter!=undefined"> 
+	       			{{obj.formatter(dealMsg.msg[obj.field],dealMsg.msg)}}
+	       </font>
+		  
+		 </el-col>
+		</el-row>
+		 <el-row :gutter="20"  style="margin-top:10px;">
+		  <el-radio v-model="dealMsg.msg.status" :label="0">未处理</el-radio>
+          <el-radio v-model="dealMsg.msg.status" :label="1">已处理</el-radio>
+          <el-radio v-model="dealMsg.msg.status" :label="2">处理中</el-radio>
+		</el-row>
+		<el-row :gutter="20"  style="margin-top:10px;">
+          <el-input type="textarea" :rows="3" placeholder="请输入备注" v-model="dealMsg.msg.text"></el-input>
+        </el-row>
+        <el-row :gutter="20"  style="margin-top:10px;">
+		    <el-button type="primary" @click="sureDeal" style="width:70%">确认</el-button>
+		  </el-row>
+</el-dialog>
+	
+  
+</div>
+
+<div th:include="include/footer_element::footer"></div>
+<script th:src="@{/js/repayRemind/list.js}"></script>
+
+</body>
+</html>

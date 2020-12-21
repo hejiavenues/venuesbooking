@@ -1,0 +1,663 @@
+CREATE DEFINER = `dev_risk`@`%` PROCEDURE `NewProc`(IN v_mobile varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci)
+BEGIN
+			
+		 select v_mobile name ,if(MAX(level ) is null,-1,MAX(level )) +2 category,70 symbolSize,1 label,100 value 
+			from risk_label  where mobile=v_mobile;
+		
+		 IF EXISTS (select * from  risk_relationship where mobile=v_mobile)THEN
+
+		 drop table  if exists  tmp_relation1;	
+		 drop table  if exists  tmp_relation2;	
+		 drop table  if exists  tmp_relation3;	
+	
+			
+     
+
+	   create temporary TABLE   tmp_relation1 -- 查询一级关系   relationship 唯一关系 不能自己找自己 到此关系均为与被查人的关系
+		 as
+	 	 SELECT a.rmobile mobile ,
+						MAX(b.`level`) level, -- 级别
+						if(a.mobile>a.rmobile ,CONCAT(a.mobile,',',a.rmobile),CONCAT(a.rmobile,',',a.mobile) ) relationship,-- 唯一关系
+						GROUP_CONCAT( DISTINCT a.source1) rvalue ,a.mobile fm -- 关系名称
+		 from risk_relationship  a left join  risk_label b on a.rmobile=b.mobile
+		 where a.mobile=v_mobile   and a.rmobile!=a.mobile 
+					 and a.rmobile  not in(select mobile from risk_relationship_filter ) GROUP BY a.rmobile
+	
+		 union  all
+
+		 SELECT a.mobile , 
+						MAX(b.`level`) level, 
+					if(a.mobile>a.rmobile ,CONCAT(a.mobile,',',a.rmobile),CONCAT(a.rmobile,',',a.mobile) ) relationship,
+					GROUP_CONCAT(DISTINCT a.source1) rvalue ,a.rmobile fm
+		 from risk_relationship  a left join  risk_label b on a.mobile=b.mobile
+		 where a.rmobile=v_mobile   and rmobile!=a.mobile 
+						and a.mobile not in(select mobile from risk_relationship_filter ) GROUP BY a.mobile;
+		
+	
+		create   temporary TABLE   tmp_relation2  -- 二级关联 通过一级找 不能自己找自己 并且不能找已经找到的关系 即 不再找被查者
+		(mobile VARCHAR(50), 
+		level int(20), 
+		relationship VARCHAR(100), 
+		rvalue VARCHAR(100), 
+		fm VARCHAR(50)
+		)  ;
+		INSERT tmp_relation2 
+		SELECT a.rmobile   mobile, 
+					 MAX(b.`level`)  level, 
+			     if(a.mobile>a.rmobile ,CONCAT(a.mobile,',',a.rmobile),CONCAT(a.rmobile,',',a.mobile) ) relationship,
+					 GROUP_CONCAT(DISTINCT a.source1) rvalue ,a.mobile fm
+		 from risk_relationship  a left join  risk_label b on a.rmobile=b.mobile
+		 where a.mobile in (select c.mobile from tmp_relation1 c  ) 
+           and a.rmobile!=a.mobile and a.rmobile!=v_mobile  GROUP BY a.rmobile;
+
+		INSERT tmp_relation2 
+		SELECT a.mobile , 
+					 MAX(b.`level`) `level`,
+			    if(a.mobile>a.rmobile ,CONCAT(a.mobile,',',a.rmobile),CONCAT(a.rmobile,',',a.mobile) ) relationship,
+					GROUP_CONCAT( DISTINCT a.source1) rvalue ,a.rmobile fm
+		 from risk_relationship  a left join  risk_label b on a.mobile=b.mobile
+		 where a.rmobile in  (select c.mobile from tmp_relation1 c ) 
+           and a.rmobile!=a.mobile and a.mobile!=v_mobile GROUP BY a.mobile;
+	
+		create temporary TABLE   tmp_relation3
+		as 
+		select DISTINCT t1.mobile from tmp_relation1 t1 left join tmp_relation2 t2 on t1.mobile=t2.fm
+		where  t1.level is null and t2.level is not null ;
+
+		
+    select 	mobile name ,
+						IFNULL(max(level) ,-2) +2 category,
+            if(max(level) is null ,20,max(level)*5+30) symbolSize,
+            if(max(level) is null ,0,1) label,
+            1 value from 
+    (select t1.mobile , if( t3.mobile is not null ,-1, t1.level ) level
+			from tmp_relation1 t1 left join  tmp_relation3 t3 on t1.mobile=t3.mobile 
+				
+     union  all
+     SELECT mobile,level from tmp_relation2  ) a
+		GROUP BY a.mobile;
+
+		select SUBSTRING_INDEX(relationship, ',', 1) source,REPLACE(relationship,CONCAT(SUBSTRING_INDEX(relationship, ',', 1),','),'') target ,GROUP_CONCAT( DISTINCT rvalue) value
+		from 
+		(select    relationship ,GROUP_CONCAT( DISTINCT rvalue) rvalue
+		from tmp_relation1  GROUP BY relationship
+    union
+		select    relationship,GROUP_CONCAT( DISTINCT rvalue) rvalue
+		from tmp_relation2 GROUP BY relationship ) a GROUP BY relationship;	
+
+	
+ 
+
+	   drop table  if exists  tmp_relation1;	
+     drop table  if exists  tmp_relation2;	
+		 drop table  if exists  tmp_relation3;	
+
+		
+		end if;
+
+END;
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+CREATE DEFINER = `dev_risk`@`%` PROCEDURE `NewProc`(IN v_channel varchar(100),IN v_beginTime varchar(50),IN v_endTime varchar(50) ,IN v_subChannel varchar(50), IN v_productId varchar(20))
+BEGIN
+	
+
+		 drop table  if exists  tmp_report_cost;	
+		 drop table  if exists  tmp_report_cost_sum;
+
+		
+		create   temporary TABLE   tmp_report_cost as
+		SELECT v_channel channel, sub_channel ,sub_channel_name, date(CREATE_time) create_time ,count(DISTINCT encrypt_mobile ) mobile_sum,
+						SUM(if(apply_type='Credit',1,0 )) credit_sum,
+						SUM(if(apply_type='Decision' and `audit_result`='0' and trade_satus='30', 1 , 0 ) ) AS  trade_success
+		from report_everyday 
+		where channel=v_channel 
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(create_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)   
+    GROUP BY sub_channel,date(create_time) ;
+  
+		create  temporary TABLE  tmp_report_cost_sum as
+		SELECT  channel, sub_channel ,sub_channel_name,  '合计' create_time ,sum(mobile_sum) mobile_sum,
+						SUM(credit_sum) credit_sum,
+						SUM(trade_success) AS trade_success 
+		from tmp_report_cost GROUP BY sub_channel;
+
+		
+		
+
+		select a.*,concat(truncate((a.trade_success/mobile_sum) *100,2),'%') rate,
+		if(b.cost is null ,'成本未设定',b.cost) channel_cost,
+		if(trade_success=0,'未获客','有获客') lending_situation,
+    a.mobile_sum*IFNULL(b.cost,0)/if(a.trade_success=0 or a.trade_success is null  ,1,a.trade_success) price 
+
+		from (
+			select 1 type,m.* from 
+			tmp_report_cost_sum m
+			union ALL
+			select 2 type,n.* from 
+			tmp_report_cost n
+		 ) a  left join saas_api_master.channel_subchannel b on a.sub_channel=b.sub_channel_code
+
+		order by type ,price desc , a.sub_channel, a.create_time ;
+
+
+	   drop table  if exists  tmp_report_cost;	
+     drop table  if exists  tmp_report_cost_sum;	
+
+
+END;
+
+//+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+CREATE DEFINER = `dev_risk`@`%` PROCEDURE `NewProc`(IN v_channel varchar(100),IN v_beginTime varchar(50),IN v_endTime varchar(50) ,IN v_subChannel varchar(50), IN v_productId varchar(20), IN v_onlySameDay varchar(20))
+BEGIN
+
+
+		-- DECLARE v_table VARCHAR(200);
+		-- DECLARE v_sql_create_table VARCHAR(2000);
+		-- DECLARE v_sql_drop_table VARCHAR(2000);
+		-- DECLARE v_sql_insert_table VARCHAR(2000);
+		-- DECLARE v_sql_insert_sum VARCHAR(2000);
+		-- DECLARE v_sql_insert_select VARCHAR(2000);
+		-- SET @vsql0=v_sql_create_table;
+	  -- PREPARE vsql0 FROM @vsql0;
+	  -- EXECUTE vsql0;           
+	  -- DEALLOCATE PREPARE vsql0 ;   -- 建表完成
+
+		 drop table  if exists  tmp_report1;	
+		 drop table  if exists  tmp_report1_sum;	
+
+	   create   temporary TABLE   tmp_report1
+		(channel VARCHAR(200), 
+		sub_channel VARCHAR(200), 
+		create_time VARCHAR(200), 
+		sub_channel_name VARCHAR(200), 
+		click_sum int(20), 
+		mobile_sum int(20),
+		credit_sum int(20), 
+		credit_success int(20),
+		decision_sum int(20),
+		risk_success int(20),
+		dt_sum int(20),
+		wait_dt int(20),
+		dt_success int(20),
+		dt_fial int(20), 
+		wait_dt2 int(20),
+		dt2_success int(20),
+		dt2_fail int(20),
+		trade_success int(20),
+		trade_fail int(20)
+	)  ;
+  insert into tmp_report1 ( channel , sub_channel , 	create_time , sub_channel_name , click_sum , mobile_sum ,
+	   credit_sum , credit_success ,decision_sum ,risk_success ,dt_sum ,wait_dt ,dt_success ,dt_fial ,wait_dt2 ,
+	   dt2_success ,dt2_fail ,trade_success ,trade_fail )
+	SELECT v_channel,DT.sub_channel ,DATE(DT.create_time) create_time,DT.sub_channel_name ,
+	max(DT.click_sum) click_sum ,count(DISTINCT DT.encrypt_mobile)   mobile_sum ,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and apply_type='Credit',1,0 )) credit_sum,
+	sum(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and apply_type='Credit' and audit_result='0' ,1,0)) credit_success,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and apply_type='Decision' , 1 , 0 ) ) decision_sum,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and apply_type='Decision' AND audit_result='0' , 1 , 0 ) ) risk_success,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and DT.`apply_type`='Decision' and DT.`audit_result`='0'  and DT.gmt_create is not null , 1 , 0 ) ) AS dt_sum,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and DT.`apply_type`='Decision' and DT.`audit_result`='0'  and DT.`decision_result`='9' , 1 , 0 ) ) AS wait_dt,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and DT.`apply_type`='Decision' and DT.`audit_result`='0'  and DT.`td_result` ='10' , 1 , 0 ) ) AS dt_success,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and DT.`apply_type`='Decision' and DT.`audit_result`='0'  and DT.`td_result`='1' , 1 , 0 ) ) AS dt_fial,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and DT.`apply_type`='Decision' and DT.`audit_result`='0'  and DT.`decision_result`='10' , 1 , 0 ) ) AS wait_dt2,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and DT.`apply_type`='Decision' and DT.`audit_result`='0'  and DT.`td2_result`='0' , 1 , 0 ) ) AS dt2_success,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and DT.`apply_type`='Decision' and DT.`audit_result`='0'  and DT.`td2_result`='1' , 1 , 0 ) ) AS dt2_fail ,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and  DT.`apply_type`='Decision' and DT.`audit_result`='0' and DT.trade_satus='30', 1 , 0 ) ) AS  trade_success,
+	SUM(if(if(v_onlySameDay='true', date(order_time)=date(create_time),1=1) and  DT.`apply_type`='Decision' and DT.`audit_result`='0' and DT.`trade_satus`='31' , 1 , 0 ) ) AS  trade_fail
+	FROM report_everyday DT 
+	where  channel=v_channel  
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(create_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='', sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+	GROUP BY  DATE(create_time),sub_channel;
+			
+	create   temporary TABLE   tmp_report1_sum as
+	select max(channel) channel, 999999999 sub_channel, 	create_time create_time , '合计' sub_channel_name , sum(click_sum) click_sum ,  sum(mobile_sum ) mobile_sum,
+	 sum(credit_sum ) credit_sum,  sum(credit_success) credit_success , sum(decision_sum ) decision_sum, sum(risk_success )risk_success, sum(dt_sum ) dt_sum, sum(wait_dt) wait_dt, sum(dt_success )dt_success,
+   sum(dt_fial)dt_fial , sum(wait_dt2 ) wait_dt2, sum(dt2_success)dt2_success , sum(dt2_fail) dt2_fail, sum(trade_success)trade_success, sum(trade_fail)trade_fail
+	from tmp_report1  GROUP BY create_time;
+
+			select 
+			concat(truncate((a.mobile_sum/a.click_sum) *100,2),'%') click_to_mobile,
+			concat(truncate((a.risk_success/a.mobile_sum) *100,2),'%') mobile_to_risks ,
+			concat(truncate((a.dt2_success/a.mobile_sum) *100,2),'%') mobile_to_td2s,
+			concat(truncate((a.trade_success/a.mobile_sum) *100,2),'%') mobile_to_trades ,
+
+			concat(truncate((a.credit_sum/a.mobile_sum) *100,2),'%') mobile_to_credit,
+			concat(truncate((a.credit_success/a.mobile_sum) *100,2),'%') mobile_to_credits,
+
+			concat(truncate((a.risk_success/a.credit_sum) *100,2),'%') credit_to_risks,
+
+			if(dt_success>0,concat(truncate((a.dt_success/(a.dt_success+a.dt_fial)) *100,2),'%'),'0.00%')dt_to_dts,
+			if(dt2_success>0,concat(truncate((a.dt2_success/(a.dt2_success+a.dt2_fail)) *100,2),'%'),'0.00%')dt2_to_dt2s,
+			concat(truncate((a.trade_success/a.dt2_success) *100,2),'%') dt2s_to_trades,
+			a.* from (
+			 select * from tmp_report1 
+				union ALL
+			select * from tmp_report1_sum) a ORDER BY a.create_time,a.sub_channel ;
+     -- order by create_time,sub_channel;
+
+	   drop table  if exists  tmp_report1;	
+     drop table  if exists  tmp_report_sum1;	
+END;
+
+//++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+CREATE DEFINER = `dev_risk`@`%` PROCEDURE `NewProc`(IN v_channel varchar(100),IN v_beginTime varchar(50),IN v_endTime varchar(50) ,IN v_subChannel varchar(50), IN v_productId varchar(20))
+BEGIN
+
+
+		-- DECLARE v_table VARCHAR(200);
+		-- DECLARE v_sql_create_table VARCHAR(2000);
+		-- DECLARE v_sql_drop_table VARCHAR(2000);
+		-- DECLARE v_sql_insert_table VARCHAR(2000);
+		-- DECLARE v_sql_insert_sum VARCHAR(2000);
+		-- DECLARE v_sql_insert_select VARCHAR(2000);
+		-- SET @vsql0=v_sql_create_table;
+	  -- PREPARE vsql0 FROM @vsql0;
+	  -- EXECUTE vsql0;           
+	  -- DEALLOCATE PREPARE vsql0 ;   -- 建表完成
+
+		 drop table  if exists  tmp_report;	
+		 drop table  if exists  tmp_report_sum;	
+
+	   create   temporary TABLE   tmp_report 
+		(channel VARCHAR(200), 
+		sub_channel VARCHAR(200), 
+		create_time VARCHAR(200), 
+		sub_channel_name VARCHAR(200), 
+		click_sum int(20), 
+		mobile_sum int(20),
+		credit_sum int(20), 
+		credit_success int(20),
+		decision_sum int(20),
+		risk_success int(20),
+		dt_sum int(20),
+		wait_dt int(20),
+		dt_success int(20),
+		dt_fial int(20), 
+		wait_dt2 int(20),
+		dt2_success int(20),
+		dt2_fail int(20),
+		trade_success int(20),
+		trade_fail int(20)
+	)  ;
+
+  
+
+
+
+
+	
+  insert into tmp_report 
+	select v_channel   ,ch.sub_channel,ch.dt  , ch.sub_channel_name , a.click_sum ,a.mobile_sum,
+	s.credit_sum,s.credit_success,s.decision_sum,s.risk_success,
+	d.dt_sum  ,  d.wait_dt ,td.dt_success, td.dt_fial ,d.wait_dt2,td2.dt2_success,td2.dt2_fail ,
+	f.trade_success,f.trade_fail 
+
+	 from  
+	(
+		SELECT DATE(create_time) dt,sub_channel,sub_channel_name 
+		FROM report_everyday  
+		where  channel=v_channel  
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(create_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',
+     sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+			GROUP BY  DATE(create_time),sub_channel
+				union 
+			select DATE(order_time) ,sub_channel ,sub_channel_name
+			from report_everyday where  channel=v_channel  
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(order_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+				group by DATE(order_time), sub_channel  
+					union
+				select date(gmt_create),sub_channel ,sub_channel_name
+				from  report_everyday where  channel=v_channel 
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(gmt_create) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+				group by date(gmt_create),sub_channel  
+		union
+		select date(loan_create_time) ,sub_channel,sub_channel_name
+		from report_everyday DT where  channel=v_channel  
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(loan_create_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+		group by date(loan_create_time),sub_channel
+				union
+		select date(td_time) ,sub_channel,sub_channel_name
+		from report_everyday DT where  channel=v_channel  
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(td_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+		group by date(td_time),sub_channel
+	union
+		select date(td2_time) ,sub_channel,sub_channel_name
+		from report_everyday DT where  channel=v_channel  
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(td2_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+		group by date(td2_time),sub_channel
+
+			) ch  -- 查询所有渠道
+
+	left join 
+
+	(SELECT DATE(t.create_time) dt,t.sub_channel ,t.sub_channel_name ,
+	max(t.click_sum) click_sum ,count(DISTINCT t.encrypt_mobile)   mobile_sum  FROM report_everyday t 
+	where  channel=v_channel  
+	and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(create_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+	GROUP BY  DATE(t.create_time),t.sub_channel) a  on ch.sub_channel=a.sub_channel and ch.dt=a.dt  -- 注册当日相关数据
+	
+	left join 
+
+	(select DATE(order_time) dt,sub_channel ,
+	SUM(if(apply_type='Credit',1,0 )) credit_sum,
+	sum(if(apply_type='Credit' and audit_result='0' ,1,0)) credit_success,
+	SUM(if(apply_type='Decision' , 1 , 0 ) ) decision_sum,
+	SUM(if(apply_type='Decision' AND audit_result='0' , 1 , 0 ) ) risk_success
+	from report_everyday 
+	where channel=v_channel 
+				and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(order_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)   
+	group by DATE(order_time), sub_channel  )s  ON s.dt=ch.dt and s.sub_channel=ch.sub_channel     --  统计日-授信进件情况 
+
+		left join 
+
+		(select date(gmt_create) date ,sub_channel ,
+		SUM(if(DT.gmt_create is not null , 1 , 0 ) ) AS dt_sum,
+		SUM(if(DT.decision_result='9' , 1 , 0 ) ) AS wait_dt,
+		SUM(if(DT.decision_result='10' , 1 , 0 ) ) AS wait_dt2
+		from  report_everyday dt
+		where channel=v_channel  
+		and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(gmt_create) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+		group by date(gmt_create),sub_channel
+		)d ON d.date=ch.dt and d.sub_channel=ch.sub_channel  -- 统 计日-进入电核情况
+		
+		left join 
+		(select  date(td_time) date ,sub_channel ,
+		SUM(if(DT.td_result ='10' , 1 , 0 ) ) AS dt_success,
+		SUM(if(DT.td_result='1' , 1 , 0 ) ) AS dt_fial
+		from  report_everyday dt
+		where channel=v_channel  
+		and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(td_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+		group by date(td_time),sub_channel
+		)td ON td.date=ch.dt and td.sub_channel=ch.sub_channel  --  一级电核情况
+		
+		left join 
+
+			(select date(td2_time) date ,sub_channel ,
+
+		SUM(if(DT.td2_result='0' , 1 , 0 ) ) AS dt2_success,
+		SUM(if(DT.td2_result='1' , 1 , 0 ) ) AS dt2_fail 
+		from  report_everyday dt
+		where channel=v_channel  
+		and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(td2_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+		group by date(td2_time),sub_channel
+		)td2 ON td2.date=ch.dt and td2.sub_channel=ch.sub_channel  -- 二级电核情况
+
+
+		left join 
+		(select date(loan_create_time) date,sub_channel,  -- 统计放款情况
+		SUM(if( DT.trade_satus='30', 1 , 0 ) ) AS  trade_success,
+		SUM(if(DT.trade_satus='31' , 1 , 0 ) ) AS  trade_fail
+		from report_everyday DT 
+		where channel=v_channel 
+		and if(v_beginTime is not null and v_beginTime !='' and v_endTime is not null and v_endTime !='', 
+						DATE(loan_create_time) BETWEEN v_beginTime and v_endTime ,1=1)  
+				and if(v_subChannel is not null and v_subChannel  !='',sub_channel=v_subChannel ,1=1)  
+				and if(v_productId  is not null and v_productId   !='',product_id=v_productId  ,1=1)  
+		group by date(loan_create_time),sub_channel)f ON f.date=ch.dt and f.sub_channel=ch.sub_channel;
+
+			-- select channel , sub_channel , 	create_time , sub_channel_name , click_sum , mobile_sum ,
+	  -- credit_sum , credit_success ,decision_sum ,risk_success ,dt_sum ,wait_dt ,dt_success ,dt_fial ,wait_dt2 ,
+	 --  dt2_success ,dt2_fail ,trade_success ,trade_fail 
+
+			
+				create   temporary TABLE   tmp_report_sum as
+				select max(channel) , 999999999 , 	create_time , '合计' , sum(click_sum) ,  sum(mobile_sum),
+	       sum(credit_sum ),  sum(credit_success) , sum(decision_sum ), sum(risk_success ), sum(dt_sum ), sum(wait_dt) , sum(dt_success ), sum(dt_fial) ,
+			   sum(wait_dt2 ), sum(dt2_success) , sum(dt2_fail) , sum(trade_success), sum(trade_fail)
+				from tmp_report  GROUP BY create_time;
+
+			select * from (
+			 select * from tmp_report 
+				union ALL
+			select * from tmp_report_sum) a  order by a.create_time,a.sub_channel;
+     -- order by create_time,sub_channel;
+
+	   drop table  if exists  tmp_report;	
+     drop table  if exists  tmp_report_sum;	
+END;
+
+
+DROP PROCEDURE IF EXISTS `p_report_afterloan_payday`;
+
+CREATE DEFINER = `dev_risk`@`%` PROCEDURE `p_report_afterloan_payday`(IN v_channel varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,IN v_subChannel varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,IN v_beginTime varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,IN v_endTime varchar(50)  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,IN v_type varchar(50)  CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci)
+    SQL SECURITY INVOKER
+BEGIN
+
+			-- drop table  if exists  tmp_after_loan;	
+			-- drop table  if exists  tmp_after_loan_sum;	
+			
+
+	
+		set @where_time1='';
+		set @where_time2='';
+		set @where_sub='';
+		set @date="";
+		set @other="";
+		set @othern="";
+		set	  @other_group="";
+		set	  @other_order=" ";
+		
+
+		if v_subChannel is not null and v_subChannel !='' then 
+			set @where_sub=CONCAT(" and sub_channel='",v_subChannel ,"'");
+		end if ;
+
+		if v_type='day' or v_type="dayPeriod" or v_type="daySub" then
+			
+				set @date="每期应还日期 ";
+
+				if v_beginTime is not  null and  v_beginTime !=''  then 
+					set @where_time1=CONCAT(" and 每期应还日期 >= '",v_beginTime ,"'" );
+				end if;
+				
+				if v_endTime is not null and   v_endTime !=''  then 
+					set @where_time2=CONCAT(" and 每期应还日期 <= '",v_endTime ,"'" );		
+				end if;
+
+		end if ;
+		
+		if v_type='mon' or v_type="monPeriod" or v_type="monSub" then
+
+			set @date="SUBSTR(每期应还日期,1,7) ";
+
+					if v_beginTime is not  null and  v_beginTime !=''  then 
+				  	set @where_time1=CONCAT(" and SUBSTR(每期应还日期,1,7) >= '",v_beginTime ,"'" );
+					end if;
+
+					if v_endTime is not null and   v_endTime !=''  then 
+				  	set @where_time2=CONCAT(" and SUBSTR(每期应还日期,1,7) <= '",v_endTime ,"'" );
+					end if;
+
+		end if ;
+
+		if v_type="dayPeriod" or v_type="monPeriod" then
+ 
+			set   @other="period ," ;
+			set		@othern="期数 period,";
+			set	  @other_group=",期数 ";
+			set	  @other_order=",period ";
+
+		end if;
+		
+	 if v_type="monSub" or v_type="daySub" then 
+		set @other="sub_channel ," ;
+		set	@othern="sub_channel ,";
+		set	@other_group=",sub_channel ";
+		set	@other_order=",sub_channel ";
+
+	 end if;
+
+		set @t_sql= CONCAT("
+			select 	
+					create   temporary TABLE   tmp_after_loan as
+
+					'普通列' type,
+					1 count,
+					a.date ,",
+					@other ,
+					"a.sum,
+					a.early_repay,
+					a.repay,
+					a.overdue_repay,
+					a.overdue_no_repay,
+					a.should_repay,
+				  ROUND(	if(a.should_repay=0,0,(a.overdue_no_repay/should_repay))*100,2) rate_overdue_no_repay,
+					ROUND(if(a.should_repay=0,0,((a.overdue_no_repay+a.overdue_repay)/a.should_repay))*100,2)rate_overdue, 
+					ROUND(if(a.overdue_no_repay+a.overdue_repay=0,0,(a.overdue_repay/(a.overdue_no_repay+a.overdue_repay)) )*100,2)rate_repay_overdue,
+					channel
+				
+			from(
+			SELECT IFNULL(" ,@date ,",'未知') date,channel,",
+				@othern ,
+				"IFNULL(count(*) ,0)sum, -- 放款件数
+				IFNULL(sum(if(当期还款状态='提前还款',1,0)),0) early_repay,
+				IFNULL(sum(if(当期还款状态='正常还款',1,0)),0) repay,
+				IFNULL(sum(if(当期还款状态='逾期已还',1,0)),0) overdue_repay,
+				IFNULL(sum(if(当期还款状态='逾期未还',1,0)),0) overdue_no_repay,
+				IFNULL(sum(if(`到期标识`=1,1,0)),0)  should_repay
+
+			from loan_total_wmh where channel='" ,v_channel,"'",@where_sub,@where_time1,@where_time2 ,
+				" GROUP BY ", @date , @other_group,") a  order by  date",@other_order,";	" );
+		
+
+			prepare stmt from @t_sql;-- 预编译一条sql语句，并命名为stmt
+			execute stmt;-- 执行预编译sql
+			
+			if(select count(*)from tmp_after_loan)>0 then 
+					
+					set @t_sql=CONCAT("
+					create   temporary TABLE   tmp_after_loan_sum as
+					select 
+							",if(@other_order='',"'总计'","'合计'")," type,
+							sum(count)+1 count,
+							date ,",
+							@other ,
+							"sum(a.sum) sum,
+							sum(a.early_repay)early_repay,
+							sum(a.repay) repay ,
+							sum(a.overdue_repay)overdue_repay,
+							sum(a.overdue_no_repay)overdue_no_repay,
+							sum(a.should_repay)should_repay,
+							ROUND(if(sum(a.should_repay)=0,0,(sum(a.overdue_no_repay)/sum(a.should_repay)))*100,2)rate_overdue_no_repay,
+							ROUND(if(sum(a.should_repay)=0,0,((sum(a.overdue_no_repay)+sum(a.overdue_repay))/sum(a.should_repay)))*100,2) rate_overdue, 
+							ROUND(if(sum(a.overdue_no_repay+a.overdue_repay)=0,0,(sum(a.overdue_repay)/(sum(a.overdue_no_repay)+sum(a.overdue_repay))))*100,2) rate_repay_overdue,
+							channel
+							
+					from tmp_after_loan a ",if(@other_order='','',"GROUP BY date"),";");
+								-- select @t_sql from dual;
+
+					prepare stmt from @t_sql;-- 预编译一条sql语句，并命名为stmt
+					execute stmt;-- 执行预编译sql
+
+					if @other!='' then 
+						set @t_sql=CONCAT("
+							insert into tmp_after_loan 
+							select 
+			
+							'总计' type,
+							0 count,
+							date ,",
+							@other ,
+							"sum(a.sum) sum,
+							sum(a.early_repay)early_repay,
+							sum(a.repay) repay ,
+							sum(a.overdue_repay)overdue_repay,
+							sum(a.overdue_no_repay)overdue_no_repay,
+							sum(a.should_repay)should_repay,
+							ROUND(if(sum(a.should_repay)=0,0,(sum(a.overdue_no_repay)/sum(a.should_repay)))*100,2)rate_overdue_no_repay,
+							ROUND(if(sum(a.should_repay)=0,0,((sum(a.overdue_no_repay)+sum(a.overdue_repay))/sum(a.should_repay)))*100,2) rate_overdue, 
+							ROUND(if(sum(a.overdue_no_repay+a.overdue_repay)=0,0,(sum(a.overdue_repay)/(sum(a.overdue_no_repay)+sum(a.overdue_repay))))*100,2) rate_repay_overdue,
+							channel
+							from tmp_after_loan_sum a
+						");
+
+						prepare stmt from @t_sql;-- 预编译一条sql语句，并命名为stmt
+						execute stmt;-- 执行预编译sql
+
+					end if;
+				
+				
+				 
+			    set @t_sql="
+						select * from (
+						select * from 
+						tmp_after_loan
+						union all 
+						select * from 
+						tmp_after_loan_sum) a";
+
+
+					if v_type='daySub' or v_type="monSub" then 
+							  set @t_sql="
+							select a.* ,b.sub_channel_name from (
+							select * from 
+							tmp_after_loan
+							union all 
+							select * from 
+							tmp_after_loan_sum) a left join channel_subchannel b on a.sub_channel=b.sub_channel_code and a.channel=b.channel_code ";
+					 
+					end if;
+
+					if @other!='' then 
+
+              set @t_sql=CONCAT(@t_sql," ORDER BY if(a.type='总计',1,0),a.date, if(a.type='合计',1,0) ",@other_order);
+					 
+					end if;
+					
+
+
+
+					 prepare stmt from @t_sql;-- 预编译一条sql语句，并命名为stmt
+				   execute stmt;-- 执行预编译sql
+
+				
+			end if;
+
+			
+			
+	    drop table  if exists  tmp_after_loan;	
+			drop table  if exists  tmp_after_loan_sum;	
+ 
+END;
+
+

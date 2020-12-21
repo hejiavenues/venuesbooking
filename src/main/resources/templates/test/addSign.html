@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('催收申请（减免或者对公）')"></head>
+<style>
+body ,html{
+  background:#eee;
+}
+</style>
+<body>
+<div id="zsvm"  v-cloak>
+  <el-card class="box-card" style="margin-top:200px;"> 
+  <el-input v-model="theUrl" placeholder="请输入oss路径" style="margin-top:10px;"></el-input>
+  <el-input v-model="addSignUrl" placeholder="结果" style="margin-top:20px;"></el-input>
+  
+  
+  </el-card>
+</div>
+
+<div th:include="include/footer_element::footer"></div>
+<script type="text/javascript">
+
+var vm = new Vue({
+    el:'#zsvm',
+	data: {
+	   theUrl:"",
+	   addSignUrl:"",
+	},
+	watch:{
+		"theUrl":function(a){
+			if(a.indexOf("?") != -1){
+				return
+			}
+			
+			if(a.indexOf(".aliyuncs.com/") != -1&&(a.indexOf(".txt") != -1||a.indexOf(".png") != -1||a.indexOf(".jpg") != -1||a.indexOf(".jpeg") != -1)){
+				this.addSign();
+			}
+		}
+	},
+	methods : {
+		
+		addSign:function(){
+			var th=this;
+			zs_postA(th,{
+				url: '../../oss/addSign?_' + $.now(),
+				param:{theUrl:th.theUrl},
+				success:function(r){
+					console.log(r);
+					if(r.code==0){
+						th.addSignUrl=r.msg;
+					}
+				}
+			})
+		},
+	
+	 },
+	 mounted:function(){
+	 }
+})
+
+</script>
+
+</body>
+</html>

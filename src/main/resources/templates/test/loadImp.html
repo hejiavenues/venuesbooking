@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('接口数据落库')"></head>
+<body>
+<div class="panel-heading">接口返回数据落库</div>
+<div id="cashbangLTE" class="container-fluid" v-cloak>
+	<a v-if="hasPermission('sys:role:save')" class="btn btn-default" @click="save"><i class="fa fa-plus"></i>选择接口服务</a>
+	<table class="form" id="form">
+		<tr>
+			<td class="formTitle">服务名称<span>*</span></td>
+			<td class="formValue">
+				<input type="text" class="form-control" v-model="riskProductService.serviceName"  isvalid="yes" checkexpession="NotNull" readonly/>
+				<input type="hidden" class="form-control" v-model="riskProductService.serviceCode" id="serviceCode" value="JddtZrobotUserAction"/>
+			</td>
+		</tr>
+		<tr><td class="formTitle">开始时间<span>*</span></td><td class="formValue"><input type="text" class="form-control"  id="beginTime" /></td></tr>
+		<tr><td class="formTitle">结束时间<span>*</span></td><td class="formValue"><input type="text" class="form-control"  id="endTime" /></td></tr>
+		<tr>
+			<td class="formTitle formTitle-top" style="text-align: right">
+				<button type="button" class="btn btn-primary btn-sm" @click="getRiskFormatList">开始落库</button>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div th:include="include/footer_js::footer"></div>
+<script th:src="@{/js/riskinfo/proserv/loadImpl.js}"></script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+  <meta charset="utf-8">
+  <title>layui</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <link th:href="@{../../plugins/layui-v2.4.3/layui/css/layui.css}" rel="stylesheet"/>
+  <style>
+  
+ .layui-bg-gray{
+  margin-top:1px;
+  margin-bottom:1px;
+ }
+</style>
+<body>  	
+<div id="ZSKJ" class="" v-cloak>
+   <form class="fly-extend-banner-search"> 
+ 	<div class="layui-inline"  style="width:80%"> 
+ 	 <input placeholder="搜索" disabled="disabled" autocomplete="off" value=""class="layui-input">
+ 	 </div><button  style="width:20%" class="layui-btn"><i class="layui-icon layui-icon-search"></i></button>
+  </form>
+	
+	 <form class="layui-form layui-form-pane " action="">
+	  	 <div class="layui-form-item ">
+    		  <label class="layui-form-label ">申请单号</label>
+    		  <div class="layui-input-block" >
+			   	<input v-model="applyCode" @keyup.enter="load" type="text" class="layui-input" />
+	          </div>
+       	   </div>
+       	   
+	  	  <div class="layui-form-item ">
+    		  <label class="layui-form-label ">客户姓名</label>
+    		  
+    		  <div class="layui-input-block" >
+					<input v-model="userName" @keyup.enter="load" type="text" class="layui-input" />
+	          </div>
+       		</div>
+       		
+       		 <div class="layui-form-item ">
+    		  <label class="layui-form-label  ">手机号码</label>
+    		  
+    		  <div class="layui-input-block" >
+					<input v-model="userMobile" @keyup.enter="load" type="text"class="layui-input" />
+	          </div>
+       		</div>
+       	
+       	    <div class="layui-form-item">
+    		  <label class="layui-form-label ">证件号码</label>
+    		  
+    		  <div class="layui-input-block" >
+					<input v-model="idNumber" @keyup.enter="load" type="text" class="layui-input" />
+	          </div>
+       		</div>
+       	
+       		
+       		 <div class="layui-form-item ">
+    		  <label class="layui-form-label ">子渠道</label>
+    		  
+    		  <div class="layui-input-block" >
+					<select id="vm_subCase" class="layui-input"isvalid="no"  :disabled="false">
+					      <option value="">全部</option>
+					      <option value="1">自有</option> 
+					   	  <option value="2">渠道</option>
+					</select> 
+	          </div>
+       		</div>
+       		
+       		 <div class="layui-form-item ">
+    		  <label class="layui-form-label " >产品</label>
+    		  <div class="layui-input-block" >
+			   	<select id="vm_product" class="layui-input" isvalid="no"  :disabled="false">
+					      <option value="">全部</option>
+ <option v-for="option  in products" :value="option.code" :disabled="false">{{ option.name }}({{ option.code }})
+      					  </option>
+				</select> 
+	          </div>
+       		</div>
+       		
+       		
+       	
+       		 <div class="layui-form-item "  >
+       	 
+    		  <label class="layui-form-label " >详细子渠道</label>
+    		  <div class="layui-input-block" >
+			   	<select id="vm_subChannel" class="layui-input" isvalid="no"  :disabled="false">
+					      <option value="">全部</option>
+ <option v-for="(option, index) in subChannels" :value="option.subChannelCode" :disabled="false">{{ option.subChannelName }}({{ option.subChannelCode }})
+      					  </option>
+      					  <option value="null" class="layui-this">其他</option>
+				</select> 
+	          </div>
+       		</div>
+       		
+ 			<div class="layui-btn-group zright"  >
+			  	<a class="layui-btn  layui-btn-sm" @click="load">
+			  		<i class="layui-icon layui-icon-search"></i>&nbsp;查询</a>
+			    <a class="layui-btn layui-btn-primary  layui-btn-sm" @click="decrypt">
+			    	<i  class="layui-icon layui-icon-fonts-del"></i>不脱敏</a>
+	            <a class="layui-btn layui-btn-primary layui-btn-sm" onclick="reload();">
+	            	<i class="layui-icon layui-icon-refresh"></i>&nbsp;刷新</a>
+	        	<a  class="layui-btn layui-btn-primary layui-btn-sm" @click="details">
+	        			<i class="layui-icon layui-icon-username"></i>&nbsp;审批</a>
+	        	<a  class="layui-btn layui-btn-primary layui-btn-sm" @click="detailsBatch">
+	        			<i class="layui-icon layui-icon-user"></i>&nbsp;批量通过</a>
+			</div>	
+  </form>
+  
+  </div>
+ <div style="padding: 10px; background-color: #F2F2F2;">
+  <div class="layui-row" id="appove">
+    <div class="layui-col-md12" id="approve">
+      <div class="layui-card">
+        <div class="layui-card-header">卡片面板</div>
+        <div class="layui-card-body" >
+	          <hr class="layui-bg-gray">
+	          ,,,,
+	          <hr class="layui-bg-gray">
+        </div>
+      </div>
+    </div>
+	</div>
+</div>
+<div th:include="include/app_footer_js::footer"></div>
+ <script src="list_approve.js"></script> 
+</body>
+</html>

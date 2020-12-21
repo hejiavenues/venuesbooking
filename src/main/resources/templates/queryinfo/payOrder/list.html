@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('')"></head>
+<body>
+	<div id="zsvm" v-cloak style="background: #fff;margin-top:20px;">
+		<el-form ref="form" :inline="true" label-width="80px" size="small"
+			size="small"> <el-form-item label="">
+		<el-input v-model="param.idNumber" placeholder="证件号码"
+			style="width:150px;"></el-input> </el-form-item> <el-form-item label="">
+		<el-input v-model="param.userName" placeholder="姓名"
+			style="width:150px;"></el-input> </el-form-item> <el-form-item label="">
+		<el-input v-model="param.userMobile" placeholder="手机号码"
+			style="width:150px;"></el-input> </el-form-item> <el-form-item label="">
+		<el-select v-model="param.payType" placeholder="支付类型"
+			style="width:150px;"> <el-option label="全部" value=""></el-option>
+		<el-option v-for=" type in payTypej " :label="type.value"
+			:value="type.key"></el-option> </el-select> </el-form-item> <el-form-item label="">
+		<el-select v-model="param.payOrderStatus" placeholder="状态"
+			style="width:150px;"> <el-option label="全部" value=""></el-option>
+		<el-option v-for=" type in payOrderStatuss " :label="type.value"
+			:value="type.key"></el-option> </el-select> </el-form-item> <el-form-item label="">
+		<el-date-picker style="width:150px" v-model="param.time1"
+			align="right" type="date" placeholder="开始时间"
+			value-format="yyyy-MM-dd" :picker-options="pickerOptions1">
+		</el-date-picker> </el-form-item> <el-form-item label=""> <el-date-picker
+			style="width:150px" v-model="param.time2" align="right" type="date"
+			placeholder="结束时间" value-format="yyyy-MM-dd"
+			:picker-options="pickerOptions1"> </el-date-picker> </el-form-item> <el-form-item
+			style="; margin-right: 0px"> <el-checkbox
+			v-model="param.notExistsOuterPayOrderId">商户</el-checkbox>
+		<el-button type="" icon="el-icon-search" size="small"
+			@click="load()">查询</el-button> 
+	  <el-button @click="toTrustedPayment()"  size="small" icon=""   > 委托付款</el-button>
+     </el-form-item> </el-form>
+
+		<!-- table -->
+		<el-table :data="table.data" stripe height="500" border
+			highlight-current-row cell-class-name="smallTable" size="mini"
+			@selection-change="selectCases" @row-dblclick="openMiniTable">
+
+		<el-table-column type="selection" width="40"> </el-table-column> <el-table-column
+			type="index" width="40"></el-table-column> <el-table-column
+			:label="col.title" :width="col.width" v-for="col in table.col">
+		<template slot-scope="scope">
+		<div v-if="col.formatter==undefined">{{scope.row[col.field]}}</div>
+		<div
+			v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='string'">
+			{{col.formatter(scope.row[col.field],scope.row)}}</div>
+		<div
+			v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='object'">
+			<el-tag :type="col.formatter(scope.row[col.field],scope.row).type"
+				effect="dark" style="width:100%" size="small">
+			{{col.formatter(scope.row[col.field],scope.row).value}} </el-tag>
+		</div>
+
+		</template> </el-table-column> </el-table>
+		<div class="block">
+			<!-- 页码 -->
+			<el-pagination @size-change="handleSizeChange"
+				@current-change="handleCurrentChange"
+				:current-page.sync="table.sync" :page-sizes="table.pagesizes"
+				:page-size="table.pagesize"
+				layout="total, sizes, prev, pager, next, jumper"
+				:total="table.total"> </el-pagination>
+		</div>
+
+
+
+
+		<!-- table -->
+		<el-dialog title="日志" :visible.sync="miniTable.show" width="95%">
+
+		<el-table :data="miniTable.data" stripe :height="$(window).height()*0.65" border
+			highlight-current-row cell-class-name="smallTable" size="small"
+			@row-dblclick="msg"> <el-table-column :label="col.title"
+			:width="col.width" v-for="col in miniTable.col"> <template
+			slot-scope="scope">
+		<div v-if="col.formatter==undefined">{{scope.row[col.field]}}</div>
+		<div
+			v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='string'">
+			{{col.formatter(scope.row[col.field],scope.row)}}</div>
+		<div
+			v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='object'">
+			<el-tag :type="col.formatter(scope.row[col.field],scope.row).type"
+				effect="dark" style="width:100%" size="small">
+			{{col.formatter(scope.row[col.field],scope.row).value}} </el-tag>
+		</div>
+
+		</template> </el-table-column> </el-table>
+		<div class="block">
+			<!-- 页码 -->
+			<el-pagination @size-change="miniTable_handleSizeChange"
+				@current-change="miniTable_handleCurrentChange"
+				:current-page.sync="miniTable.sync"
+				:page-sizes="miniTable.pagesizes" :page-size="miniTable.pagesize"
+				layout="total, sizes, prev, pager, next, jumper"
+				:total="miniTable.total"> </el-pagination>
+		</div>
+		</el-dialog>
+
+		<el-dialog title="信息" :visible.sync="showRowShow" width="95%"
+			top="3vh"> <el-collapse value="1" accordion>
+		<el-collapse-item name="1"> <template slot="title">
+		<font style="color: #E6A23C; font-size: 16px;">请求({{showRow.operation}})</font>
+		</template> <el-input type="textarea" :rows="16" placeholder=""
+			v-model="showRow.request"> </el-input> </el-collapse-item> <el-collapse-item name="2">
+		<template slot="title"> <font
+			style="color: #F56C6C; font-size: 16px;">响应</font> </template> <el-input
+			type="textarea" :rows="16" placeholder="" v-model="showRow.response">
+		</el-input> </el-collapse-item> </el-collapse> </el-dialog>
+		
+		
+			<!-- table -->
+   	<el-dialog title="委托付款" :visible.sync="trustedPaymentShow" width="30%">
+   			<el-form ref="form" :inline="false" label-width="80px" 
+   	        size="small"> 
+   	        
+   	         <el-form-item label="渠道">
+		  <el-select v-model="trustedPaymentParam.channel" placeholder="请选择" style="width:100%">
+		    <el-option :label="c.channelName" :value="c.channelCode" v-for="c in channels"> </el-option>
+		  </el-select>
+		  </el-form-item>
+   	      <el-form-item label="发起方">
+		  <el-select v-model="trustedPaymentParam.type" placeholder="请选择" style="width:100%">
+		    <el-option label="代付" value="0"> </el-option>
+		    <el-option label="代扣" value="1"> </el-option>
+		  </el-select>
+		  </el-form-item>
+		  
+		   <el-form-item label="金额">
+		  <el-input v-model="trustedPaymentParam.money" placeholder="请输入金额"></el-input>
+		  </el-form-item>
+		  
+		   <el-form-item label="接受方">
+		   <el-select v-model="trustedPaymentParam.to" placeholder="请选择" style="width:100%">
+		   		    <el-option label="代付" value="0"> </el-option>
+		            <el-option label="代扣" value="1"> </el-option>
+		  </el-select>
+		  </el-form-item>
+		   <el-form-item label="">
+		 		    <el-button type="primary" @click="doTrustedPayment" :disabled="doDisabled" style="width:100%">执行</el-button>
+		  </el-form-item>
+		  
+		  
+		  
+		  </el-form>
+	</el-dialog>
+</div>
+
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/payOrder/list.js}"></script>
+</body>
+</html>

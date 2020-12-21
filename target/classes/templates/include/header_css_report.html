@@ -1,0 +1,66 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="header(title)">
+	<title th:text="${title}"></title>
+	<meta charset="UTF-8"></meta>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge"></meta>
+	<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport"></meta>
+	<link th:href="@{../../css/style.min.css}" rel="stylesheet"/>
+	<link th:href="@{../../plugins/layui-v2.4.3/layui/css/layui.css}" rel="stylesheet"/>
+	<link th:href="@{../../css/common.zs.css}" rel="stylesheet"/>
+	<style type="text/css">
+	<style>
+	  .layui-table[lay-size=sm] .layui-table th {
+	  	height:70px;
+	  }
+	  .layui-table-view .layui-table[lay-size=sm] th .layui-table-cell {
+		   	height:60px;
+		  word-break:normal; 
+		  display:block; 
+		  white-space:pre-wrap;
+		  word-wrap : break-word ;
+		  overflow: hidden ;
+	  } 
+  	  .layui-table-view .layui-table[lay-size=sm] td .layui-table-cell {
+		   	padding-left: 0px;
+	   		padding-right: 0px;
+	   		text-align:center;
+	   	
+   		}
+   		 .layui-table-view .layui-table[lay-size=sm] td {
+   		 		padding-top: 3px;
+	   		padding-bottom: 3px;
+   		 }
+	  .layui-form-pane{
+		    margin-top: 0px;
+			padding-top: 0px;
+		    padding-left: 15px;
+		}
+		.layui-table-tool{
+		  margin-top: 0px;
+			padding-top: 0px;
+			padding-bottom: 0px;
+		}
+		.layui-row{
+		 margin-top: 0px;
+		}
+		.line5{
+			width:20%
+		}
+		hr{
+		height:0.1px;
+		margin-top:3px	;
+		margin-bottom:3px;
+		}
+		
+		.layui-form-radio{
+		margin:0 0 0 0 ;
+		}
+		.layui-form-pane .layui-form-radio, .layui-form-pane .layui-form-switch {
+		    margin-top: 0px;
+		    margin-left: 0px;
+		}
+	</style>
+</head>
+<!-- 只用echarts和layui 用以统计报表的 -->

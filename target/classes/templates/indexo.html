@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>管理平台</title>
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" href="css/bootstrap.min.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<link rel="stylesheet" href="css/style.min.css">
+<link rel="stylesheet" href="css/style.minnew.css">
+<link  rel="stylesheet" href="plugins/layui-v2.4.3/layui/css/layui.css" rel="stylesheet"/>
+<link rel="stylesheet" href="css/common.min.css">
+<style type="text/css">
+html {
+        margin:0 auto;
+   	    padding:0;
+        height: 100%;
+}
+body {
+     margin:0 auto;
+    padding:0;
+    height: 100%;
+}
+.wrapper{
+	height:100%;
+}
+
+.chaa{
+position: fixed; 
+ left:80%;
+ bottom: 0;
+ right: 0px;
+ overflow-x: hidden;
+ z-index: 999;
+ background:#00000045;  
+ top: 0%; 
+ bottom: 0%;
+}
+.chaa div{
+background:#27a9e3;
+margin-bottom:1%;
+
+}
+.hr15 ,.hr20{
+background:#fff;
+}
+</style>
+</head>
+<body class="hold-transition skin-blue sidebar-mini">
+	<div class="wrapper" id="cashbangLTE" v-cloak>
+	
+	
+	  <div v-show="chLanguage" class="layui-row  layui-anim layui-anim-up chaa" style="  ">
+       <a><div class="layui-btn layui-btn-fluid" style="margin-top:140px" @click="clang('zh')">中文</div></a>
+  	   <a><div class="layui-btn layui-btn-fluid"  @click="clang('en')">English</div></a>
+  	   <a><div class="layui-btn layui-btn-fluid"  @click="clang('id')">Bahasa Indonesia</div></a>
+ 	 </div> 
+		<header class="main-header">
+			<a href="javascript:void(0);" class="logo" > <span
+				class="logo-mini"><b>{{sysName}}</b></span> 
+				<span class="logo-lg">	 		
+<!-- 			   <img src="images/zs.png" style="   width: 60px; height: 60px; margin-right: 10px;" >
+ -->				      
+				<b>{{sysName}}</b></span>
+			</a>
+			
+		</header>
+		<div class="main-sidebar">
+			<div class="sidebar">
+				<ul class="sidebar-menu" id="sidebar-menu">
+					<menu-item :item="item" v-for="item in menuList"></menu-item>
+				</ul>
+			</div>
+		</div>
+		
+		
+		<!-- 路径导航 -->
+		<div id="content-wrapper" class="content-wrapper" style="height:100%;">
+			
+			<!-- tab标签 -->
+			<div class="content-tabs" style="-webkit-box-shadow: 0 1px 4px rgba(0,21,41,.08);">
+				
+				<nav class="page-tabs menuTabs">
+					<div class="page-tabs-content" style="margin-left: 0px;">
+						<a href="javascript:;" class="menuTab active" :data-id="main">{{$t("homepage")}}</a>
+					</div>
+				</nav>
+				
+				
+				<button class="roll-nav roll-left " @click="hideMenu">
+					<i class=" glyphicon glyphicon-align-justify" style=""></i>  
+				</button>
+				
+				<button class=" roll-nav roll-left hidemenus tabLeft">
+					<i class="fa fa-backward"></i>
+				</button>
+				
+				<button class="roll-nav roll-right tabRight">
+					<i class="fa fa-forward" style="margin-left: 3px;"></i>
+				</button>
+				
+				<div class="btn-group roll-nav roll-right makeindex">
+					<button class="dropdown tabClose" data-toggle="dropdown">
+						{{$t("operation") }}<i class="fa fa-caret-down" style="padding-left: 3px;"></i>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+						<li><a class="tabReload" href="javascript:;">{{$t("refresh")}}</a></li>
+						<li><a class="tabCloseCurrent" href="javascript:;" @click="tabCloseCurrent">{{$t("close") }}</a></li>
+						<li><a class="tabCloseAll" href="javascript:;">{{$t("closeAll") }}</a></li>
+						<li><a class="tabCloseOther" href="javascript:;">{{$t("closeAllE") }}</a></li>
+					</ul>
+				</div>
+				
+				<button class="roll-nav roll-right fullscreen" @click="fullScreen" id="fullscreen">
+					<i class="fa fa-arrows-alt"></i>
+				</button>
+				
+				 <div class="navbar-custom-menu roll-nav roll-right usermenu">
+                    <ul class="nav navbar-nav">
+                        <li class="dropdown user user-menu">
+                            <div href="#" class="dropdown-toggle" data-toggle="dropdown" >
+                                <img src="images/timg.jpg" style="   width: 40px; height: 40px; margin-left: 20px;" class="user-image" alt="User Image">
+                            </div>
+                            <ul class="dropdown-menu pull-right" style="margin-top: 2px;">
+                            	<li class="hidden-xs" v-if="dataBase.show"><a>{{dataBase.evn}}/{{dataBase.bs}}/{{dataBase.api}}</a></li>
+                            	 <li class="divider"></li>
+                            	<li class="hidden-xs"><a>{{user.channelNamef}}{{user.orgName}}</a></li>
+                            	 <li class="divider"></li>
+                               	 <li class="hidden-xs"><a>{{user.chnName}}</a></li>
+                               	 	
+                               	  <li class="divider"></li>
+                               	  	<li v-if="international"><a href="javascript:;" @click="chLanguage=true">
+                               	  	<i class=""></i> &nbsp;{{$t("changeLanguage") }}</a></li>
+                               	     <li v-if="international" class="divider"></li>
+<!--                                 <li><a class="menuItem" data-id="userInfo" href="SystemManage/User/Info"><i class="fa fa-user"></i>个人信息</a></li>
+ -->                                <li><a href="javascript:;" @click="updatePassword"><i class="fa fa-trash-o"></i>{{$t("changePa") }}</a></li>
+                                <li class="divider"></li>
+                                <li><a href="javascript:;" @click="logout"><i class="ace-icon fa fa-power-off"></i>{{$t("safeExit") }}</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+			</div>
+
+			<!-- 主界面 -->
+			<div class="content-iframe" style="overflow: hidden;min-height:100%; background: #fff;">
+                <div class="mainContent" id="content-main"  style=" height:100%;width:100%; padding: 0;">
+                    <iframe class="DP_iframe" frameborder="0" width="100%" height="100%"  id="main" name="main" :data-id="main"></iframe>
+                </div>
+            </div>
+		</div>
+		
+		<div class="control-sidebar-bg"></div> 
+
+		<!-- 修改密码 -->
+		<div id="passwordLayer" class="container-fluid" style="display: none;">
+			<table class="form">
+				<tr>
+					<td class="formTitle">{{$t("account") }}</td>
+					<td class="formValue"><span class="label label-success"
+						style="vertical-align: bottom;">{{user.username}}&nbsp;/&nbsp;{{user.chnName}}</span></td>
+				</tr>
+				<tr>
+					<td class="formTitle">{{$t("oldP") }}</td>
+					<td class="formValue"><input type="password"
+						class="form-control" v-model="pswd" placeholder="原密码" /></td>
+				</tr>
+				<tr>
+					<td class="formTitle">{{$t("newP") }}<span>*</span></td>
+					<td class="formValue"><input type="text" class="form-control"
+						v-model="newPswd" placeholder="新密码" /></td>
+				</tr>
+			</table>
+		</div>
+	</div>
+	
+	<script src="libs/jquery.min.js"></script>
+	<script src="js/lang/commen_lang.js"></script>
+	<script src="libs/vue.min.js"></script>
+	<script src="libs/bootstrap.min.js"></script>
+	<script src="libs/jquery.slimscroll.min.js"></script>
+	<script src="plugins/layer/layer.js"></script>
+	<script src="js/common.js"></script>
+	<!-- 语言国际化 -->
+		<script src="plugins/vue-i18n.js"></script>
+	
+<!-- 	<script src="https://unpkg.com/vue-i18n/dist/vue-i18n.js"></script>
+ -->	<script src="js/lang/index_tab.js"></script>
+	<script src="js/lang/lang.js"></script>
+
+	<script src="js/indexo.js"></script>
+</body>
+</html>

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>管理平台</title>
+<meta
+	content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+	name="viewport">
+<link rel="stylesheet" href="../../plugins/element/element.css">
+<link rel="stylesheet" href="../../css/elezs.css">
+<link rel="stylesheet" href="css/font-awesome.min.css">
+<style type="text/css">
+.el-tabs__item{
+padding:4px;
+}
+.el-tag .el-icon-close {
+    color: #fff;
+}
+.el-tabs__item.is-active {
+    color: #fff;
+}
+.el-tabs__item:focus.is-active.is-focus:not(:active){-webkit-box-shadow:0 0 2px 2px #409EFF inset;box-shadow:0 0 2px 2px #fff inset;border-radius:3px}
+.el-tabs__active-bar {
+    height: 0px;
+    background-color: #fff;
+}
+.el-tabs__header {
+    padding: 0;
+    position: relative;
+    margin: 0 0 0px;
+}
+
+/* .el-tabs__item {
+     height: 31px; 
+    line-height: 31px; 
+} */
+.el-tabs__item {
+    padding: 1px;
+}
+
+.el-divider--horizontal {
+ margin: 1px 0; 
+}
+.el-menu-item, .el-submenu__title {
+    height: 40px;
+     line-height: 40px; 
+	font-size:13px;     
+ }
+     
+  .el-submenu .el-menu-item {
+    height: 38px;
+    line-height: 38px;
+    	font-size:13px;     
+} 
+
+.chaa{
+position: fixed; 
+ left:80%;
+ bottom: 0;
+ right: 0px;
+ overflow-x: hidden;
+ z-index: 999;
+ background:#00000045;  
+ top: 0%; 
+ bottom: 0%;
+}
+.chaa div{
+background:#27a9e3;
+margin-bottom:1%;
+
+}
+.hr15 ,.hr20{
+background:#fff;
+}
+.el-menu {
+    border-right: none;
+    list-style: none;
+    position: relative;
+    margin: 0;
+    padding-left: 0;
+    background-color: #FFF;
+}
+</style>
+</head>
+<body style="    margin-top: 0px;    margin-bottom: 0px;    margin-left: 0px;    margin-right: 0px;background: #f0f2f5; font-famliy: SimHei;overflow-x:hidden;overflow-y:hidden;" >
+<div  id="zsvm" v-cloak style="">
+	
+	
+	<!-- 语言 -->
+	  <div v-show="chLanguage" class="layui-row  layui-anim layui-anim-up chaa" style="  ">
+       <a><div class="layui-btn layui-btn-fluid" style="margin-top:140px" @click="clang('zh')">中文</div></a>
+  	   <a><div class="layui-btn layui-btn-fluid"  @click="clang('en')">English</div></a>
+  	   <a><div class="layui-btn layui-btn-fluid"  @click="clang('id')">Bahasa Indonesia</div></a>
+ 	 </div> 
+ 	 
+ 	
+ <el-container  v-loading="loading"    style=""  element-loading-background="rgba(255, 255, 255, 0.5)">
+ 		<!-- 竖行导航 -->
+ <el-aside :width="asideWidth+'px'"  :style="'background:#545c64;overflow-x:hidden;overflow-y:hidden;height:'+(mainHeight+85)+'px'"  >
+	
+
+<!--   <el-row>
+   	 <img src="images/zs.png" style="   width: 30px; height: 30px; margin-right: 10px;" >
+  </el-row> -->
+    
+    	<el-menu default-active="1-1" class="el-menu-vertical-demo"  size="mini"  background-color="#545c64"
+  		 text-color="#fff" active-text-color="#E6A23C" :collapse="isCollapse" hide-timeout="10" unique-opened="true" height="100%">
+  		 
+  		  <el-menu-item index="999" style="color:#fff; text-shadow: 3px 3px 7px #999;    
+				 text-shadow: 3px 3px 7px #999;font-weight: 700;width:100%;
+				    text-align: center;" @click="nowTab='main'">
+				    <i class="el-icon-s-home "></i>			      
+				    <span slot="title" >
+						   {{sysName}}
+				    </span>
+		  </el-menu-item>
+		  
+  		   <el-menu-item :index="index+999" v-for="(row,index) in menuList"  v-if="row.type==1&&row.url.indexOf('main')==-1"  @click="addTab(row)">
+				 <i :class="row.icon "></i>		     
+					 <span slot="title">{{_meaus==undefined?row.name:_meaus[row.name]}}</span> 
+		   </el-menu-item>
+  		 
+		   <el-submenu :index="index" v-for="(row,index) in menuList"    v-if="row.type == 0" >
+			    <template slot="title" v-if="row.type==0">
+						 <i :class="row.icon "></i>			      
+						 <span slot="title">{{_meaus==undefined?row.name:_meaus[row.name]}}</span>
+			    </template>
+			    <el-menu-item-group v-if="row.type==0">
+			      <span slot="title">{{_meaus==undefined?row.name:_meaus[row.name]}}</span>
+			     <el-menu-item :index="index+'-'+i"  v-if="mnrow.type == 1" v-for="(mnrow ,i) in row.list"  @click="addTab(mnrow)">
+			     					 <i :class="mnrow.icon "></i>			      
+			         {{_meaus==undefined?mnrow.name:_meaus[mnrow.name]}}
+				  </el-menu-item> 
+			    </el-menu-item-group>
+		  </el-submenu>
+		</el-menu>
+	  
+		
+  </el-aside>
+      
+ <el-main :width="mainWidth+'px'" style="padding:0px; " >
+ 
+ <el-row :gutter="20" style="border-bottom: solid 0.1px #eee; margin:0px;padding: 0.2px;background:#fff;">
+ 
+ <el-col :span="22">
+ 
+ 
+ 
+       <el-button  @click="showHideMenu" icon="el-icon-s-fold" style="border:none"></el-button>
+       
+       
+        <el-button  size="mini" style="margin-top:5px;float:right"  @click="logout"  type="danger">
+			<i class="el-icon-circle-close"></i>{{$t("safeExit") }}
+		</el-button>
+		
+		 <el-button v-if="!isM" @click="fullScreen"   size="mini" style="margin-left:10px;margin-top:5px;float:right">
+			<i class="el-icon-full-screen"></i>全屏展示
+		</el-button>
+		
+		 
+		 <el-button   size="mini" style="margin-top:5px;float:right" type="info" @click="refreshNowTab">
+			<i class="el-icon-refresh"></i>{{$t("refresh")}}
+		</el-button>
+		 <el-button    size="mini" style="margin-top:5px;float:right" type=""  @click="removeTab(nowTab)"  v-if="!isM" >
+			<i class="el-icon-folder-delete"></i>{{$t("close") }}
+		</el-button>
+		<!--  <el-button   size="mini" style="margin-top:5px;float:right">{{$t("closeAll") }}
+			<i class="el-icon-remove-outline"></i>
+		</el-button> -->
+		<el-button   size="mini" style="margin-top:5px;float:right"  @click="removeOtherTabs"  v-if="!isM" >
+			<i class="el-icon-folder-delete"></i>{{$t("closeAllE") }}
+		</el-button>
+		<el-button @click="autoOpen=(!autoOpen)"  :type="autoOpen?'success':'info'" size="mini" style="margin-left:10px;margin-top:5px;float:right">
+			<i class="el-icon-magic-stick"></i>菜单自动收缩/点击切换
+		</el-button>
+</el-col>
+<el-col :span="2"   v-if="!isM">
+	  <el-dropdown  @command="doUser">
+      <span class="el-dropdown-link" >
+       <image src="images/tx.gif"  style="width: 30px; margin-right:5px;
+           height: 30px; border-radius:10px; " ></image><i class="fa fa-caret-down"></i>
+      </span>
+      <el-dropdown-menu slot="dropdown"  >
+        <el-dropdown-item   v-if="dataBase.show" icon="el-icon-menu">{{dataBase.evn}}/{{dataBase.bs}}/{{dataBase.api}}</el-dropdown-item>
+        <el-dropdown-item   icon=" el-icon-c-scale-to-original" >{{user.channelNamef}}{{user.orgName}}</el-dropdown-item>
+        <el-dropdown-item   icon="el-icon-user-solid">{{user.chnName}}</el-dropdown-item>
+        <el-dropdown-item command="changerLangue"  v-if="international"  icon="">{{$t("changeLanguage") }}</el-dropdown-item>
+        <el-dropdown-item  command="changePassWord" icon="el-icon-edit">{{$t("changePa") }}</el-dropdown-item>
+        <el-dropdown-item  command="logOut" icon="el-icon-s-release">{{$t("safeExit") }}</el-dropdown-item>
+      </el-dropdown-menu>
+ 	</el-dropdown>	
+ </el-col>
+ </el-row>
+   
+				
+
+ <el-tabs v-model="nowTab" >
+ <el-tab-pane  name="main"  key="main" height="100%" >
+          <span slot="label" >
+          <el-tag size="small" :style="'main'==nowTab?'background:#42b983;color:#fff; border-radius: 0px;': 'background:#909399;color:#fff; border-radius: 0px;'" @click="nowTab='main'" >{{$t("homepage")}}</el-tag></span>
+          <iframe :style="'height:'+mainHeight+'px'":src="mainHtml" frameborder="0" width="100%" height="100%"  id="main" name="main"  ></iframe>
+  </el-tab-pane>
+  
+  <el-tab-pane v-for="(item, index) in tabs" :name="item.onlyId"  :key="item.onlyId" height="100%"  v-loading="item.loading!=undefined&&item.loading"        element-loading-text="正在加载中"
+   element-loading-background="rgba(255, 255, 255, 0.5)" >
+          <span slot="label" ><el-tag size="small" :style="item.onlyId==nowTab?'background:#42b983;color:#fff; border-radius: 0px;': 'background:#909399;color:#fff; border-radius: 0px;'" 
+          @click="nowTab=item.onlyId" @close="removeTab(item.onlyId)" closable >{{item.name}}</el-tag></span>
+          <iframe :style="'height:'+mainHeight+'px'" :src="item.url" 
+          frameborder="0" width="100%" height="100%"  :id="item.onlyId"
+           :name="item.onlyId"  ></iframe>
+  </el-tab-pane>
+</el-tabs>
+
+
+  
+ 
+ </el-main>
+</el-container>
+			
+			
+			
+			
+			
+			
+			
+<el-dialog :title="'修改密码/'+user.username+'/'+user.chnName" :visible.sync="passwordLayer" width="400px">
+
+  <el-form >
+    <el-form-item :label="$t('oldP')" label-width="80px">
+      <el-input v-model="pswd" ></el-input>
+    </el-form-item>
+    <el-form-item :label="$t('newP')"   label-width="80px">
+           <el-input v-model="newPswd" ></el-input>
+    </el-form-item>
+    
+  </el-form>
+  <div slot="footer" class="dialog-footer">
+    <el-button @click="passwordLayer = false">取 消</el-button>
+    <el-button type="primary" @click="updatePassword">确 定</el-button>
+  </div>
+</el-dialog>
+			
+			
+			
+			
+	
+		
+		
+		
+		
+
+</div>
+	
+<script src="libs/jquery.min.js"></script>
+
+<!-- <script src="libs/jquery.slimscroll.min.js"></script>
+ --><script src="plugins/layer/layer.js"></script>
+<script src="libs/vue.min.js"></script>
+<script src="libs/aes.js"></script>
+<script src="libs/aesUtil.js"></script>
+<script src="../../plugins/element/element.js"></script>
+
+
+<!-- 语言国际化 -->
+
+<script src="plugins/vue-i18n.js"></script>
+<script src="js/lang/commen_lang.js"></script>
+<script src="js/lang/index_tab.js"></script>
+<script src="js/lang/lang.js"></script>
+
+
+<script src="js/common_ele.js"></script>
+<script src="js/index_tab.js"></script>
+</body>
+</html>

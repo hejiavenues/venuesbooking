@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.sys.dao.SysOrgMapper">
+	
+	<select id="countOrgChildren" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			sys_org
+		WHERE
+			parent_id = #{value}
+	</select>
+	
+	<select id="selectByCode" resultType="cn.cashbang.core.modules.sys.entity.SysOrgEntity">
+		SELECT
+			o.org_id,
+			o.parent_id,
+			o.org_id_path,
+			o.code,
+			o.name,
+			o.status,
+			o.order_num
+		FROM
+			sys_org o
+		WHERE
+			code = #{value}
+	</select>
+	
+	<select id="checkOrg" resultType="String">
+		
+		select 
+		case when 
+		EXISTS (
+		select * from sys_user a left join sys_org b on a.org_id=b.org_id 
+		 where  b.org_id_path like CONCAT(  (SELECT org_id_path  from sys_org  where org_id =#{value}) ,'%'))
+		or
+		EXISTS (
+		select * from sys_role a left join sys_org b on a.org_id=b.org_id 
+		 where  b.org_id_path like CONCAT(  (SELECT org_id_path  from sys_org  where org_id =#{value}) ,'%'))
+		then 'has' else 'no' end 
+		from dual 
+	</select>
+	
+	<select id="list" resultType="cn.cashbang.core.modules.sys.entity.SysOrgEntity">
+		SELECT
+			o.org_id,
+			o.parent_id,
+			o.org_id_path,
+			(
+				SELECT
+					p.name
+				FROM
+					sys_org p
+				WHERE
+					p.org_id = o.parent_id
+			) AS parentName,
+			o.code,
+			o.name,
+			o.status,
+			o.order_num
+		FROM
+			sys_org o
+		WHERE 
+			o.org_id_path LIKE concat(#{orgIdPath},'%') 
+		ORDER BY
+			o.order_num ASC
+	</select>	
+		
+	<insert id="save" parameterType="cn.cashbang.core.modules.sys.entity.SysOrgEntity" keyProperty="orgId" useGeneratedKeys="true">
+		INSERT INTO sys_org (
+			parent_id,
+			code,
+			name,		
+			order_num,
+			status,
+			gmt_create
+		)
+		VALUES (
+			#{parentId},
+			#{code},
+			#{name},
+			#{orderNum},
+			#{status},
+			NOW()
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.sys.entity.SysOrgEntity">
+		SELECT
+			o.org_id,
+			o.parent_id,
+			(
+				SELECT
+					p.name
+				FROM
+					sys_org p
+				WHERE
+					p.org_id = o.parent_id
+			) AS parentName,
+			o.code,
+			o.name,		
+			o.status,
+			o.order_num
+		FROM
+			sys_org o
+		WHERE
+			o.org_id = #{value}
+	</select>
+
+	
+	<update id="update">
+		UPDATE sys_org
+		<set> 
+			<if test="orgId != null">org_id = #{orgId}, </if>
+			<if test="code != null">code = #{code}, </if>
+			<if test="name != null">name = #{name}, </if>
+			<if test="status != null">status = #{status}, </if>			
+			<if test="orderNum != null">order_num = #{orderNum}, </if>
+			<if test="orgIdPath != null">org_id_path = #{orgIdPath}, </if>
+			gmt_modified = NOW()
+		</set>
+		where org_id = #{orgId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			sys_org
+		WHERE
+			org_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+	
+	
+		
+	<select id="selectByOnly" resultType="int">
+		SELECT
+			count(*) count
+		FROM
+			${table} 
+		WHERE
+			${col} = #{only}
+	</select>
+	
+	
+	<select id="selectCsOrgs" resultType="cn.cashbang.core.modules.sys.entity.SysOrgEntity">
+		SELECT
+			*
+		FROM
+			sys_org  
+		WHERE
+		parent_id=#{parentId}
+	</select>
+	
+</mapper>

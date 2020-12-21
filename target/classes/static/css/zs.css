@@ -1,0 +1,36 @@
+[v-cloak] {display: none;}
+   .row{
+	background:#fff;
+	}
+	.fixed-table-container tbody td .th-inner, .fixed-table-container thead th .th-inner {
+	    line-height: 24px;
+	    vertical-align: top;
+	    text-overflow: ellipsis;
+	    white-space: nowrap;
+	    padding: 2px;
+	    overflow: hidden;
+	     font-weight:500 ;  
+	    color:#337ab7;
+	}
+	
+	.fixed-table-pagination{
+	height:50px;
+	font-size:12px;
+	}
+		
+/* 	.fixed-table-pagination .pagination-detail, .fixed-table-pagination div.pagination {
+    margin-top: 2px;
+    margin-bottom: 2px;
+	}	 */
+	.fixed-table-container .bs-checkbox .th-inner {
+		    padding: 0px 0px;
+	}
+	
+	
+.zsresf{
+
+	position: fixed;left:96%; overflow-x: hidden; z-index: 999;background:#fff0;
+       height: 35px;top: 0%; width:4%;
+
+}
+

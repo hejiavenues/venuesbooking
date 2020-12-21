@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>世祥贷后管理</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+   <link rel="stylesheet" href="plugins/layui-v2.4.3/layui/css/layui.css">
+<style type="text/css">
+html {
+     margin:0 auto;
+   	 padding:0;
+     height: 100%;
+}
+body {
+    margin:0 auto;
+    padding:0;
+    height: 100%;
+}
+</style>
+</head>
+<body>
+
+<!-- 主界面 -->
+   <div  style=" height:92%;width:100%; padding: 0;overflow: hidden;min-height:94%; background: #fff;" class="tabc" id="main" >
+       <iframe  frameborder="0" width="100%" height="100%"  src="app/main.html" ></iframe>
+   </div>
+   
+   <div  style=" height:92%;width:100%; padding: 0;overflow: hidden;min-height:94%; background: #fff;display:none" class="tabc" id="td2">
+       <iframe  frameborder="0" width="100%" height="100%"  src="app/list_approve.html"  ></iframe>
+   </div>
+   
+   <button class="layui-btn layui-btn-fluid  " style="background:#2F4056" onclick="showMenu()" ><i class="layui-icon layui-icon-template-1" ></i>更多</button>
+   
+	<div  class="layui-row  layui-anim layui-anim-up" id="menu"
+	 style=" position: fixed; left:0%;bottom: 0;right: 0px; display:none;overflow-x: hidden; z-index: 999; background:rgba(238, 238, 238, 0.88);   top: 0%;  bottom: 0%; ">
+	 <div class="layui-col-xs12"  style="padding:20px;">
+   		<i class="layui-icon  layui-icon-close" style="color:#009688;" onclick="hideMenu()">&nbsp&nbsp取消</i>
+    </div>
+ <div class="layui-row layui-col-space10" style="margin-top:30%" >
+ 
+    <div class="layui-col-xs12"  style="padding:20px;">
+    <button class="layui-btn layui-btn-fluid"  style="height:60px" onclick="get('td2')"><i class="layui-icon layui-icon-auz" >&nbsp&nbsp二级审批</i></button>
+    </div>
+      <div class="layui-col-xs12" style="padding:20px;">
+    <button class="layui-btn layui-btn-fluid"  style="height:60px" onclick="get('main')"><i class="layui-icon layui-icon-chart-screen" >&nbsp&nbsp数据展示</i></button>
+    </div>
+    <div class="layui-col-xs12" style="padding:20px;">
+    	<button class="layui-btn layui-btn-fluid layui-btn-danger "  style="height:50px" onclick="layout_app()"><i class="layui-icon layui-icon-close-fill"></i>退出</button>
+    </div>
+    </div>
+   </div>
+	
+	
+	<script src="libs/jquery.min.js"></script>
+	<script src="libs/vue.min.js"></script>
+	<script src="plugins/layer/layer.js"></script>
+	<script src="js/common_app.js"></script>
+	<script src="js/index_tab_app.js"></script> 
+	<script type="text/javascript">
+	function showMenu(){
+		$("#menu").show();
+	}
+	function hideMenu(){
+		$("#menu").hide();
+	}
+	
+	function get(id){
+		$(".tabc").hide();
+		hideMenu();
+		console.log(id);
+		$("#"+id).show();
+	}
+	
+	function layout_app(){
+	    layer.open({
+	        title: '系统提示',
+	        area: '338px',
+	        icon: 3,
+	        anim: -1,
+	        isOutAnim: false,
+	        move: false,
+	        content: '注：您确定要安全退出本次登录吗？',
+	        btn: ['确定', '取消'],
+	        btnAlign: 'c',
+	        yes: function () {
+	            dialogLoading(true);
+	            setTimeout(function() {
+	                $.ajax({
+	                    type: "POST",
+	                    url: "sys/logout",
+	                    dataType: "json",
+	                    success: function(r){
+	                        localStorage.removeItem("token");
+	                        toUrl('login_app.html');
+	                    }
+	                });
+	            }, 500);
+	        }
+	    });
+	}
+</script>
+</body>
+</html>

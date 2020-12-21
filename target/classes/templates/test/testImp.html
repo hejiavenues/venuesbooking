@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_css::header('接口测试')"></head>
+<body>
+<div class="panel-heading">接口测试</div>
+<div id="cashbangLTE" class="container-fluid" v-cloak>
+	<a  class="btn btn-default" @click="save"><i class="fa fa-plus"></i>选择服务</a>
+	<table class="form" id="form">
+		<tr>
+			<td class="formTitle">服务名称<span>*</span></td>
+			<td class="formValue">
+				<input type="text" class="form-control" v-model="riskProductService.serviceName"  isvalid="yes" checkexpession="NotNull" readonly/>
+				<input type="hidden" class="form-control" v-model="riskProductService.serviceCode" id="serviceCode" value="111111"/>
+			</td>
+		</tr>
+		<tr>
+			<td class="formTitle formTitle-top">样例</td>
+			<td class="formValue">
+				<textarea class="form-control" rows="6" v-model="riskProductService.outputResult" placeholder="样例" readonly></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="formTitle formTitle-top" style="text-align: right">
+				<button type="button" class="btn btn-primary btn-sm" @click="getRiskFormatList">获取样例</button>
+			</td>
+			<td class="formTitle formTitle-top" >
+				<button type="button" class="btn btn-primary btn-sm" @click="isIndex=!isIndex">{{isIndex?"isIndex":"noIndex"}}</button>
+			</td>
+		</tr>
+		<tr>
+			<td class="formTitle formTitle-top">输入<span>*</span></td>
+			<td class="formValue">
+				<textarea class="form-control" rows="6" placeholder="输入" v-model="riskProductService.inputText"
+						  id="inputText"></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="formTitle formTitle-top" style="text-align: right">
+				<button type="button" class="btn btn-primary btn-sm" @click="getRiskServiceResult">测试</button>
+			</td>
+		</tr>
+		<tr v-if="riskProductService.sdsMap!=null">
+			<td class="formTitle formTitle-top">index</td>
+			<td class="formValue">
+				<textarea class="form-control" rows="20" placeholder="输出"
+						  v-model="riskProductService.sdsMap" readonly></textarea>
+			</td>
+		</tr>
+		<tr>
+			<td class="formTitle formTitle-top">输出</td>
+			<td class="formValue">
+				<textarea class="form-control" rows="20" placeholder="输出"
+						  v-model="riskProductService.testReusult" readonly></textarea>
+			</td>
+		</tr>
+	</table>
+</div>
+
+<div th:include="include/footer_js::footer"></div>
+<script th:src="@{/js/riskinfo/proserv/serviceList.js}"></script>
+</body>
+</html>
