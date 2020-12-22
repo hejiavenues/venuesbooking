@@ -109,7 +109,7 @@ application-properties:
         companyCreditCode: 91110105MA00D3LQ2R #第一受益人信用代码
         
     quartz:
-        autoStartup: true      
+        autoStartup: false      
         
        
 
@@ -125,25 +125,25 @@ spring:
         virtual-host: /sxcs_test
         exchange: sxcs
         concurrentConsumers: 1
-        consumerStartup: true
-        producerStartup: true
+        consumerStartup: false
+        producerStartup: false
     # 数据源
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
         druid:
             masterDataSource:  #主库数据源
-              url: jdbc:mysql://47.95.214.155:3307/loan_assist?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-              username: dev
-              password: dev_123
+              url: jdbc:mysql://182.92.148.30:3306/venuesbooking?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: root
+              password: g2q8PDCwzPmTlg9uWpPkzD5kw15Dk+XdAQYg4H7E7To0FymA6EHzXsjnVpjZjHaX
             slaveDataSourceRead:  #从库数据源读
-              url: jdbc:mysql://47.95.214.155:3307/loan_assist?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-              username: dev
-              password: dev_123
+              url: jdbc:mysql://182.92.148.30:3306/venuesbooking?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: root
+              password: g2q8PDCwzPmTlg9uWpPkzD5kw15Dk+XdAQYg4H7E7To0FymA6EHzXsjnVpjZjHaX
             slaveDataSourceWrite:  #从库数据源写
-              url: jdbc:mysql://47.95.214.155:3307/loan_assist?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-              username: dev
-              password: dev_123
+              url: jdbc:mysql://182.92.148.30:3306/venuesbooking?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: root
+              password: g2q8PDCwzPmTlg9uWpPkzD5kw15Dk+XdAQYg4H7E7To0FymA6EHzXsjnVpjZjHaX
             initial-size: 1
             max-active: 100
             min-idle: 1
@@ -171,10 +171,10 @@ spring:
                         multi-statement-allow: true
     redis:
         open: true  # 是否开启redis缓存  true开启   false关闭
-        database: 9
-        host: 47.95.214.155
+        database: 1
+        host: 182.92.148.30
         port: 6379
-        password: cashbang_test123
+        password: 123456
         timeout: 6000  # 连接超时时长（毫秒）
         pool:
             max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）

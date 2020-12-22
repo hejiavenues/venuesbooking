@@ -25,12 +25,12 @@ import cn.cashbang.core.common.utils.IpUtils;
 import cn.cashbang.core.common.utils.MD5Utils;
 import cn.cashbang.core.common.utils.ShiroUtils;
 import cn.cashbang.core.common.utils.SpringContextUtils;
-import cn.cashbang.core.modules.loanassist.rsa.RSAEncrypt;
 import cn.cashbang.core.modules.sys.dao.SysWhiteIpMapper;
 import cn.cashbang.core.modules.sys.entity.SysUserEntity;
 import cn.cashbang.core.modules.sys.entity.SysWhiteIpEntity;
 import cn.cashbang.core.modules.sys.oauth2.TokenGenerator;
 import cn.cashbang.core.modules.sys.service.SysUserService;
+import cn.cashbang.core.modules.venuesbook.rsa.RSAEncrypt;
 
 /**
  * 用户controller

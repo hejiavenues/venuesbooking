@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BVenueInfoMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity">
+		SELECT
+			`venue_id`, 
+			`venue_name`, 
+			`max_people`, 
+			`address`, 
+			`committee_id`, 
+			`support_active_type`, 
+			`icon_url`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_venue_info
+		ORDER BY
+			venue_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_venue_info (
+			`venue_id`, 
+			`venue_name`, 
+			`max_people`, 
+			`address`, 
+			`committee_id`, 
+			`support_active_type`, 
+			`icon_url`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{venueId}, 
+			#{venueName}, 
+			#{maxPeople}, 
+			#{address}, 
+			#{committeeId}, 
+			#{supportActiveType}, 
+			#{iconUrl}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity">
+		SELECT
+			`venue_id`, 
+			`venue_name`, 
+			`max_people`, 
+			`address`, 
+			`committee_id`, 
+			`support_active_type`, 
+			`icon_url`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_venue_info
+		WHERE
+			venue_id = #{venueId}
+	</select>
+	
+	<update id="update">
+		UPDATE b_venue_info
+	 	<set>
+			<if test="venueName != null">`venue_name` = #{venueName}, </if>
+			<if test="maxPeople != null">`max_people` = #{maxPeople}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="committeeId != null">`committee_id` = #{committeeId}, </if>
+			<if test="supportActiveType != null">`support_active_type` = #{supportActiveType}, </if>
+			<if test="iconUrl != null">`icon_url` = #{iconUrl}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			venue_id = #{venueId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_venue_info
+		WHERE
+			venue_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

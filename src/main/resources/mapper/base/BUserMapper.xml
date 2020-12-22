@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BUserMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BUserEntity">
+		SELECT
+			`uid`, 
+			`uname`, 
+			`sex`, 
+			`birthday`, 
+			`mobile`, 
+			`committee_id`, 
+			`user_role`, 
+			`user_age`, 
+			`password`, 
+			`status`, 
+			`icon_url`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_user
+		ORDER BY
+			uid DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_user (
+			`uid`, 
+			`uname`, 
+			`sex`, 
+			`birthday`, 
+			`mobile`, 
+			`committee_id`, 
+			`user_role`, 
+			`user_age`, 
+			`password`, 
+			`status`, 
+			`icon_url`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{uid}, 
+			#{uname}, 
+			#{sex}, 
+			#{birthday}, 
+			#{mobile}, 
+			#{committeeId}, 
+			#{userRole}, 
+			#{userAge}, 
+			#{password}, 
+			#{status}, 
+			#{iconUrl}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BUserEntity">
+		SELECT
+			`uid`, 
+			`uname`, 
+			`sex`, 
+			`birthday`, 
+			`mobile`, 
+			`committee_id`, 
+			`user_role`, 
+			`user_age`, 
+			`password`, 
+			`status`, 
+			`icon_url`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_user
+		WHERE
+			uid = #{uid}
+	</select>
+	
+	<update id="update">
+		UPDATE b_user
+	 	<set>
+			<if test="uname != null">`uname` = #{uname}, </if>
+			<if test="sex != null">`sex` = #{sex}, </if>
+			<if test="birthday != null">`birthday` = #{birthday}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="committeeId != null">`committee_id` = #{committeeId}, </if>
+			<if test="userRole != null">`user_role` = #{userRole}, </if>
+			<if test="userAge != null">`user_age` = #{userAge}, </if>
+			<if test="password != null">`password` = #{password}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="iconUrl != null">`icon_url` = #{iconUrl}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			uid = #{uid}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_user
+		WHERE
+			uid IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

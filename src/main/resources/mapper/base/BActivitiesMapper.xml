@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BActivitiesMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity">
+		SELECT
+			`activity_id`, 
+			`venue_id`, 
+			`uid`, 
+			`activity_id_name`, 
+			`activity_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`activity_icon_url`, 
+			`status`, 
+			`activity_time`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_activities
+		ORDER BY
+			activity_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_activities (
+			`activity_id`, 
+			`venue_id`, 
+			`uid`, 
+			`activity_id_name`, 
+			`activity_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`activity_icon_url`, 
+			`status`, 
+			`activity_time`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{activityId}, 
+			#{venueId}, 
+			#{uid}, 
+			#{activityIdName}, 
+			#{activityCount}, 
+			#{activityType}, 
+			#{activityContent}, 
+			#{activityIconUrl}, 
+			#{status}, 
+			#{activityTime}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity">
+		SELECT
+			`activity_id`, 
+			`venue_id`, 
+			`uid`, 
+			`activity_id_name`, 
+			`activity_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`activity_icon_url`, 
+			`status`, 
+			`activity_time`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_activities
+		WHERE
+			activity_id = #{activityId}
+	</select>
+	
+	<update id="update">
+		UPDATE b_activities
+	 	<set>
+			<if test="venueId != null">`venue_id` = #{venueId}, </if>
+			<if test="uid != null">`uid` = #{uid}, </if>
+			<if test="activityIdName != null">`activity_id_name` = #{activityIdName}, </if>
+			<if test="activityCount != null">`activity_count` = #{activityCount}, </if>
+			<if test="activityType != null">`activity_type` = #{activityType}, </if>
+			<if test="activityContent != null">`activity_content` = #{activityContent}, </if>
+			<if test="activityIconUrl != null">`activity_icon_url` = #{activityIconUrl}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="activityTime != null">`activity_time` = #{activityTime}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			activity_id = #{activityId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_activities
+		WHERE
+			activity_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

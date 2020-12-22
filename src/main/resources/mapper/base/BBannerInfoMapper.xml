@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BBannerInfoMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BBannerInfoEntity">
+		SELECT
+			`bid`, 
+			`banner_desc`, 
+			`banner_img_url`, 
+			`banner_jump_url`, 
+			`sortid`, 
+			`isuse`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_banner_info
+		ORDER BY
+			bid DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_banner_info (
+			`bid`, 
+			`banner_desc`, 
+			`banner_img_url`, 
+			`banner_jump_url`, 
+			`sortid`, 
+			`isuse`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{bid}, 
+			#{bannerDesc}, 
+			#{bannerImgUrl}, 
+			#{bannerJumpUrl}, 
+			#{sortid}, 
+			#{isuse}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BBannerInfoEntity">
+		SELECT
+			`bid`, 
+			`banner_desc`, 
+			`banner_img_url`, 
+			`banner_jump_url`, 
+			`sortid`, 
+			`isuse`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_banner_info
+		WHERE
+			bid = #{bid}
+	</select>
+	
+	<update id="update">
+		UPDATE b_banner_info
+	 	<set>
+			<if test="bannerDesc != null">`banner_desc` = #{bannerDesc}, </if>
+			<if test="bannerImgUrl != null">`banner_img_url` = #{bannerImgUrl}, </if>
+			<if test="bannerJumpUrl != null">`banner_jump_url` = #{bannerJumpUrl}, </if>
+			<if test="sortid != null">`sortid` = #{sortid}, </if>
+			<if test="isuse != null">`isuse` = #{isuse}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			bid = #{bid}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_banner_info
+		WHERE
+			bid IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

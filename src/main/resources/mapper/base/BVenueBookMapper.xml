@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BVenueBookMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
+		SELECT
+			`id`, 
+			`user_id`, 
+			`venue_id`, 
+			`book_date`, 
+			`book_time`, 
+			`book_status`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_venue_book
+		ORDER BY
+			id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_venue_book (
+			`id`, 
+			`user_id`, 
+			`venue_id`, 
+			`book_date`, 
+			`book_time`, 
+			`book_status`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{id}, 
+			#{userId}, 
+			#{venueId}, 
+			#{bookDate}, 
+			#{bookTime}, 
+			#{bookStatus}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
+		SELECT
+			`id`, 
+			`user_id`, 
+			`venue_id`, 
+			`book_date`, 
+			`book_time`, 
+			`book_status`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_venue_book
+		WHERE
+			id = #{id}
+	</select>
+	
+	<update id="update">
+		UPDATE b_venue_book
+	 	<set>
+			<if test="userId != null">`user_id` = #{userId}, </if>
+			<if test="venueId != null">`venue_id` = #{venueId}, </if>
+			<if test="bookDate != null">`book_date` = #{bookDate}, </if>
+			<if test="bookTime != null">`book_time` = #{bookTime}, </if>
+			<if test="bookStatus != null">`book_status` = #{bookStatus}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_venue_book
+		WHERE
+			id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

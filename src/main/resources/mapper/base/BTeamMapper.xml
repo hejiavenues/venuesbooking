@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BTeamMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BTeamEntity">
+		SELECT
+			`tid`, 
+			`uid`, 
+			`tname`, 
+			`people_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`enter_condition`, 
+			`status`, 
+			`dead_line`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_team
+		ORDER BY
+			tid DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_team (
+			`tid`, 
+			`uid`, 
+			`tname`, 
+			`people_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`enter_condition`, 
+			`status`, 
+			`dead_line`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{tid}, 
+			#{uid}, 
+			#{tname}, 
+			#{peopleCount}, 
+			#{activityType}, 
+			#{activityContent}, 
+			#{enterCondition}, 
+			#{status}, 
+			#{deadLine}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BTeamEntity">
+		SELECT
+			`tid`, 
+			`uid`, 
+			`tname`, 
+			`people_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`enter_condition`, 
+			`status`, 
+			`dead_line`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_team
+		WHERE
+			tid = #{tid}
+	</select>
+	
+	<update id="update">
+		UPDATE b_team
+	 	<set>
+			<if test="uid != null">`uid` = #{uid}, </if>
+			<if test="tname != null">`tname` = #{tname}, </if>
+			<if test="peopleCount != null">`people_count` = #{peopleCount}, </if>
+			<if test="activityType != null">`activity_type` = #{activityType}, </if>
+			<if test="activityContent != null">`activity_content` = #{activityContent}, </if>
+			<if test="enterCondition != null">`enter_condition` = #{enterCondition}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="deadLine != null">`dead_line` = #{deadLine}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			tid = #{tid}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_team
+		WHERE
+			tid IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
