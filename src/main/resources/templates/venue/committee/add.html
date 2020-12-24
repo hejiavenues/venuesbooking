@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('居委会信息表')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="bCommittees" size=" small"  status-icon :rules="rules" ref="ruleForm" label-position="left" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+				<br><br><br>
+			 <el-form-item label="居委会名称" prop="cname">
+			    <el-input style="width:14em" v-model="bCommittees.cname"></el-input>
+			  </el-form-item>
+			 <el-form-item label="联系方式" prop="connectMobile">
+			    <el-input style="width:14em" v-model="bCommittees.connectMobile"></el-input>
+			  </el-form-item>
+			 <el-form-item label="负责人" prop="connectPerson">
+			    <el-input style="width:10em" v-model="bCommittees.connectPerson"></el-input>
+			  </el-form-item>
+			 <el-form-item label="地址" prop="address">
+			    <el-input style="width:20em" v-model="bCommittees.address"></el-input>
+			  </el-form-item>
+			 <!-- <el-form-item label="创建时间" prop="createTime">
+			    <el-input v-model="bCommittees.createTime"></el-input>
+			  </el-form-item>
+			 <el-form-item label="修改时间" prop="updateTime">
+			    <el-input v-model="bCommittees.updateTime"></el-input>
+			  </el-form-item> -->
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/venue/committee/add.js}"></script>
+</body>
+</html>

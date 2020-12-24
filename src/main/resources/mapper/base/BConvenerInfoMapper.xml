@@ -5,17 +5,31 @@
 	
 	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BConvenerInfoEntity">
 		SELECT
-			`uid`, 
-			`activity_id`, 
-			`idcard_front_url`, 
-			`idcard_back_url`, 
-			`status`, 
-			`create_time`, 
-			`update_time`
+			bci.`uid`, 
+			(select bu.uname from b_user bu where bu.uid = bci.uid) as uname,
+			(select bu.mobile from b_user bu where bu.uid = bci.uid) as mobile,
+			(select bc.cname from b_user bu,b_committees bc where bu.uid = bci.uid and bc.cid = bu.committee_id) as committeeName,
+			bci.`activity_id`, 
+			bci.`idcard_front_url`, 
+			bci.`idcard_back_url`, 
+			bci.`status`, 
+			bci.`create_time`, 
+			bci.`update_time`
 		FROM
-			b_convener_info
+			b_convener_info bci
+			<where>
+			<if test="queryName != null and queryName != ''">
+				and	exists (select 1 from b_user bu1 where bu1.`uid` = bci.`uid` and bu1.uname like concat('%',#{queryName},'%')) 
+			</if>
+			<if test="queryMobile != null and queryMobile != ''">
+				and	exists (select 1 from b_user bu1 where bu1.`uid` = bci.`uid` and bu1.mobile like concat('%',#{queryMobile},'%')) 
+			</if>
+			<if test="queryStatus != null and queryStatus != ''">
+				and	bci.`status` = #{queryStatus} 
+			</if>
+			</where>
 		ORDER BY
-			uid DESC
+			bci.uid DESC
 	</select>
 	
 	<insert id="save">

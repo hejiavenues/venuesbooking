@@ -26,6 +26,10 @@ public class BPhotoInfoEntity implements Serializable {
 	 * 用户id
 	 */
 	private String uid;
+	/**
+	 * 用户id
+	 */
+	private String uname;
 	
 	/**
 	 * 内容
@@ -36,16 +40,28 @@ public class BPhotoInfoEntity implements Serializable {
 	 * 图片地址逗号隔开
 	 */
 	private String pitureUrls;
+	/**
+	 * 图片地址逗号隔开
+	 */
+	private String[] arraypitureUrl = new String[8];
 	
 	/**
 	 * 社区id
 	 */
 	private String committeeId;
+	/**
+	 * 社区名称
+	 */
+	private String committeeName;
 	
 	/**
 	 * 状态 1.正常 2.删除
 	 */
 	private Integer status;
+	/**
+	 * 状态 1.正常 2.删除
+	 */
+	private String statusDesc;
 	
 	/**
 	 * 创建时间
@@ -124,6 +140,38 @@ public class BPhotoInfoEntity implements Serializable {
 	
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public String getUname() {
+		return uname;
+	}
+
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+
+	public String[] getArraypitureUrl() {
+		return arraypitureUrl;
+	}
+
+	public void setArraypitureUrl(String[] arraypitureUrl) {
+		this.arraypitureUrl = arraypitureUrl;
+	}
+
+	public String getCommitteeName() {
+		return committeeName;
+	}
+
+	public void setCommitteeName(String committeeName) {
+		this.committeeName = committeeName;
+	}
+
+	public String getStatusDesc() {
+		return statusDesc;
+	}
+
+	public void setStatusDesc(String statusDesc) {
+		this.statusDesc = statusDesc;
 	}
 	
 }

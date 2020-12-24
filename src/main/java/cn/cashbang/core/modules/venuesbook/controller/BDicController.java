@@ -38,6 +38,16 @@ public class BDicController extends AbstractController {
 	public Page<BDicEntity> list(@RequestBody Map<String, Object> params) {
 		return bDicService.listBDic(params);
 	}
+	
+	/**
+	 * 列表
+	 * @param params
+	 * @return
+	 */
+	@RequestMapping("/listhdlx")
+	public Page<BDicEntity> listActivityTypeForPage(@RequestBody Map<String, Object> params) {
+		return bDicService.listActivityTypeForPage(params);
+	}
 		
 	/**
 	 * 新增
@@ -48,6 +58,17 @@ public class BDicController extends AbstractController {
 	@RequestMapping("/save")
 	public Result save(@RequestBody BDicEntity bDic) {
 		return bDicService.saveBDic(bDic);
+	}
+	
+	/**
+	 * 新增
+	 * @param bDic
+	 * @return
+	 */
+	@SysLog("新增字典表")
+	@RequestMapping("/savehdlx")
+	public Result savehdlx(@RequestBody BDicEntity bDic) {
+		return bDicService.savehdlx(bDic);
 	}
 	
 	/**
@@ -69,6 +90,11 @@ public class BDicController extends AbstractController {
 	@RequestMapping("/update")
 	public Result update(@RequestBody BDicEntity bDic) {
 		return bDicService.updateBDic(bDic);
+	}
+	
+	@RequestMapping("/updatehdlx")
+	public Result updatehdlx(@RequestBody BDicEntity bDic) {
+		return bDicService.updatehdlx(bDic);
 	}
 	
 	/**

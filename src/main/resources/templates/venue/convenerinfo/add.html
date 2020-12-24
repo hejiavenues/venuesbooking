@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('召集人信息表')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="bConvenerInfo" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+			 <el-form-item label="召集人活动类型" prop="activityId">
+			    <el-input v-model="bConvenerInfo.activityId"></el-input>
+			  </el-form-item>
+			 <el-form-item label="身份证正面url" prop="idcardFrontUrl">
+			    <el-input v-model="bConvenerInfo.idcardFrontUrl"></el-input>
+			  </el-form-item>
+			 <el-form-item label="身份证反面url" prop="idcardBackUrl">
+			    <el-input v-model="bConvenerInfo.idcardBackUrl"></el-input>
+			  </el-form-item>
+			 <el-form-item label="状态 0.审核中 1.审核通过 2.审核拒绝" prop="status">
+			    <el-input v-model="bConvenerInfo.status"></el-input>
+			  </el-form-item>
+			 <el-form-item label="创建时间" prop="createTime">
+			    <el-input v-model="bConvenerInfo.createTime"></el-input>
+			  </el-form-item>
+			 <el-form-item label="更新时间" prop="updateTime">
+			    <el-input v-model="bConvenerInfo.updateTime"></el-input>
+			  </el-form-item>
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/venue/convenerinfo/add.js}"></script>
+</body>
+</html>

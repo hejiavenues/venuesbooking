@@ -47,6 +47,16 @@ public class BDicEntity implements Serializable {
 	 */
 	private Integer status;
 	
+	/**
+	 * 创建时间
+	 */
+	private Date createTime;
+	
+	/**
+	 * 更新时间
+	 */
+	private Date updateTime;
+	
 
 	public BDicEntity() {
 		super();
@@ -98,6 +108,22 @@ public class BDicEntity implements Serializable {
 	
 	public Integer getStatus() {
 		return status;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
 	}
 	
 }

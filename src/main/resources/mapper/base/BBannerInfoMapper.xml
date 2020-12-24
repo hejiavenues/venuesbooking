@@ -15,8 +15,13 @@
 			`update_time`
 		FROM
 			b_banner_info
+			<where>
+			<if test="keyword != null and keyword != ''">
+				and	banner_desc like concat('%',#{keyword},'%')
+			</if>
+			</where>
 		ORDER BY
-			bid DESC
+			sortid DESC,update_time desc
 	</select>
 	
 	<insert id="save">

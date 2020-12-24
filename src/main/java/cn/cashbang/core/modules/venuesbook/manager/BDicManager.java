@@ -25,5 +25,17 @@ public interface BDicManager {
 	int updateBDic(BDicEntity bDic);
 	
 	int batchRemove(Long[] id);
+
+	BDicEntity getBActivityDicByCode(String id);
+
+	List<BDicEntity> listActivityTypeForPage(Page<BDicEntity> page, Query search);
+
+	int savehdlx(BDicEntity role);
+
+	int getMaxId();
+
+	BDicEntity getBDicByCode(String id);
+
+	int updatehdlx(BDicEntity bDic);
 	
 }

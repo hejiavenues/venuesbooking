@@ -24,6 +24,6 @@ public interface BPhotoInfoManager {
 	
 	int updateBPhotoInfo(BPhotoInfoEntity bPhotoInfo);
 	
-	int batchRemove(Long[] id);
+	int batchRemove(String[] id);
 	
 }

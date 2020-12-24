@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,6 +50,9 @@ public class BConvenerInfoServiceImpl implements BConvenerInfoService {
 
 	@Override
 	public Result updateBConvenerInfo(BConvenerInfoEntity bConvenerInfo) {
+		if(bConvenerInfo != null) {
+			bConvenerInfo.setUpdateTime(new Date());
+		}
 		int count = bConvenerInfoManager.updateBConvenerInfo(bConvenerInfo);
 		return CommonUtils.msg(count);
 	}

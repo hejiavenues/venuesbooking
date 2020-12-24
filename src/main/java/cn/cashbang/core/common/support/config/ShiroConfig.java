@@ -78,7 +78,6 @@ public class ShiroConfig {
         filterMap.put("/", "anon");
         filterMap.put("/sxcs/orderOverDueInfo/import.do", "anon");
         filterMap.put("/venuesbook/activities/list", "anon");
-        filterMap.put("/common/*", "anon");
         filterMap.put("/picture/**", "anon");
         filterMap.put("/**", "oauth2");
 

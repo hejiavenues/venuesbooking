@@ -20,10 +20,10 @@ public interface BBannerInfoManager {
 	
 	int saveBBannerInfo(BBannerInfoEntity bBannerInfo);
 	
-	BBannerInfoEntity getBBannerInfoById(Long id);
+	BBannerInfoEntity getBBannerInfoById(String id);
 	
 	int updateBBannerInfo(BBannerInfoEntity bBannerInfo);
 	
-	int batchRemove(Long[] id);
+	int batchRemove(String[] id);
 	
 }

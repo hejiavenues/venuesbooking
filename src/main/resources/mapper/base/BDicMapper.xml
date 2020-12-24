@@ -17,6 +17,37 @@
 			id DESC
 	</select>
 	
+	<select id="listActivityTypeForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BDicEntity">
+		SELECT
+			`id`, 
+			`code`, 
+			`name`, 
+			`typecode`, 
+			`typename`, 
+			`status`,
+			`create_time`,
+			`update_time`
+		FROM
+			b_dic 
+			<where>
+			<if test="1==1">
+				and	typecode = 'activityType' 
+			</if>
+			<if test="keyword != null and keyword != ''">
+				and	`name` like concat('%',#{keyword},'%')
+			</if>
+			</where>
+		ORDER BY
+			id DESC
+	</select>
+	
+	<select id="getMaxId" resultType="java.lang.Integer">
+		SELECT
+			max(`id`) 
+		FROM
+			b_dic 
+	</select>
+	
 	<insert id="save">
 		INSERT INTO b_dic (
 			`id`, 
@@ -36,6 +67,29 @@
 		)
 	</insert>
 	
+	<insert id="savehdlx">
+		INSERT INTO b_dic (
+			`id`, 
+			`code`, 
+			`name`, 
+			`typecode`, 
+			`typename`, 
+			`status`,
+			`create_time`,
+			`update_time`
+		)
+		VALUES (
+			#{id}, 
+			#{code}, 
+			#{name}, 
+			'activityType', 
+			'活动类型', 
+			#{status},
+			#{createTime},
+			#{updateTime}
+		)
+	</insert>
+	
 	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BDicEntity">
 		SELECT
 			`id`, 
@@ -50,7 +104,48 @@
 			id = #{id}
 	</select>
 	
+	<select id="getBActivityDicByCode" resultType="cn.cashbang.core.modules.venuesbook.entity.BDicEntity">
+		SELECT
+			`id`, 
+			`code`, 
+			`name`, 
+			`typecode`, 
+			`typename`, 
+			`status`
+		FROM
+			b_dic
+		WHERE
+			`typecode` = 'activityType' and `code` = #{id}
+	</select>
+	
+	<select id="getBDicByCode" resultType="cn.cashbang.core.modules.venuesbook.entity.BDicEntity">
+		SELECT
+			`id`, 
+			`code`, 
+			`name`, 
+			`typecode`, 
+			`typename`, 
+			`status`
+		FROM
+			b_dic
+		WHERE
+			`code` = #{id} 
+	</select>
+	
 	<update id="update">
+		UPDATE b_dic
+	 	<set>
+			<if test="code != null">`code` = #{code}, </if>
+			<if test="name != null">`name` = #{name}, </if>
+			<if test="typecode != null">`typecode` = #{typecode}, </if>
+			<if test="typename != null">`typename` = #{typename}, </if>
+			<if test="status != null">`status` = #{status}</if>
+		</set>
+		WHERE
+			id = #{id}
+	</update>
+	
+	<update id="updatehdlx">
 		UPDATE b_dic
 	 	<set>
 			<if test="code != null">`code` = #{code}, </if>

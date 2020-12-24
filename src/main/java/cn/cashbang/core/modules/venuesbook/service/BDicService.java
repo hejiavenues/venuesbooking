@@ -25,5 +25,13 @@ public interface BDicService {
 	Result updateBDic(BDicEntity bDic);
 	
 	Result batchRemove(Long[] id);
+
+	Result getBActivityDicByCode(String id);
+
+	Page<BDicEntity> listActivityTypeForPage(Map<String, Object> params);
+
+	Result savehdlx(BDicEntity bDic);
+
+	Result updatehdlx(BDicEntity bDic);
 	
 }

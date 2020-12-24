@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
+import java.util.Date;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,39 @@ public class BDicServiceImpl implements BDicService {
 		bDicManager.listBDic(page, query);
 		return page;
 	}
+	
+	@Override
+	public Page<BDicEntity> listActivityTypeForPage(Map<String, Object> params) {
+		Query query = new Query(params);
+		Page<BDicEntity> page = new Page<>(query);
+		bDicManager.listActivityTypeForPage(page, query);
+		return page;
+	}
 
 	@Override
 	public Result saveBDic(BDicEntity role) {
 		int count = bDicManager.saveBDic(role);
 		return CommonUtils.msg(count);
+	}
+	
+	@Override
+	public Result savehdlx(BDicEntity role) {
+		BDicEntity old = bDicManager.getBActivityDicByCode(role.getCode());
+		if(old != null) {
+			return Result.error("该码值已存在");
+		}
+		int maxid = bDicManager.getMaxId();
+		role.setId(maxid + 1);
+		role.setCreateTime(new Date());
+		role.setUpdateTime(new Date());
+		int count = bDicManager.savehdlx(role);
+		return CommonUtils.msg(count);
+	}
+	
+	@Override
+	public Result getBActivityDicByCode(String id) {
+		BDicEntity bDic = bDicManager.getBActivityDicByCode(id);
+		return CommonUtils.msg(bDic);
 	}
 
 	@Override
@@ -50,6 +79,12 @@ public class BDicServiceImpl implements BDicService {
 	@Override
 	public Result updateBDic(BDicEntity bDic) {
 		int count = bDicManager.updateBDic(bDic);
+		return CommonUtils.msg(count);
+	}
+	
+	@Override
+	public Result updatehdlx(BDicEntity bDic) {
+		int count = bDicManager.updatehdlx(bDic);
 		return CommonUtils.msg(count);
 	}
 

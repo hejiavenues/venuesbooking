@@ -30,10 +30,20 @@ public class BDicManagerImpl implements BDicManager {
 	public List<BDicEntity> listBDic(Page<BDicEntity> page, Query search) {
 		return bDicMapper.listForPage(page, search);
 	}
+	
+	@Override
+	public List<BDicEntity> listActivityTypeForPage(Page<BDicEntity> page, Query search) {
+		return bDicMapper.listActivityTypeForPage(page, search);
+	}
 
 	@Override
 	public int saveBDic(BDicEntity bDic) {
 		return bDicMapper.save(bDic);
+	}
+	
+	@Override
+	public int savehdlx(BDicEntity bDic) {
+		return bDicMapper.savehdlx(bDic);
 	}
 
 	@Override
@@ -41,16 +51,38 @@ public class BDicManagerImpl implements BDicManager {
 		BDicEntity bDic = bDicMapper.getObjectById(id);
 		return bDic;
 	}
+	
+	@Override
+	public int getMaxId() {
+		return bDicMapper.getMaxId();
+	}
 
 	@Override
 	public int updateBDic(BDicEntity bDic) {
 		return bDicMapper.update(bDic);
+	}
+	
+	@Override
+	public int updatehdlx(BDicEntity bDic) {
+		return bDicMapper.updatehdlx(bDic);
 	}
 
 	@Override
 	public int batchRemove(Long[] id) {
 		int count = bDicMapper.batchRemove(id);
 		return count;
+	}
+
+	@Override
+	public BDicEntity getBActivityDicByCode(String id) {
+		BDicEntity bDic = bDicMapper.getBActivityDicByCode(id);
+		return bDic;
+	}
+	
+	@Override
+	public BDicEntity getBDicByCode(String id) {
+		BDicEntity bDic = bDicMapper.getBDicByCode(id);
+		return bDic;
 	}
 	
 }

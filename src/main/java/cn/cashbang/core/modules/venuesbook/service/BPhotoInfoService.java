@@ -24,6 +24,6 @@ public interface BPhotoInfoService {
 	
 	Result updateBPhotoInfo(BPhotoInfoEntity bPhotoInfo);
 	
-	Result batchRemove(Long[] id);
+	Result batchRemove(String[] id);
 	
 }

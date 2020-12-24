@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BCommitteesMapper">
+	
+	<!-- <select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommitteesEntity">
+		SELECT
+			`cid`, 
+			`cname`, 
+			`connect_mobile`, 
+			`connect_person`, 
+			`address`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_committees
+			<where>
+			<if test="sendOrg != null and sendOrg != ''">
+				and	send_org = #{sendOrg}
+			</if>
+			<if test="idcode != null and idcode != ''">
+				and	idcode like concat('%',#{idcode},'%') 
+			</if>
+			<if test="name != null and name != ''">
+				and	`name` like concat('%',#{name},'%') 
+			</if>
+			<if test="mobile != null and mobile != ''">
+				and	mobile like concat('%',#{mobile},'%')
+			</if>
+			<if test="productType != null and productType != ''">
+				and	product_type = #{productType}
+			</if>
+			<if test="levelType != null and levelType != ''">
+				and	level_type = #{levelType}
+			</if>
+			<if test="dueDateStart != null and dueDateStart != ''">
+				and	due_date >= #{dueDateStart}
+			</if>
+			<if test="dueDateEnd != null and dueDateEnd != ''">
+				and	due_date  &lt; DATE_ADD(#{dueDateEnd},INTERVAL 1 DAY)
+			</if>
+		</where>
+		
+		ORDER BY
+			cid DESC
+	</select> -->
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommitteesEntity">
+		SELECT
+			`cid`, 
+			`cname`, 
+			`connect_mobile`, 
+			`connect_person`, 
+			`address`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_committees
+			<where>
+			<if test="keyword != null and keyword != ''">
+				and	cname like concat('%',#{keyword},'%')
+			</if>
+		</where>
+		ORDER BY
+			update_time DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_committees (
+			`cid`, 
+			`cname`, 
+			`connect_mobile`, 
+			`connect_person`, 
+			`address`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{cid}, 
+			#{cname}, 
+			#{connectMobile}, 
+			#{connectPerson}, 
+			#{address}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommitteesEntity">
+		SELECT
+			`cid`, 
+			`cname`, 
+			`connect_mobile`, 
+			`connect_person`, 
+			`address`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_committees
+		WHERE
+			cid = #{cid}
+	</select>
+	
+	<select id="getCommitteeByName" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommitteesEntity">
+		SELECT
+			`cid`, 
+			`cname`, 
+			`connect_mobile`, 
+			`connect_person`, 
+			`address`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_committees
+		WHERE
+			cname = #{cname}
+	</select>
+	
+	<update id="update">
+		UPDATE b_committees
+	 	<set>
+			<if test="cname != null">`cname` = #{cname}, </if>
+			<if test="connectMobile != null">`connect_mobile` = #{connectMobile}, </if>
+			<if test="connectPerson != null">`connect_person` = #{connectPerson}, </if>
+			<if test="address != null">`address` = #{address}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			cid = #{cid}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_committees
+		WHERE
+			cid IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>

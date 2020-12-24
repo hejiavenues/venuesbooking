@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('随拍信息表')"></head>
+<style>
+body ,html{
+  background:#eee;
+}
+
+.el-form-item {
+    margin-bottom: 10px;
+}
+
+</style>
+<body>
+<div id="zsvm"  v-cloak>
+
+  <el-card class="box-card"> 
+  
+  <!-- 搜索 -->
+<!--    <el-collapse v-model="activeNames">
+     <el-collapse-item title="" name="1" > -->
+     
+	   <el-form ref="form"  :inline="true" label-width="80px" size="mini"><!-- 搜索框 -->
+		 <el-form-item label="" >
+		        <el-input v-model="param.queryName" placeholder="发布人姓名" @keyup.enter.native="load(0,0)"></el-input>
+		  </el-form-item>
+		 <el-form-item label="" >
+		        <el-input v-model="param.queryContent" placeholder="包含内容" @keyup.enter.native="load(0,0)"></el-input>
+		  </el-form-item>
+		  <el-form-item label="" >
+		    <el-select v-model="param.queryStatus" placeholder="随拍状态"  style="width:150px;">
+				<el-option label="正常" value="1"></el-option>
+				<el-option label="已删除" value=2></el-option>
+		    </el-select>
+		  </el-form-item>
+		 <el-form-item>
+		  <el-button onclick="reload();"   icon="el-icon-refresh"   ></el-button>
+		  <el-button  icon="el-icon-search"   @click="load(1,10)" ></el-button>
+		  <!-- <el-button type="warning" v-if="true||hasPermission('venuesbook:photoinfo:save')"    @click="save"  icon="el-icon-plus"></el-button> -->
+		</el-form-item>
+		
+		</el-form>
+<!-- 	 </el-collapse-item>
+	</el-collapse> -->
+	
+	<!-- table -->
+    <el-table :data="table.data" border  style="width: 100%"   :height="$(window).height()*0.7" highlight-current-row size="small" @selection-change="selectCases" >
+       <el-table-column   type="index"  width="50" label="序号"></el-table-column>
+       <!-- <el-table-column type="selection"  width="40"> </el-table-column> --> <!-- 选择框 -->
+       
+       <el-table-column
+                prop="picture"
+                header-align="center"
+                align="center"
+                width="180px"
+                label="图一">
+            <template slot-scope="scope">
+                <el-popover
+                        placement="right"
+                        title=""
+                        trigger="hover">
+                    <img :src="scope.row.arraypitureUrl[0]"/>
+                    <img slot="reference" :src="scope.row.arraypitureUrl[0]" :alt="scope.row.arraypitureUrl[0]" style="max-height: 33px;max-width: 130px">
+                </el-popover>
+            </template>
+        </el-table-column>
+       <el-table-column
+                prop="picture"
+                header-align="center"
+                align="center"
+                width="180px"
+                label="图二">
+            <template slot-scope="scope">
+                <el-popover
+                        placement="right"
+                        title=""
+                        trigger="hover">
+                    <img :src="scope.row.arraypitureUrl[1]"/>
+                    <img slot="reference" :src="scope.row.arraypitureUrl[1]" :alt="scope.row.arraypitureUrl[1]" style="max-height: 33px;max-width: 130px">
+                </el-popover>
+            </template>
+        </el-table-column>
+       <el-table-column
+                prop="picture"
+                header-align="center"
+                align="center"
+                width="180px"
+                label="图三">
+            <template slot-scope="scope">
+                <el-popover
+                        placement="right"
+                        title=""
+                        trigger="hover">
+                    <img :src="scope.row.arraypitureUrl[2]"/>
+                    <img slot="reference" :src="scope.row.arraypitureUrl[2]" :alt="scope.row.arraypitureUrl[2]" style="max-height: 33px;max-width: 130px">
+                </el-popover>
+            </template>
+        </el-table-column>
+       <el-table-column
+                prop="picture"
+                header-align="center"
+                align="center"
+                width="180px"
+                label="图四">
+            <template slot-scope="scope">
+                <el-popover
+                        placement="right"
+                        title=""
+                        trigger="hover">
+                    <img :src="scope.row.arraypitureUrl[3]"/>
+                    <img slot="reference" :src="scope.row.arraypitureUrl[3]" :alt="scope.row.arraypitureUrl[3]" style="max-height: 33px;max-width: 130px">
+                </el-popover>
+            </template>
+        </el-table-column>
+      
+      <el-table-column  :label="col.title"      :width="col.width"  v-for="col in table.col"    >
+	       <template slot-scope="scope"  >
+	       		<div v-if="col.formatter==undefined"> {{scope.row[col.field]}}</div>
+	       		<div v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='string'"> 
+	       			{{col.formatter(scope.row[col.field],scope.row)}}
+	       	   </div>
+	       	    <div v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='object'"> 
+	       			 <el-tag :type="col.formatter(scope.row[col.field],scope.row).type"   effect="dark" style="width:100%" >
+	       				{{col.formatter(scope.row[col.field],scope.row).value}}
+	       			</el-tag>
+	       	   </div>
+	      </template>
+       </el-table-column>
+       
+      	<el-table-column   label="随拍状态" type="text" width="100">
+            <template   slot-scope="scope" >
+                <div v-html="scope.row.statusDesc" v-if="scope.row.statusDesc == '正常'" style="color:#00CC00"></div>
+                <div v-html="scope.row.statusDesc" v-else="scope.row.statusDesc == '已删除'" style="color: #CC0000"></div>
+            </template>
+        </el-table-column>
+      
+    <el-table-column   label="操作"  fixed="right"  width="200">
+              <template scope="scope" >
+              		<el-button :plain="true" type="danger" size="mini" @click="remove(scope.row)"
+                  				v-if="scope.row.statusDesc == '正常'"  >删除</el-button>
+                    <el-button :plain="true" type="danger" size="mini" @click="remove(scope.row)"
+                             v-if="scope.row.statusDesc == '已删除'"  disabled>删除</el-button>
+              </template>
+              
+         </el-table-column>
+    </el-table>
+	 <div class="block"> <!-- 页码 -->
+    <el-pagination
+      @size-change="handleSizeChange"  @current-change="handleCurrentChange" :current-page.sync="table.sync"
+      :page-sizes="table.pagesizes"  :page-size="table.pagesize"  layout="total, sizes, prev, pager, next, jumper"  :total="table.total">
+    </el-pagination>
+  </div>
+  </el-card>
+</div>
+
+<div th:include="include/footer_element::footer"></div>
+<script th:src="@{/js/venue/photoinfo/list.js}"></script>
+
+</body>
+</html>

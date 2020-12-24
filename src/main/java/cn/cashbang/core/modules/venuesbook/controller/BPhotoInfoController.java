@@ -78,7 +78,7 @@ public class BPhotoInfoController extends AbstractController {
 	 */
 	@SysLog("删除随拍信息表")
 	@RequestMapping("/remove")
-	public Result batchRemove(@RequestBody Long[] id) {
+	public Result batchRemove(@RequestBody String[] id) {
 		return bPhotoInfoService.batchRemove(id);
 	}
 	

@@ -5,18 +5,31 @@
 	
 	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity">
 		SELECT
-			`pid`, 
-			`uid`, 
-			`content`, 
-			`piture_urls`, 
-			`committee_id`, 
-			`status`, 
-			`create_time`, 
-			`update_time`
+			bp.`pid`, 
+			bp.`uid`, 
+			(select `uname` from b_user u where u.`uid` = bp.`uid` ) as uname,
+			bp.`content`, 
+			bp.`piture_urls`, 
+			bp.`committee_id`, 
+			(select cname from b_committees bc where bc.`cid` = bp.`committee_id`) as committeeName,
+			bp.`status`, 
+			bp.`create_time`, 
+			bp.`update_time`
 		FROM
-			b_photo_info
+			b_photo_info bp
+		  <where>
+			<if test="queryName != null and queryName != ''">
+				and	exists (select 1 from b_user bu1 where bu1.`uid` = bp.`uid` and bu1.uname like concat('%',#{queryName},'%')) 
+			</if>
+			<if test="queryContent != null and queryContent != ''">
+				and	bp.`content` like concat('%',#{queryContent},'%')
+			</if>
+			<if test="queryStatus != null and queryStatus != ''">
+				and	bp.`status` = #{queryStatus} 
+			</if>
+			</where>
 		ORDER BY
-			pid DESC
+			bp.create_time DESC
 	</select>
 	
 	<insert id="save">
@@ -74,9 +87,9 @@
 	</update>
 	
 	<delete id="batchRemove">
-		DELETE
-		FROM
+		 UPDATE 
 			b_photo_info
+			SET status = 2 
 		WHERE
 			pid IN
 		<foreach item="id" collection="array" open="(" separator="," close=")">

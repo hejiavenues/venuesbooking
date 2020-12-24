@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.alibaba.druid.util.StringUtils;
+
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.modules.venuesbook.dao.BPhotoInfoMapper;
@@ -28,7 +30,24 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 
 	@Override
 	public List<BPhotoInfoEntity> listBPhotoInfo(Page<BPhotoInfoEntity> page, Query search) {
-		return bPhotoInfoMapper.listForPage(page, search);
+		List<BPhotoInfoEntity> lists = bPhotoInfoMapper.listForPage(page, search);
+		for(BPhotoInfoEntity bPhotoInfoEntity:lists) {
+			if(!StringUtils.isEmpty(bPhotoInfoEntity.getPitureUrls())) {
+				String [] arrs = bPhotoInfoEntity.getPitureUrls().split(",");
+				String[] origin = bPhotoInfoEntity.getArraypitureUrl();
+				for(int i=0;i<arrs.length;i++) {
+					origin[i] = arrs[i];
+				}
+				bPhotoInfoEntity.setArraypitureUrl(origin);
+			}
+			if(bPhotoInfoEntity.getStatus().intValue() == 1) {
+				bPhotoInfoEntity.setStatusDesc("正常");
+			}
+			if(bPhotoInfoEntity.getStatus().intValue() == 2) {
+				bPhotoInfoEntity.setStatusDesc("已删除");
+			}
+		}
+		return lists;
 	}
 
 	@Override
@@ -48,7 +67,7 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 	}
 
 	@Override
-	public int batchRemove(Long[] id) {
+	public int batchRemove(String[] id) {
 		int count = bPhotoInfoMapper.batchRemove(id);
 		return count;
 	}

@@ -28,7 +28,19 @@ public class BConvenerInfoManagerImpl implements BConvenerInfoManager {
 
 	@Override
 	public List<BConvenerInfoEntity> listBConvenerInfo(Page<BConvenerInfoEntity> page, Query search) {
-		return bConvenerInfoMapper.listForPage(page, search);
+		List<BConvenerInfoEntity> lists = bConvenerInfoMapper.listForPage(page, search);
+		for(BConvenerInfoEntity entity:lists) {
+			if(entity.getStatus().intValue() == 0) {
+				entity.setStatusDesc("待审核");
+			}else if(entity.getStatus().intValue() == 1) {
+				entity.setStatusDesc("已通过");
+			}else if(entity.getStatus().intValue() == 2) {
+				entity.setStatusDesc("已拒绝");
+			}else {
+				entity.setStatusDesc("未知");
+			}
+		}
+		return lists;
 	}
 
 	@Override

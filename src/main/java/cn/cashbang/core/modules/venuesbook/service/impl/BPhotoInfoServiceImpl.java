@@ -54,7 +54,7 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 	}
 
 	@Override
-	public Result batchRemove(Long[] id) {
+	public Result batchRemove(String[] id) {
 		int count = bPhotoInfoManager.batchRemove(id);
 		return CommonUtils.msg(id, count);
 	}

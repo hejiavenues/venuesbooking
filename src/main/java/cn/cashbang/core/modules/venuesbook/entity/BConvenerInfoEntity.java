@@ -21,6 +21,18 @@ public class BConvenerInfoEntity implements Serializable {
 	 * 
 	 */
 	private String uid;
+	/**
+	 * 
+	 */
+	private String uname;
+	/**
+	 * 
+	 */
+	private String mobile;
+	/**
+	 * 
+	 */
+	private String committeeName;
 	
 	/**
 	 * 召集人活动类型
@@ -41,6 +53,8 @@ public class BConvenerInfoEntity implements Serializable {
 	 * 状态 0.审核中 1.审核通过 2.审核拒绝
 	 */
 	private Integer status;
+	
+	private String statusDesc;
 	
 	/**
 	 * 创建时间
@@ -111,6 +125,38 @@ public class BConvenerInfoEntity implements Serializable {
 	
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public String getUname() {
+		return uname;
+	}
+
+	public void setUname(String uname) {
+		this.uname = uname;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
+	}
+
+	public String getCommitteeName() {
+		return committeeName;
+	}
+
+	public void setCommitteeName(String committeeName) {
+		this.committeeName = committeeName;
+	}
+
+	public String getStatusDesc() {
+		return statusDesc;
+	}
+
+	public void setStatusDesc(String statusDesc) {
+		this.statusDesc = statusDesc;
 	}
 	
 }

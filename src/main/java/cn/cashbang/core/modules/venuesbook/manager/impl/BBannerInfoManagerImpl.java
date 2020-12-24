@@ -37,7 +37,7 @@ public class BBannerInfoManagerImpl implements BBannerInfoManager {
 	}
 
 	@Override
-	public BBannerInfoEntity getBBannerInfoById(Long id) {
+	public BBannerInfoEntity getBBannerInfoById(String id) {
 		BBannerInfoEntity bBannerInfo = bBannerInfoMapper.getObjectById(id);
 		return bBannerInfo;
 	}
@@ -48,7 +48,7 @@ public class BBannerInfoManagerImpl implements BBannerInfoManager {
 	}
 
 	@Override
-	public int batchRemove(Long[] id) {
+	public int batchRemove(String[] id) {
 		int count = bBannerInfoMapper.batchRemove(id);
 		return count;
 	}
