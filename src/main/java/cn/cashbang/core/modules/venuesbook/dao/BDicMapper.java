@@ -33,5 +33,9 @@ public interface BDicMapper extends BaseMapper<BDicEntity> {
 	BDicEntity getBDicByCode(String id);
 
 	int updatehdlx(BDicEntity bDic);
+
+	List<BDicEntity> getDicsByCode(String typeCode);
+
+	void deleteByTypeCode(String typeCode);
 	
 }

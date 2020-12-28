@@ -59,4 +59,4 @@ mybatis:
     #file: /opt/app/log/cashbang-risk-management/manage.log
 
 logback:
-    file: /opt/app/log/loanassist-api/
+    file: /opt/app/log/venuesbook-api/

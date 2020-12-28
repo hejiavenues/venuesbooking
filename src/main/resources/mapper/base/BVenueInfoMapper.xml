@@ -5,17 +5,27 @@
 	
 	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity">
 		SELECT
-			`venue_id`, 
-			`venue_name`, 
-			`max_people`, 
-			`address`, 
-			`committee_id`, 
-			`support_active_type`, 
-			`icon_url`, 
-			`create_time`, 
-			`update_time`
+			bvi.`venue_id`, 
+			bvi.`venue_name`, 
+			bvi.`max_people`, 
+			bvi.`address`, 
+			bvi.`describtion`, 
+			bvi.`committee_id`, 
+			(select cname from b_committees bc where bc.cid = bvi.committee_id) as committeeName,
+			bvi.`support_active_type`, 
+			bvi.`icon_url`, 
+			bvi.`create_time`, 
+			bvi.`update_time`
 		FROM
-			b_venue_info
+			b_venue_info bvi
+			<where>
+			<if test="queryCGName != null and queryCGName != ''">
+				and	bvi.venue_name like concat('%',#{queryCGName},'%') 
+			</if>
+			<if test="queryJWHName != null and queryJWHName != ''">
+				and	exists (select 1 from b_committees bc where bc.`cid` = bvi.`committee_id` and bc.cname like concat('%',#{queryJWHName},'%')) 
+			</if>
+			</where>
 		ORDER BY
 			venue_id DESC
 	</select>
@@ -26,6 +36,7 @@
 			`venue_name`, 
 			`max_people`, 
 			`address`, 
+			`describtion`, 
 			`committee_id`, 
 			`support_active_type`, 
 			`icon_url`, 
@@ -37,6 +48,7 @@
 			#{venueName}, 
 			#{maxPeople}, 
 			#{address}, 
+			#{describtion}, 
 			#{committeeId}, 
 			#{supportActiveType}, 
 			#{iconUrl}, 
@@ -51,6 +63,7 @@
 			`venue_name`, 
 			`max_people`, 
 			`address`, 
+			`describtion`, 
 			`committee_id`, 
 			`support_active_type`, 
 			`icon_url`, 
@@ -68,6 +81,7 @@
 			<if test="venueName != null">`venue_name` = #{venueName}, </if>
 			<if test="maxPeople != null">`max_people` = #{maxPeople}, </if>
 			<if test="address != null">`address` = #{address}, </if>
+			<if test="describtion != null">`describtion` = #{describtion}, </if>
 			<if test="committeeId != null">`committee_id` = #{committeeId}, </if>
 			<if test="supportActiveType != null">`support_active_type` = #{supportActiveType}, </if>
 			<if test="iconUrl != null">`icon_url` = #{iconUrl}, </if>

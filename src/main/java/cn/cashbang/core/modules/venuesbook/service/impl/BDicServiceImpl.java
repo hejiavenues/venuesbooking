@@ -1,6 +1,7 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -74,6 +75,12 @@ public class BDicServiceImpl implements BDicService {
 	public Result getBDicById(Long id) {
 		BDicEntity bDic = bDicManager.getBDicById(id);
 		return CommonUtils.msg(bDic);
+	}
+	
+	@Override
+	public Result getDicsByCode(String typeCode) {
+		List<BDicEntity> bDics = bDicManager.getDicsByCode(typeCode);
+		return Result.ok().put("bDics", bDics);
 	}
 
 	@Override

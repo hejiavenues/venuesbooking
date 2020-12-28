@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('场馆信息表')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+.el-tag + .el-tag {
+    margin-left: 10px;
+}
+.button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+}
+</style>
+<style>
+.redItem {
+	color: red;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="bVenueInfo" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+
+		<br>
+		<el-form-item label="说明：" calss="redItem">该设置作用于初始化所有场馆未来所有日期的禁用时段，如在此设置后，又单独在某个场馆删除了该时间段，则后续需灵活配置该场馆禁用日期及时段
+		</el-form-item>
+		<el-form-item label="时间段" prop="bVenueInfo.times">
+			    <el-select v-model="bVenueInfo.times" placeholder="请选择" style="width:14em" filterable @change="selectChanged">
+				    <el-option v-for="u in avaTimes " :label="u.name" :value="u.name"></el-option>
+				 </el-select>
+		</el-form-item>
+		<el-form-item label="已选时段" prop="dynamicTags11111" width="100px">
+			    <el-tag
+  				:key="tag"
+  				v-for="tag in dynamicTags11111"
+  				closable
+  				:disable-transitions="false"
+  				@close="handleClose(tag)">
+  				{{tag}}
+			</el-tag>
+
+			<el-input
+  				class="input-new-tag"
+  				v-if="inputVisible"
+  				v-model="inputValue"
+  				ref="saveTagInput"
+  				size="small"
+  				@keyup.enter.native="handleInputConfirm"
+  				@blur="handleInputConfirm"
+				></el-input>
+			<!-- <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
+		</el-form-item>
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/venue/venueinfo/editAllTime.js}"></script>
+</body>
+</html>

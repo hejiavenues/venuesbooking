@@ -5,6 +5,6 @@ Implementation-Title: cashbang-backstage
 Implementation-Version: 0.0.1-SNAPSHOT
 Implementation-Vendor-Id: cn.cashbang.core
 Implementation-Vendor: Pivotal Software, Inc.
-Implementation-URL: http://projects.spring.io/spring-boot/loanassist/
+Implementation-URL: http://projects.spring.io/spring-boot/venuesbook/
 Created-By: Maven Integration for Eclipse
 

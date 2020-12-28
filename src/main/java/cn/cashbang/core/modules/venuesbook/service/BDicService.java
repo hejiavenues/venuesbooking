@@ -33,5 +33,7 @@ public interface BDicService {
 	Result savehdlx(BDicEntity bDic);
 
 	Result updatehdlx(BDicEntity bDic);
+
+	Result getDicsByCode(String typeCode);
 	
 }

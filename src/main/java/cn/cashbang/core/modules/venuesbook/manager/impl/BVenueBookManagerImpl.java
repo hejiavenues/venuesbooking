@@ -52,5 +52,15 @@ public class BVenueBookManagerImpl implements BVenueBookManager {
 		int count = bVenueBookMapper.batchRemove(id);
 		return count;
 	}
+
+	@Override
+	public int deleteByVenueId(String venueId) {
+		return bVenueBookMapper.deleteByVenueId(venueId);
+	}
+
+	@Override
+	public List<BVenueBookEntity> getVenueBookById(String venueId) {
+		return bVenueBookMapper.getVenueBookById(venueId);
+	}
 	
 }

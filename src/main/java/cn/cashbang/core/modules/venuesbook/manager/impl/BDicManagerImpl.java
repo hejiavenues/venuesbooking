@@ -84,5 +84,15 @@ public class BDicManagerImpl implements BDicManager {
 		BDicEntity bDic = bDicMapper.getBDicByCode(id);
 		return bDic;
 	}
+
+	@Override
+	public List<BDicEntity> getDicsByCode(String typeCode) {
+		return bDicMapper.getDicsByCode(typeCode);
+	}
+
+	@Override
+	public void deleteByTypeCode(String typeCode) {
+		bDicMapper.deleteByTypeCode(typeCode);
+	}
 	
 }

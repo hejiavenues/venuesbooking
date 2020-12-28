@@ -37,7 +37,7 @@ public class BVenueInfoManagerImpl implements BVenueInfoManager {
 	}
 
 	@Override
-	public BVenueInfoEntity getBVenueInfoById(Long id) {
+	public BVenueInfoEntity getBVenueInfoById(String id) {
 		BVenueInfoEntity bVenueInfo = bVenueInfoMapper.getObjectById(id);
 		return bVenueInfo;
 	}
@@ -48,7 +48,7 @@ public class BVenueInfoManagerImpl implements BVenueInfoManager {
 	}
 
 	@Override
-	public int batchRemove(Long[] id) {
+	public int batchRemove(String[] id) {
 		int count = bVenueInfoMapper.batchRemove(id);
 		return count;
 	}

@@ -81,6 +81,11 @@ public class BDicController extends AbstractController {
 		return bDicService.getBDicById(id);
 	}
 	
+	@RequestMapping("/getDicsByCode")
+	public Result getDicsByCode(String typeCode) {
+		return bDicService.getDicsByCode(typeCode);
+	}
+	
 	/**
 	 * 修改
 	 * @param bDic

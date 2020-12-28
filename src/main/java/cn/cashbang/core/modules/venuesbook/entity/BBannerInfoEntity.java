@@ -37,6 +37,8 @@ public class BBannerInfoEntity implements Serializable {
 	 */
 	private String bannerJumpUrl;
 	
+	private int bizztype;
+	
 	/**
 	 * banner排序id
 	 */
@@ -124,6 +126,14 @@ public class BBannerInfoEntity implements Serializable {
 	
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public int getBizztype() {
+		return bizztype;
+	}
+
+	public void setBizztype(int bizztype) {
+		this.bizztype = bizztype;
 	}
 	
 }

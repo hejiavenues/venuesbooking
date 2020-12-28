@@ -1,5 +1,5 @@
 /**
- * banner图表js
+ * 场馆信息表js
  */
 
 var vm = new Vue({
@@ -14,18 +14,15 @@ var vm = new Vue({
 		},
 		table:{//表格数据
 			  "col":[
-					/*{field : "bid", title : "主键", width : ""}, */
-					{field : "bannerDesc", title : "banner图描述", width : ""}, 
-					/*{field : "bannerImgUrl", title : "图片", width : "150px",align: 'center',
-						formatter: function(value,row,index){
-                    	return '<img style="height:100px;width:150px" src='+value+'>';
-                		}
-					}, */
-					{field : "bizztype", title : "类型", width : ""}, 
-					{field : "sortid", title : "排序(大值优先轮播)", width : ""}, 
-					{field : "isuse", title : "禁用启用", width : ""}, 
-					{field : "createTime", title : "创建时间", width : "145px"}, 
-					{field : "updateTime", title : "更新时间", width : "145px"}
+					{field : "venueName", title : "场馆名称", width : "150px"}, 
+					{field : "maxPeople", title : "最大容纳人数", width : "100px"}, 
+					{field : "address", title : "场馆地址", width : "200px"}, 
+					{field : "describtion", title : "场馆简介", width : "200px"}, 
+					{field : "committeeName", title : "所属居委会", width : "150px"}, 
+					/*{field : "supportActiveType", title : "支持的活动类型", width : ""}, 
+					{field : "iconUrl", title : "图片地址", width : ""}, 
+					{field : "createTime", title : "创建时间", width : ""}, 
+					{field : "updateTime", title : "修改时间", width : ""}*/
 			  ],
 			  "pagesizes":[1,10, 20, 30, 100],//size选择器
 			  "pagesize ":10,
@@ -56,34 +53,19 @@ var vm = new Vue({
 				this.param.pageSize=size;
 			}
 			zs_post({
-				url: '../../venuesbook/banner/list?_' + $.now(),
+				url: '../../venuesbook/venueinfo/list?_' + $.now(),
 				param:th.param,
 				success:function(r){
 					console.log(r);
-					for(var i=0;i<r.rows.length;i++){
-						if(r.rows[i].isuse == 0){
-                        r.rows[i].isuse = '禁用';
-						}
-                    	else if(r.rows[i].isuse == 1){
-                        r.rows[i].isuse = '启用';
-                    	}
-						if(r.rows[i].bizztype == 1){
-                        r.rows[i].bizztype = '首页';
-						}
-                    	else if(r.rows[i].bizztype == 2){
-                        r.rows[i].bizztype = '随拍';
-                    	}
-					}
-					
 					th.table.data=r.rows;
 					th.table.total=r.total;
 				}
-			});
+			})
 		},
 		save: function() {
 			dialogOpen({
-				title: '新增轮播图',
-				url: 'venue/banner/add.html?_' + $.now(),
+				title: '新增场馆',
+				url: 'venue/venueinfo/add.html?_' + $.now(),
 				width: '40%',
 				height: '80%',
 				success: function(iframeId){
@@ -97,12 +79,12 @@ var vm = new Vue({
 			var ck =[row];
 			if(checkedRow(ck)){
 				dialogOpen({
-					title: '编辑轮播图',
-					url: 'venue/banner/edit.html?_' + $.now(),
+					title: '编辑场馆',
+					url: 'venue/venueinfo/edit.html?_' + $.now(),
 					width: '40%',
 					height: '80%',
 					success: function(iframeId){
-						top.frames[iframeId].vm.bBannerInfo.bid = ck[0].bid;
+						top.frames[iframeId].vm.bVenueInfo.venueId = ck[0].venueId;
 						top.frames[iframeId].vm.setForm();
 					},
 					yes: function(iframeId){
@@ -111,14 +93,47 @@ var vm = new Vue({
 				});
 			}
 		},
+		editTime: function(row) {
+			var ck =[row];
+			if(checkedRow(ck)){
+				dialogOpen({
+					title: '编辑场馆禁用时段',
+					url: 'venue/venueinfo/editTime.html?_' + $.now(),
+					width: '30%',
+					height: '80%',
+					success: function(iframeId){
+						top.frames[iframeId].vm.bVenueInfo.venueId = ck[0].venueId;
+						/*top.frames[iframeId].vm.setForm();*/
+						top.frames[iframeId].vm.getDynamicTags(ck[0].venueId);
+					},
+					yes: function(iframeId){
+						top.frames[iframeId].vm.acceptClick();
+					}
+				});
+			}
+		},
+		editAllTime: function() {
+			dialogOpen({
+					title: '编辑所有场馆禁用时段',
+					url: 'venue/venueinfo/editAllTime.html?_' + $.now(),
+					width: '30%',
+					height: '65%',
+					success: function(iframeId){
+						top.frames[iframeId].vm.getDynamicTags();
+					},
+					yes: function(iframeId){
+						top.frames[iframeId].vm.acceptClick();
+					}
+				});
+		},
 		remove: function(row) {
 			var ck = [row], ids = [];	
 			if(checkedArray(ck)){
 				$.each(ck, function(idx, item){
-					ids[idx] = item.bid;
+					ids[idx] = item.venueId;
 				});
 				$.RemoveForm({
-					url: '../../venuesbook/banner/remove?_' + $.now(),
+					url: '../../venuesbook/venueinfo/remove?_' + $.now(),
 			    	param: ids,
 			    	success: function(data) {
 			    		vm.load();

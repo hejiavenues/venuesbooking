@@ -37,6 +37,8 @@ public class BBannerInfoDto implements Serializable {
 	 */
 	private String bannerJumpUrl;
 	
+	private int bizztype;
+	
 	/**
 	 * banner排序id
 	 */
@@ -98,6 +100,14 @@ public class BBannerInfoDto implements Serializable {
 	
 	public Integer getIsuse() {
 		return isuse;
+	}
+
+	public int getBizztype() {
+		return bizztype;
+	}
+
+	public void setBizztype(int bizztype) {
+		this.bizztype = bizztype;
 	}
 	
 }

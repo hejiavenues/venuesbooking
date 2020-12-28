@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('场馆信息表')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="bVenueInfo" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+<br><br>
+			 <el-form-item label="场馆名称" prop="venueName">
+			    <el-input style="width:14em" v-model="bVenueInfo.venueName"></el-input>
+			  </el-form-item>
+			 <el-form-item label="容纳人数" prop="maxPeople">
+			    <el-input onkeyup="value=value.replace(/[^\d]/g,'')" style="width:8em" v-model="bVenueInfo.maxPeople"></el-input>
+			  </el-form-item>
+			 <el-form-item label="场馆地址" prop="address">
+			    <el-input style="width:30em" v-model="bVenueInfo.address"></el-input>
+			  </el-form-item>
+			 <el-form-item label="场馆简介" prop="describtion">
+			    <el-input style="width:30em" v-model="bVenueInfo.describtion" type="textarea"></el-input>
+			  </el-form-item>
+			  <el-form-item label="居委会" prop="committeeId">
+			    <el-select v-model="bVenueInfo.committeeId" placeholder="请选择" style="width:100%" filterable>
+				    <el-option v-for="u in committees " :label="u.cname" :value="u.cid"></el-option>
+				 </el-select>
+			  </el-form-item>
+			 <!-- <el-form-item label="图片地址" prop="iconUrl">
+			    <el-input v-model="bVenueInfo.iconUrl"></el-input>
+			  </el-form-item> -->
+			  <el-form-item label="图片："  prop="iconUrl">
+					<el-upload
+						class="avatar-uploader"
+						action="/common/upload.do"
+						:show-file-list="false"
+						:on-success="handleAvatarSuccess"
+						:before-upload="beforeAvatarUpload">
+						<img v-if="imageUrl" :src="imageUrl" class="avatar">
+					<i v-else class="el-icon-plus avatar-uploader-icon"></i>
+					<div slot="tip" class="el-upload__tip">仅支持jpg、png格式的图片</div>
+					</el-upload>
+			</el-form-item>
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/venue/venueinfo/add.js}"></script>
+	<script th:src="@{/js/compress.js}"></script>
+	<link th:href="@{../../css/image-avatar.css}" rel="stylesheet"/>
+</body>
+</html>

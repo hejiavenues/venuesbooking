@@ -2,8 +2,11 @@ package cn.cashbang.core.modules.venuesbook.service;
 
 import java.util.Map;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
+import cn.cashbang.core.modules.venuesbook.entity.BUpdateVenueTime;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
 
 /**
@@ -18,12 +21,18 @@ public interface BVenueInfoService {
 
 	Page<BVenueInfoEntity> listBVenueInfo(Map<String, Object> params);
 	
-	Result saveBVenueInfo(BVenueInfoEntity bVenueInfo);
+	Result saveBVenueInfo(MultipartFile imgFile,BVenueInfoEntity bVenueInfo);
 	
-	Result getBVenueInfoById(Long id);
+	Result getBVenueInfoById(String id);
 	
-	Result updateBVenueInfo(BVenueInfoEntity bVenueInfo);
+	Result updateBVenueInfo(MultipartFile imgFile,BVenueInfoEntity bVenueInfo);
 	
-	Result batchRemove(Long[] id);
+	Result batchRemove(String[] id);
+
+	Result updateUnableTime(BUpdateVenueTime bVenueInfo);
+
+	Result getDynamicTags(String venueId);
+
+	Result updateAllUnableTime(BUpdateVenueTime bVenueInfo);
 	
 }

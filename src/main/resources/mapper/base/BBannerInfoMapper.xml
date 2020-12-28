@@ -9,6 +9,7 @@
 			`banner_desc`, 
 			`banner_img_url`, 
 			`banner_jump_url`, 
+			`bizztype`, 
 			`sortid`, 
 			`isuse`, 
 			`create_time`, 
@@ -16,8 +17,11 @@
 		FROM
 			b_banner_info
 			<where>
-			<if test="keyword != null and keyword != ''">
-				and	banner_desc like concat('%',#{keyword},'%')
+			<if test="descs != null and descs != ''">
+				and	banner_desc like concat('%',#{descs},'%')
+			</if>
+			<if test="bizzType != null and bizzType != ''">
+				and	bizztype = #{bizzType} 
 			</if>
 			</where>
 		ORDER BY
@@ -30,6 +34,7 @@
 			`banner_desc`, 
 			`banner_img_url`, 
 			`banner_jump_url`, 
+			`bizztype`, 
 			`sortid`, 
 			`isuse`, 
 			`create_time`, 
@@ -40,6 +45,7 @@
 			#{bannerDesc}, 
 			#{bannerImgUrl}, 
 			#{bannerJumpUrl}, 
+			#{bizztype}, 
 			#{sortid}, 
 			#{isuse}, 
 			#{createTime}, 
@@ -53,6 +59,7 @@
 			`banner_desc`, 
 			`banner_img_url`, 
 			`banner_jump_url`, 
+			`bizztype`, 
 			`sortid`, 
 			`isuse`, 
 			`create_time`, 
@@ -69,6 +76,7 @@
 			<if test="bannerDesc != null">`banner_desc` = #{bannerDesc}, </if>
 			<if test="bannerImgUrl != null">`banner_img_url` = #{bannerImgUrl}, </if>
 			<if test="bannerJumpUrl != null">`banner_jump_url` = #{bannerJumpUrl}, </if>
+			<if test="bizztype != null">`bizztype` = #{bizztype}, </if>
 			<if test="sortid != null">`sortid` = #{sortid}, </if>
 			<if test="isuse != null">`isuse` = #{isuse}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>

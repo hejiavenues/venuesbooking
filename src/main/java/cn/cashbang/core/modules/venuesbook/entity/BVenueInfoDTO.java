@@ -14,7 +14,7 @@ import java.util.List;
  * @url www.daibangzhu.cn
  * @date 2020年12月22日 下午12:20:39
  */
-public class BVenueInfoEntity implements Serializable {
+public class BVenueInfoDTO implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
 	
@@ -50,10 +50,6 @@ public class BVenueInfoEntity implements Serializable {
 	 * 所属居委会id
 	 */
 	private String committeeName;
-	/**
-	 * 所属居委会id
-	 */
-	private List<BCommitteesEntity> committees;
 	
 	/**
 	 * 支持的活动类型
@@ -65,18 +61,8 @@ public class BVenueInfoEntity implements Serializable {
 	 */
 	private String iconUrl;
 	
-	/**
-	 * 创建时间
-	 */
-	private Date createTime;
-	
-	/**
-	 * 修改时间
-	 */
-	private Date updateTime;
-	
 
-	public BVenueInfoEntity() {
+	public BVenueInfoDTO() {
 		super();
 	}
 
@@ -136,30 +122,6 @@ public class BVenueInfoEntity implements Serializable {
 		return iconUrl;
 	}
 	
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
-	
-	public Date getCreateTime() {
-		return createTime;
-	}
-	
-	public void setUpdateTime(Date updateTime) {
-		this.updateTime = updateTime;
-	}
-	
-	public Date getUpdateTime() {
-		return updateTime;
-	}
-
-	public List<BCommitteesEntity> getCommittees() {
-		return committees;
-	}
-
-	public void setCommittees(List<BCommitteesEntity> committees) {
-		this.committees = committees;
-	}
-
 	public String getDescribtion() {
 		return describtion;
 	}

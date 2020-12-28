@@ -26,4 +26,8 @@ public interface BVenueBookManager {
 	
 	int batchRemove(Long[] id);
 	
+	int deleteByVenueId(String venueId);
+
+	List<BVenueBookEntity> getVenueBookById(String venueId);
+	
 }

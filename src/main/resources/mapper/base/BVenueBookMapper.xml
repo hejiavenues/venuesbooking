@@ -19,6 +19,22 @@
 			id DESC
 	</select>
 	
+	<select id="getVenueBookById" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
+		SELECT
+			`id`, 
+			`user_id`, 
+			`venue_id`, 
+			`book_date`, 
+			`book_time`, 
+			`book_status`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_venue_book where venue_id = #{venueId} 
+		ORDER BY
+			id DESC
+	</select>
+	
 	<insert id="save">
 		INSERT INTO b_venue_book (
 			`id`, 
@@ -82,6 +98,14 @@
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>
+	</delete>
+	
+	<delete id="deleteByVenueId">
+		DELETE
+		FROM
+			b_venue_book
+		WHERE
+			venue_id = #{venueId} 
 	</delete>
 
 </mapper>

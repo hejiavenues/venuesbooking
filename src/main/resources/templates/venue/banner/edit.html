@@ -12,9 +12,15 @@ html,body
   <dev id="zsvm"  style="height:100%;">
 <el-form :model="bBannerInfo" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
 padding-right:5%" >
-			 <el-form-item label="banner描述" prop="bannerDesc">
+			 <el-form-item label="轮播描述" prop="bannerDesc" label-width="150px">
 			    <el-input style="width:14em" v-model="bBannerInfo.bannerDesc"></el-input>
 			  </el-form-item>
+			  <el-form-item label="轮播类型" label-width="150px" prop="bizztype" class="divHeight-54">
+				<el-select v-model="bBannerInfo.bizztype" placeholder="请选择">
+				<el-option label="首页" value="1"></el-option>
+				<el-option label="随拍" value="2"></el-option>
+				</el-select>
+			 </el-form-item>
 			 <!-- <el-form-item label="banner图链接url" prop="bannerImgUrl">
 			    <el-input v-model="bBannerInfo.bannerImgUrl"></el-input>
 			  </el-form-item> -->
@@ -30,10 +36,10 @@ padding-right:5%" >
 					<div slot="tip" class="el-upload__tip">仅支持jpg、png格式的图片</div>
 					</el-upload>
 			</el-form-item>
-			 <el-form-item label="排序号" prop="sortid">
+			 <el-form-item label="排序号" prop="sortid" label-width="150px">
 			    <el-input style="width:8em" v-model="bBannerInfo.sortid"></el-input>
 			  </el-form-item>
-			 <el-form-item label="启用禁用" prop="isuse" class="divHeight-54">
+			 <el-form-item label="启用禁用" label-width="150px" prop="isuse" class="divHeight-54">
 				<el-select v-model="bBannerInfo.isuse" placeholder="请选择">
 				<el-option label="启用" value="1"></el-option>
 				<el-option label="禁用" value="0"></el-option>

@@ -1,104 +1,259 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta charset="utf-8">
-		<meta name="renderer" content="webkit">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge">
-		<meta name="viewport" content="width=device-width,initial-scale=1.0">
-		<title>世祥贷后管理系统</title>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>管理平台</title>
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<link href="css/login/default.css" rel="stylesheet" type="text/css">
+<!--必要样式-->
+<link href="css/login/styles.css" rel="stylesheet" type="text/css">
+<link href="css/login/demo.css" rel="stylesheet" type="text/css">
 
-		<link href="css/newLogin/index.css" rel="stylesheet" type="text/css">
-	</head>
-	<body>
-		<div id="login">
-			<div class="login-box">
-				<img class="loginImg" src="images/newLogin/bj@1x.png" />
-				<div class="loginDiv">
-					<h1></h1>
-					<form  class="el-form">
-						<div  class="el-form-item is-success is-required">
+<style type="text/css">
 
-							<div class="el-form-item__content">
-								登录账号
-								<div  class="el-input el-input--suffix">
-									<input type="text"  placeholder="请输入您的登录账号" v-model="username" maxlength="16" autocomplete="off" @keyup.enter="login" class="el-input__inner elInput">
-								</div>
-							</div>
-						</div>
-						<div  class="el-form-item is-error is-required">
-							<div class="el-form-item__content">
-								登录密码
-								<div  class="el-input el-input--suffix">
-									<input type="password"  placeholder="请输入您的登录密码" v-model="password"  @keyup.enter="login" maxlength="16" autocomplete="off" class="el-input__inner">
-									<!--<span class="el-input__suffix"><span class="el-input__suffix-inner">
-										</span><i class="el-input__icon el-input__validateIcon el-icon-circle-close"></i></span>-->
+.chaa{
+position: fixed; 
+ left:80%;
+ bottom: 0;
+ right: 0px;
+ overflow-x: hidden;
+ z-index: 999;
+ background:#00000045;  
+ top: 0%; 
+ bottom: 0%;
+}
+.chaa div{
+background:#27a9e3;
+margin-bottom:1%;
 
-								</div>
-							</div>
-						</div>
-						<div  class="el-form-item">
-							<div class="el-form-item__content">
-								<div class="el-checkbox is-checked" v-model="checked">
-									<img class="checkboxImg" src="images/newLogin/moren.png" />
-									<span class="el-checkbox__label">记住密码</span>
-								</div>
-							</div>
-						</div>
-						<div  class="el-form-item">
-							<div class="el-form-item__content">
-								<p style="font-size:15px;color: #FF0000"> {{errorMsg}}</p>
-							</div>
-						</div>
-						<div class="el-form-item">
-							<div class="el-form-item__content">
-								<button  type="button" class="el-button el-button--primary" @click="login">
-								</button>
-							</div>
-						</div>
-					</form>
-				</div>
-				<img class="formItemImg" src="images/newLogin/yuansu.png" />
+}
+form{
+background:#fff;
+}
+.hr15 ,.hr20{
+background:#fff;
+}
+[v-cloak]{
+display:none;
+}
+:-webkit-autofill {
+ -webkit-text-fill-color: #fff !important;
+ transition: background-color 5000s ease-in-out 0s;
+}
+</style>
+</head>
+<body>
+
+<div class="login"  id="cashbangLTE" v-cloak>
+
+
+	<div class="login_title">
+		<span style="    text-align: center;">场馆预约后台管理系统</span>
+				<button class="layui-btn layui-btn-fluid"  v-if="international" @click="chLanguage=true">
+		
+	</div>
+	<div class="login_fields">
+		<div class="login_fields__user">
+			<div class="icon" style="opacity: 0.5;">
+				<img alt="" src="images/login/user_icon_copy.png">
+			</div>
+			<input   style="border: solid 0.1px #4fa1d9; "placeholder="user" v-model="username" maxlength="16" class="username" type="text" autocomplete="off" @keyup.enter="login">
+			<div class="validation" >
+				<img alt="" src="images/login/tick.png">
 			</div>
 		</div>
-		<script src="libs/jquery.min.js" type="text/javascript"></script>
-		<script src="plugins/layer/layer.js" type="text/javascript"></script>
-		<script src="libs/vue.min.js" type="text/javascript"></script>
-		<script src="plugins/vue-i18n.js"></script>
-		<script type="text/javascript" src="js/login/stopExecutionOnTimeout.js"></script>
-		<script src="js/login/Particleground.js" type="text/javascript"></script>
-		<script src="js/login/Treatment.js" type="text/javascript"></script>
-		<script src="js/login/jquery.mockjax.js" type="text/javascript"></script>
+		<div class="login_fields__password">
+			<div class="icon" style="opacity: 0.5;">
+				<img alt="" src="images/login/lock_icon_copy.png">
+			</div>
+			<input style="border: solid 0.1px #4fa1d9; "  
+		        placeholder="password"   v-model="password"  @keyup.enter="login" maxlength="16"  type="password"  autocomplete="off">
+			<div class="validation">
+				<img alt="" src="images/login/tick.png">
+			</div>
+		</div>
+		
+		<div class="login_fields__password">
+			<div class="validation" style="opacity: 1; right: -5px;top: -3px;">
+				<canvas class="J_codeimg" id="myCanvas" onclick="Code();" style="display: none;">对不起，您的浏览器不支持canvas，请下载最新版浏览器!</canvas>
+			</div>
+		</div>
+		<div class="login_fields__submit">
+			<input type="button" @click="login" :value="$t('lgr.login')">
+		</div>
+		
+	</div>
+	<div class="success">
+	</div>
+	<div class="disclaimer" style="width:80%;">
+		<p>欢迎登陆 <font style="float:right"> <input  type="checkbox" v-model="checked">记住密码</el-checkbox></font></p>
+		<p style="font-size:10px;"> {{errorMsg}}</p>
+	</div>
+	
+	
+	
+      <div  v-if="international" v-show="chLanguage" class="layui-row  layui-anim layui-anim-up chaa" style="  ">
+       <a><div class="layui-btn layui-btn-fluid" style="margin-top:140px" @click="clang('zh')">中文</div></a>
+  	   <a><div class="layui-btn layui-btn-fluid"  @click="clang('en')">English</div></a>
+  	   <a><div class="layui-btn layui-btn-fluid"  @click="clang('id')">Bahasa Indonesia</div></a>
+ 	 </div> 
+	
+</div>
 
-		<script src="js/newLogin/newLogin.js" type="text/javascript"></script>
-		<script src="js/lang/system_main.js"></script>
-		<script src="js/lang/lang.js"></script>
-		<script src="libs/aes.js"></script>
-		<script src="libs/aesUtil.js"></script>
-	</body>
-</html>
-<script>
-	window.onload = function() {
-		// document.write(document.documentURI);
-		var checkboxImg = document.querySelector(".checkboxImg");
-		if (getCookie("savepassword")==1) {
+	
+<script src="libs/jquery.min.js"></script>
+<script src="plugins/layer/layer.js"></script>
+<script src="libs/vue.min.js"></script>
+<script src="plugins/vue-i18n.js"></script>
+<script type="text/javascript" src="js/login/stopExecutionOnTimeout.js"></script>
+<script src="js/login/Particleground.js" type="text/javascript"></script>
+<script src="js/login/Treatment.js" type="text/javascript"></script>
+<script src="js/login/jquery.mockjax.js" type="text/javascript"></script>
+    
+<script src="js/lang/system_main.js"></script>
+<script src="js/lang/lang.js"></script>
+<script src="libs/aes.js"></script>
+<script src="libs/aesUtil.js"></script>
 
-			checkboxImg.setAttribute("src", "images/newLogin/xuanzhong.png");
-			//document.querySelector(".elInput").value = window.localStorage.getItem("userName");
+<script type="text/javascript">
 
-		};
-		var elCheckbox = document.querySelector(".el-checkbox");
-		elCheckbox.onclick = function() {
-			if (checkboxImg.getAttribute("src") == "images/newLogin/moren.png") {
-				checkboxImg.setAttribute("src", "images/newLogin/xuanzhong.png");
-				vm.checked = true;
-				/*window.localStorage.setItem("userName", document.querySelector(".elInput").value);*/
-			} else {
-				checkboxImg.setAttribute("src", "images/newLogin/moren.png");
-                vm.checked = false;
+//设置cookie
+function setCookie(name,value,day){
+  var date = new Date();
+  date.setDate(date.getDate() + day);
+  document.cookie = encrypt(name) + '=' + encrypt(value) + ';expires='+ date;
+};
+//获取cookie
+function getCookie(name){
+  var reg = RegExp( encrypt(name)+'=([^;]+)');
+  var arr = document.cookie.match(reg);
+  if(arr){
+    return decrypt(arr[1]);
+  }else{
+    return '';
+  }
+};
+//删除cookie
+function delCookie(name){
+  setCookie(name,null,-1);
+};
+
+window.onload = function(){
+	vm.username=getCookie("username");
+	vm.password=getCookie("password");
+	vm.checked=getCookie("savepassword")==1;
+}
+
+
+	var vm = new Vue({
+		el : '#cashbangLTE',
+		i18n,
+		data : {
+			username : '',
+			password : '',
+			error : false,
+			errorMsg : '',
+			chLanguage:false,
+	        international:false,//是否国际化
+	        sysName:"",//系统名称
+	        checked:false,
+		},
+		beforeCreate : function() {
+			if (self != top) {
+				top.location.href = self.location.href;
 			}
-		};
-        vm.username=getCookie("username");
-        vm.password=getCookie("password");
-        vm.checked=getCookie("savepassword")==1;
-	}
+		},
+		watch:{
+		},
+		
+		created:function(){
+			this.getInternational();
+			this.geSysName();
+		},
+		methods : {
+			clang:function(la){
+				this.chLanguage=false;
+				localStorage.setItem('locale',la);
+				i18n.locale=la;
+			},
+			getInternational: function () {
+				$.ajax({
+					type : "POST",
+	            	url:"sys/international?_" + $.now(),
+					dataType : "json",
+	            	success:function(r){
+	            		console.log(r);
+		                if(r.msg=="true"){
+		                	  vm.international = true;
+		                }else{
+		                	vm.international = false;
+							localStorage.setItem('locale',"zh");
+
+		                }
+	            	}
+	            }); 
+	        },
+	        geSysName: function () {
+				$.ajax({
+					type : "POST",
+	            	url:"sys/sysName?_" + $.now(),
+					dataType : "json",
+	            	success:function(r){
+		               vm.sysName = r.msg;
+	            	}
+	            }); 
+	        },
+			login : function(event) {
+				if (vm.username == '') {
+					vm.error = true;
+					vm.errorMsg = '用户名为空';
+					return false;
+				}
+				if (vm.password == '') {
+					vm.error = true;
+					vm.errorMsg = '密码为空';
+					return false;
+				}
+				var data = "username=" + vm.username + "&password="
+						+ vm.password;
+				
+				if(vm.checked){
+					 setCookie('username',vm.username,7); //保存帐号到cookie，有效期7天
+				     setCookie('password',vm.password,7); //保存密码到cookie，有效期7天
+				     setCookie("savepassword",1,7);
+
+				}else{
+					delCookie('username'); //保存帐号到cookie，有效期7天
+					delCookie('password'); //保存密码到cookie，有效期7天
+					delCookie("savepassword");
+				}
+			
+				$.ajax({
+					type : "POST",
+					url : "sys/login",
+					data : data,
+					dataType : "json",
+					success : function(result) {
+						if (result.code == 0) {//登录成功
+							localStorage.setItem("token", result.token);
+							parent.location.href = 'index_tab.html';
+						} else {
+							vm.error = true;
+							vm.errorMsg = result.msg;
+						}
+					}
+				});
+			}
+		}
+	});
+	
+	//粒子背景特效
+	$('body').particleground({
+	    dotColor: '#E8DFE8',
+	    lineColor: '#1b3273'
+	});
 </script>
+</body>
+
+</html>

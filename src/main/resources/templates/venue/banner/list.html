@@ -17,9 +17,14 @@ body ,html{
      
 	   <el-form ref="form"  :inline="true" label-width="80px" size="mini"><!-- 搜索框 -->
 		 <el-form-item label="" >
-		        <el-input v-model="param.keyword" placeholder="根据banner描述搜索" @keyup.enter.native="load(0,0)"></el-input>
+		        <el-input v-model="param.descs" placeholder="轮播图描述查询" @keyup.enter.native="load(0,0)"></el-input>
 		  </el-form-item>
-		  
+		  <el-form-item label="" >
+		    <el-select v-model="param.bizzType" placeholder="轮播图类型查询"  style="width:150px;">
+				<el-option label="首页" value=1></el-option>
+				<el-option label="随拍" value=2></el-option>
+		    </el-select>
+		  </el-form-item>
 		 <el-form-item>
 		  <el-button onclick="reload()"   icon="el-icon-refresh"   ></el-button>
 		  <el-button  icon="el-icon-search"   @click="load(1,10)" ></el-button>

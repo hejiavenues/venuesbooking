@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('场馆信息表')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+.el-tag + .el-tag {
+    margin-left: 10px;
+}
+.button-new-tag {
+    margin-left: 10px;
+    height: 32px;
+    line-height: 30px;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+.input-new-tag {
+    width: 90px;
+    margin-left: 10px;
+    vertical-align: bottom;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="bVenueInfo" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+		<el-form-item class="" label="活动时间：" prop="activityTime">
+  			<el-date-picker
+      			v-model="date1"
+      			:picker-options="pickerOptions1"
+      			type="date"
+      			format="yyyy-MM-dd"
+      			value-format="yyyy-MM-dd"
+      			placeholder="选择日期">
+    		</el-date-picker>
+		</el-form-item>
+		<el-form-item label="时间段" prop="bVenueInfo.times">
+			    <el-select v-model="bVenueInfo.times" placeholder="请选择" style="width:14em" filterable @change="selectChanged">
+				    <el-option v-for="u in avaTimes " :label="u.name" :value="u.name"></el-option>
+				 </el-select>
+		</el-form-item>
+		<el-form-item label="已选时段" prop="dynamicTags11111" width="100px">
+			    <el-tag
+  				:key="tag"
+  				v-for="tag in dynamicTags11111"
+  				closable
+  				:disable-transitions="false"
+  				@close="handleClose(tag)">
+  				{{tag}}
+			</el-tag>
+
+			<el-input
+  				class="input-new-tag"
+  				v-if="inputVisible"
+  				v-model="inputValue"
+  				ref="saveTagInput"
+  				size="small"
+  				@keyup.enter.native="handleInputConfirm"
+  				@blur="handleInputConfirm"
+				></el-input>
+			<!-- <el-button v-else class="button-new-tag" size="small" @click="showInput">+ New Tag</el-button> -->
+		</el-form-item>
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/venue/venueinfo/editTime.js}"></script>
+</body>
+</html>

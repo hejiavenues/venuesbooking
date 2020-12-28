@@ -37,5 +37,9 @@ public interface BDicManager {
 	BDicEntity getBDicByCode(String id);
 
 	int updatehdlx(BDicEntity bDic);
+
+	List<BDicEntity> getDicsByCode(String typeCode);
+
+	void deleteByTypeCode(String string);
 	
 }

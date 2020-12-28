@@ -32,6 +32,11 @@ var vm = new Vue({
                     }else if(data.isuse == 1){
                         vm.bBannerInfo.isuse = '启用';
                     };
+					if(data.bizztype == 1){
+                        vm.bBannerInfo.bizztype = '首页';
+                    }else if(data.bizztype == 2){
+                        vm.bBannerInfo.bizztype = '轮播';
+                    };
 		    	}
 			});
 		},
@@ -44,6 +49,11 @@ var vm = new Vue({
                         vm.bBannerInfo.isuse = 0;
                     }else if(vm.bBannerInfo.isuse == '启用'){
                         vm.bBannerInfo.isuse = 1;
+                    }
+					 if(vm.bBannerInfo.bizztype == '首页'){
+                        vm.bBannerInfo.bizztype = 1;
+                    }else if(vm.bBannerInfo.bizztype == '轮播'){
+                        vm.bBannerInfo.bizztype = 2;
                     }
 				zs_postFormA(vm,{
                         url: '../../venuesbook/banner/update?_' + $.now(),

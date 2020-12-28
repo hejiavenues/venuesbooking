@@ -17,6 +17,20 @@
 			id DESC
 	</select>
 	
+	<select id="getDicsByCode" resultType="cn.cashbang.core.modules.venuesbook.entity.BDicEntity">
+		SELECT
+			`id`, 
+			`code`, 
+			`name`, 
+			`typecode`, 
+			`typename`, 
+			`status`
+		FROM
+			b_dic where typecode = #{typeCode} 
+		ORDER BY
+			code 
+	</select>
+	
 	<select id="listActivityTypeForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BDicEntity">
 		SELECT
 			`id`, 
@@ -167,6 +181,14 @@
 		<foreach item="id" collection="array" open="(" separator="," close=")">
 			#{id}
 		</foreach>
+	</delete>
+	
+	<delete id="deleteByTypeCode">
+		DELETE
+		FROM
+			b_dic
+		WHERE
+			typecode = #{typeCode} 
 	</delete>
 
 </mapper>

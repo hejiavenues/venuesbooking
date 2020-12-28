@@ -51,7 +51,6 @@ public class BBannerInfoController extends AbstractController {
 	 * @param bBannerInfo
 	 * @return
 	 */
-	@SysLog("新增banner图表")
 	@RequestMapping("/save")
 	public Result save(MultipartFile imgFile, BBannerInfoEntity bBannerInfo) {
 		logger.info("新增banner配置开始，bBannerInfo：{}",bBannerInfo.toString());
@@ -82,7 +81,6 @@ public class BBannerInfoController extends AbstractController {
 	 * @param bBannerInfo
 	 * @return
 	 */
-	@SysLog("修改banner图表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody MultipartFile imgFile, BBannerInfoDto bBannerInfo) {
 		return bBannerInfoService.updateBBannerInfo(imgFile,bBannerInfo);
@@ -93,7 +91,6 @@ public class BBannerInfoController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除banner图表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody String[] id) {
 		return bBannerInfoService.batchRemove(id);

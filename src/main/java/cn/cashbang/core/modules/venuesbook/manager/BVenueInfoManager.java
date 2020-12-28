@@ -20,10 +20,10 @@ public interface BVenueInfoManager {
 	
 	int saveBVenueInfo(BVenueInfoEntity bVenueInfo);
 	
-	BVenueInfoEntity getBVenueInfoById(Long id);
+	BVenueInfoEntity getBVenueInfoById(String id);
 	
 	int updateBVenueInfo(BVenueInfoEntity bVenueInfo);
 	
-	int batchRemove(Long[] id);
+	int batchRemove(String[] id);
 	
 }
