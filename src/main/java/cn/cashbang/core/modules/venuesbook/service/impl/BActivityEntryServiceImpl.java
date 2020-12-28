@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.druid.util.StringUtils;
+
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.common.entity.Result;
@@ -29,6 +31,9 @@ public class BActivityEntryServiceImpl implements BActivityEntryService {
 
 	@Override
 	public Page<BActivityEntryEntity> listBActivityEntry(Map<String, Object> params) {
+		if(!StringUtils.isEmpty((String)params.get("activityId"))) {
+			params.put("activityId", ((String)params.get("activityId")).replace("\"", ""));
+		}
 		Query query = new Query(params);
 		Page<BActivityEntryEntity> page = new Page<>(query);
 		bActivityEntryManager.listBActivityEntry(page, query);

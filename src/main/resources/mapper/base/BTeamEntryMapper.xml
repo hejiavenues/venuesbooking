@@ -14,6 +14,11 @@
 			`update_time`
 		FROM
 			b_team_entry
+			<where>
+			<if test="tid != null and tid != ''">
+				and	`tid` = #{tid} 
+			</if>
+			</where>
 		ORDER BY
 			teid DESC
 	</select>

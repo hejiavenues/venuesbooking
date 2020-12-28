@@ -44,7 +44,6 @@ public class BVenueBookController extends AbstractController {
 	 * @param bVenueBook
 	 * @return
 	 */
-	@SysLog("新增预约记录表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BVenueBookEntity bVenueBook) {
 		return bVenueBookService.saveBVenueBook(bVenueBook);
@@ -65,7 +64,6 @@ public class BVenueBookController extends AbstractController {
 	 * @param bVenueBook
 	 * @return
 	 */
-	@SysLog("修改预约记录表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BVenueBookEntity bVenueBook) {
 		return bVenueBookService.updateBVenueBook(bVenueBook);
@@ -76,7 +74,6 @@ public class BVenueBookController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除预约记录表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody Long[] id) {
 		return bVenueBookService.batchRemove(id);

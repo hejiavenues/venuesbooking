@@ -15,5 +15,7 @@ import cn.cashbang.core.modules.sys.dao.BaseMapper;
  */
 @Mapper
 public interface BVenueInfoMapper extends BaseMapper<BVenueInfoEntity> {
+
+	BVenueInfoEntity getBVenueInfoByName(String venueName);
 	
 }

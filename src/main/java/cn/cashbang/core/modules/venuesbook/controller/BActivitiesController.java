@@ -44,7 +44,6 @@ public class BActivitiesController extends AbstractController {
 	 * @param bActivities
 	 * @return
 	 */
-	@SysLog("新增活动信息表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BActivitiesEntity bActivities) {
 		return bActivitiesService.saveBActivities(bActivities);
@@ -65,7 +64,6 @@ public class BActivitiesController extends AbstractController {
 	 * @param bActivities
 	 * @return
 	 */
-	@SysLog("修改活动信息表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BActivitiesEntity bActivities) {
 		return bActivitiesService.updateBActivities(bActivities);
@@ -76,7 +74,6 @@ public class BActivitiesController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除活动信息表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody Long[] id) {
 		return bActivitiesService.batchRemove(id);

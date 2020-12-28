@@ -26,11 +26,19 @@ public class BActivitiesEntity implements Serializable {
 	 * 场馆id
 	 */
 	private String venueId;
+	/**
+	 * 场馆id
+	 */
+	private String venueName;
 	
 	/**
 	 * 预约人id
 	 */
 	private String uid;
+	/**
+	 * 预约人id
+	 */
+	private String userName;
 	
 	/**
 	 * 活动名称
@@ -61,6 +69,10 @@ public class BActivitiesEntity implements Serializable {
 	 * 活动状态（1.公开 2.不公开）
 	 */
 	private Integer status;
+	/**
+	 * 活动状态（1.公开 2.不公开）
+	 */
+	private String statusDesc;
 	
 	/**
 	 * 活动时段
@@ -176,6 +188,30 @@ public class BActivitiesEntity implements Serializable {
 	
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public String getVenueName() {
+		return venueName;
+	}
+
+	public void setVenueName(String venueName) {
+		this.venueName = venueName;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getStatusDesc() {
+		return statusDesc;
+	}
+
+	public void setStatusDesc(String statusDesc) {
+		this.statusDesc = statusDesc;
 	}
 	
 }

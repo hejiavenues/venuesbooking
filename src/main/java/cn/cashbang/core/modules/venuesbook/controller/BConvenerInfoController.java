@@ -44,7 +44,6 @@ public class BConvenerInfoController extends AbstractController {
 	 * @param bConvenerInfo
 	 * @return
 	 */
-	@SysLog("新增召集人信息表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BConvenerInfoEntity bConvenerInfo) {
 		return bConvenerInfoService.saveBConvenerInfo(bConvenerInfo);
@@ -65,7 +64,6 @@ public class BConvenerInfoController extends AbstractController {
 	 * @param bConvenerInfo
 	 * @return
 	 */
-	@SysLog("修改召集人信息表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BConvenerInfoEntity bConvenerInfo) {
 		return bConvenerInfoService.updateBConvenerInfo(bConvenerInfo);
@@ -76,7 +74,6 @@ public class BConvenerInfoController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除召集人信息表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody Long[] id) {
 		return bConvenerInfoService.batchRemove(id);

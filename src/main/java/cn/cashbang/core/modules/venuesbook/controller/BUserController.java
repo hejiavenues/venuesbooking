@@ -44,7 +44,6 @@ public class BUserController extends AbstractController {
 	 * @param bUser
 	 * @return
 	 */
-	@SysLog("新增用户信息表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BUserEntity bUser) {
 		return bUserService.saveBUser(bUser);
@@ -65,7 +64,6 @@ public class BUserController extends AbstractController {
 	 * @param bUser
 	 * @return
 	 */
-	@SysLog("修改用户信息表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BUserEntity bUser) {
 		return bUserService.updateBUser(bUser);
@@ -76,7 +74,6 @@ public class BUserController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除用户信息表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody Long[] id) {
 		return bUserService.batchRemove(id);

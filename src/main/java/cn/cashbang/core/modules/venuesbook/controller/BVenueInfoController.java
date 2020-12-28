@@ -50,7 +50,6 @@ public class BVenueInfoController extends AbstractController {
 	 * @param bVenueInfo
 	 * @return
 	 */
-	@SysLog("新增场馆信息表")
 	@RequestMapping("/save")
 	public Result save(MultipartFile imgFile, BVenueInfoEntity bVenueInfo) {
 		logger.info("新增banner配置开始，bBannerInfo：{}",bVenueInfo.toString());
@@ -81,7 +80,6 @@ public class BVenueInfoController extends AbstractController {
 	 * @param bVenueInfo
 	 * @return
 	 */
-	@SysLog("修改场馆信息表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody MultipartFile imgFile, BVenueInfoDTO bVenueInfo) {
 		BVenueInfoEntity b = new BVenueInfoEntity();
@@ -125,7 +123,6 @@ public class BVenueInfoController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除场馆信息表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody String[] id) {
 		return bVenueInfoService.batchRemove(id);

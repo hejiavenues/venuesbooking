@@ -44,7 +44,6 @@ public class BActivityEntryController extends AbstractController {
 	 * @param bActivityEntry
 	 * @return
 	 */
-	@SysLog("新增活动报名记录表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BActivityEntryEntity bActivityEntry) {
 		return bActivityEntryService.saveBActivityEntry(bActivityEntry);
@@ -65,7 +64,6 @@ public class BActivityEntryController extends AbstractController {
 	 * @param bActivityEntry
 	 * @return
 	 */
-	@SysLog("修改活动报名记录表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BActivityEntryEntity bActivityEntry) {
 		return bActivityEntryService.updateBActivityEntry(bActivityEntry);
@@ -76,7 +74,6 @@ public class BActivityEntryController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除活动报名记录表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody Long[] id) {
 		return bActivityEntryService.batchRemove(id);

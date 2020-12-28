@@ -7,9 +7,11 @@
 		SELECT
 			`tid`, 
 			`uid`, 
+			 (select uname from b_user bu where bu.uid = bt.uid ) as uname, 
 			`tname`, 
 			`people_count`, 
 			`activity_type`, 
+			(select bd.name from b_dic bd where bd.typecode='activityType' and CONVERT(bd.code USING utf8) COLLATE utf8_unicode_ci = bt.activity_type) as activityTypeDesc, 
 			`activity_content`, 
 			`enter_condition`, 
 			`status`, 
@@ -17,7 +19,21 @@
 			`create_time`, 
 			`update_time`
 		FROM
-			b_team
+			b_team bt 
+			<where>
+			<if test="tdName != null and tdName != ''">
+				and tname like concat('%',#{tdName},'%')  
+			</if>
+			<if test="tzName != null and tzName != ''">
+				and	exists (select 1 from b_user bu1 where bu1.`uid` = bt.`uid` and bu1.uname like concat('%',#{tzName},'%')) 
+			</if>
+			<if test="acType != null and acType != ''">
+				and	exists (select 1 from b_dic bd where bd.typecode='activityType' and CONVERT(bd.code USING utf8) COLLATE utf8_unicode_ci = bt.activity_type and bd.code = #{acType}) 
+			</if>
+			<if test="aStatus != null and aStatus != ''">
+				and	bt.`status` = #{aStatus} 
+			</if>
+			</where>
 		ORDER BY
 			tid DESC
 	</select>

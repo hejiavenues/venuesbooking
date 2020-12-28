@@ -75,6 +75,24 @@
 			venue_id = #{venueId}
 	</select>
 	
+	<select id="getBVenueInfoByName" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity">
+		SELECT
+			`venue_id`, 
+			`venue_name`, 
+			`max_people`, 
+			`address`, 
+			`describtion`, 
+			`committee_id`, 
+			`support_active_type`, 
+			`icon_url`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_venue_info 
+		WHERE
+			venue_name = #{venueName} order by create_time desc limit 1 
+	</select>
+	
 	<update id="update">
 		UPDATE b_venue_info
 	 	<set>

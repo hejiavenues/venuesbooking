@@ -15,7 +15,12 @@
 			`create_time`, 
 			`update_time`
 		FROM
-			b_activity_entry
+			b_activity_entry 
+			<where>
+			<if test="activityId != null and activityId != ''">
+				and	`activity_id` = #{activityId} 
+			</if>
+			</where>
 		ORDER BY
 			eid DESC
 	</select>

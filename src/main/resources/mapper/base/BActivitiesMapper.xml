@@ -5,22 +5,41 @@
 	
 	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity">
 		SELECT
-			`activity_id`, 
-			`venue_id`, 
-			`uid`, 
-			`activity_id_name`, 
-			`activity_count`, 
-			`activity_type`, 
-			`activity_content`, 
-			`activity_icon_url`, 
-			`status`, 
-			`activity_time`, 
-			`create_time`, 
-			`update_time`
+			ba.`activity_id`, 
+			ba.`venue_id`, 
+			(select venue_name from b_venue_info bvi where bvi.venue_id = ba.venue_id) as venueName,
+			ba.`uid`, 
+			(select uname from b_user bu1 where bu1.`uid` = ba.`uid`) as userName,
+			ba.`activity_id_name`, 
+			ba.`activity_count`, 
+			ba.`activity_type`, 
+			ba.`activity_content`, 
+			ba.`activity_icon_url`, 
+			ba.`status`, 
+			ba.`activity_time`, 
+			ba.`create_time`, 
+			ba.`update_time`
 		FROM
-			b_activities
+			b_activities ba 
+			<where>
+			<if test="cgName != null and cgName != ''">
+				and	exists (select 1 from b_venue_info bvi where bvi.`venue_id` = ba.`venue_id` and bvi.venue_name like concat('%',#{cgName},'%')) 
+			</if>
+			<if test="yyrName != null and yyrName != ''">
+				and	exists (select 1 from b_user bu1 where bu1.`uid` = ba.`uid` and bu1.uname like concat('%',#{yyrName},'%')) 
+			</if>
+			<if test="acName != null and acName != ''">
+				and	ba.`activity_id_name` like concat('%',#{acName},'%') 
+			</if>
+			<if test="aStatus != null and aStatus != ''">
+				and	ba.`status` = #{aStatus} 
+			</if>
+			<if test="activityId != null and activityId != ''">
+				and	ba.`activity_id` = #{activityId} 
+			</if>
+			</where>
 		ORDER BY
-			activity_id DESC
+			ba.activity_id DESC
 	</select>
 	
 	<insert id="save">

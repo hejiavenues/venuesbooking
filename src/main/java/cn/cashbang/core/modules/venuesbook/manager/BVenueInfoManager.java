@@ -25,5 +25,7 @@ public interface BVenueInfoManager {
 	int updateBVenueInfo(BVenueInfoEntity bVenueInfo);
 	
 	int batchRemove(String[] id);
+
+	BVenueInfoEntity getBVenueInfoByName(String venueName);
 	
 }

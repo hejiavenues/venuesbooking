@@ -44,7 +44,6 @@ public class BCommitteesController extends AbstractController {
 	 * @param bCommittees
 	 * @return
 	 */
-	@SysLog("新增居委会信息表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BCommitteesEntity bCommittees) {
 		return bCommitteesService.saveBCommittees(bCommittees);
@@ -65,7 +64,6 @@ public class BCommitteesController extends AbstractController {
 	 * @param bCommittees
 	 * @return
 	 */
-	@SysLog("修改居委会信息表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BCommitteesEntity bCommittees) {
 		return bCommitteesService.updateBCommittees(bCommittees);
@@ -76,7 +74,6 @@ public class BCommitteesController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除居委会信息表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody String[] id) {
 		return bCommitteesService.batchRemove(id);

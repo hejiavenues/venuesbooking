@@ -44,7 +44,6 @@ public class BTeamController extends AbstractController {
 	 * @param bTeam
 	 * @return
 	 */
-	@SysLog("新增团队信息表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BTeamEntity bTeam) {
 		return bTeamService.saveBTeam(bTeam);
@@ -65,7 +64,6 @@ public class BTeamController extends AbstractController {
 	 * @param bTeam
 	 * @return
 	 */
-	@SysLog("修改团队信息表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BTeamEntity bTeam) {
 		return bTeamService.updateBTeam(bTeam);
@@ -76,7 +74,6 @@ public class BTeamController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除团队信息表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody Long[] id) {
 		return bTeamService.batchRemove(id);

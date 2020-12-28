@@ -26,6 +26,10 @@ public class BTeamEntity implements Serializable {
 	 * 团长id
 	 */
 	private String uid;
+	/**
+	 * 团长id
+	 */
+	private String uname;
 	
 	/**
 	 * 姓名
@@ -41,6 +45,10 @@ public class BTeamEntity implements Serializable {
 	 * 活动类型
 	 */
 	private String activityType;
+	/**
+	 * 活动类型
+	 */
+	private String activityTypeDesc;
 	
 	/**
 	 * 活动内容
@@ -163,6 +171,22 @@ public class BTeamEntity implements Serializable {
 	
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public String getActivityTypeDesc() {
+		return activityTypeDesc;
+	}
+
+	public void setActivityTypeDesc(String activityTypeDesc) {
+		this.activityTypeDesc = activityTypeDesc;
+	}
+
+	public String getUname() {
+		return uname;
+	}
+
+	public void setUname(String uname) {
+		this.uname = uname;
 	}
 	
 }

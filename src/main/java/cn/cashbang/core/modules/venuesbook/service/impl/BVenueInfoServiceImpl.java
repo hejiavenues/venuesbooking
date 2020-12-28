@@ -61,6 +61,11 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 		if(role == null) {
 			return Result.error("对象为空");
 		}
+		//先检查场馆名称是已经存在
+		BVenueInfoEntity old = bVenueInfoManager.getBVenueInfoByName(role.getVenueName());
+		if(old != null) {
+			return Result.error("该场馆已存在，请重新命名新场馆");
+		}
 		String uuid = CommonUtils.createUUID();
 		role.setVenueId(uuid);
 		String fileName = "";
@@ -121,6 +126,11 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 	public Result updateBVenueInfo(MultipartFile file,BVenueInfoEntity bVenueInfo) {
 		String uuid = bVenueInfo.getVenueId();
 		String fileName = "";
+		//先检查场馆名称是已经存在
+		BVenueInfoEntity old = bVenueInfoManager.getBVenueInfoByName(bVenueInfo.getVenueName());
+		if(old != null && !old.getVenueId().equals(bVenueInfo.getVenueId())) {
+			return Result.error("该场馆已存在，请重新命名");
+		}
 		if(file != null){
             //取得当前上传文件的文件名称  
             String myFileName = file.getOriginalFilename();

@@ -5,6 +5,8 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.alibaba.druid.util.StringUtils;
+
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.common.entity.Result;
@@ -29,6 +31,7 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 
 	@Override
 	public Page<BActivitiesEntity> listBActivities(Map<String, Object> params) {
+		
 		Query query = new Query(params);
 		Page<BActivitiesEntity> page = new Page<>(query);
 		bActivitiesManager.listBActivities(page, query);

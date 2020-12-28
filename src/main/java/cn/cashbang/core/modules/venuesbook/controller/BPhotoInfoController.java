@@ -44,7 +44,6 @@ public class BPhotoInfoController extends AbstractController {
 	 * @param bPhotoInfo
 	 * @return
 	 */
-	@SysLog("新增随拍信息表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BPhotoInfoEntity bPhotoInfo) {
 		return bPhotoInfoService.saveBPhotoInfo(bPhotoInfo);
@@ -65,7 +64,6 @@ public class BPhotoInfoController extends AbstractController {
 	 * @param bPhotoInfo
 	 * @return
 	 */
-	@SysLog("修改随拍信息表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BPhotoInfoEntity bPhotoInfo) {
 		return bPhotoInfoService.updateBPhotoInfo(bPhotoInfo);
@@ -76,7 +74,6 @@ public class BPhotoInfoController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除随拍信息表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody String[] id) {
 		return bPhotoInfoService.batchRemove(id);

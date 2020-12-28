@@ -44,7 +44,6 @@ public class BTeamEntryController extends AbstractController {
 	 * @param bTeamEntry
 	 * @return
 	 */
-	@SysLog("新增团队报名记录表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BTeamEntryEntity bTeamEntry) {
 		return bTeamEntryService.saveBTeamEntry(bTeamEntry);
@@ -65,7 +64,6 @@ public class BTeamEntryController extends AbstractController {
 	 * @param bTeamEntry
 	 * @return
 	 */
-	@SysLog("修改团队报名记录表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BTeamEntryEntity bTeamEntry) {
 		return bTeamEntryService.updateBTeamEntry(bTeamEntry);
@@ -76,7 +74,6 @@ public class BTeamEntryController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除团队报名记录表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody Long[] id) {
 		return bTeamEntryService.batchRemove(id);

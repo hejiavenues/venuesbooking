@@ -52,5 +52,10 @@ public class BVenueInfoManagerImpl implements BVenueInfoManager {
 		int count = bVenueInfoMapper.batchRemove(id);
 		return count;
 	}
+
+	@Override
+	public BVenueInfoEntity getBVenueInfoByName(String venueName) {
+		return bVenueInfoMapper.getBVenueInfoByName(venueName);
+	}
 	
 }

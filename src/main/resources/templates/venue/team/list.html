@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('团队信息表')"></head>
+<style>
+body ,html{
+  background:#eee;
+}
+
+.el-form-item {
+    margin-bottom: 10px;
+}
+
+</style>
+<body>
+<div id="zsvm"  v-cloak>
+
+  <el-card class="box-card"> 
+  
+  <!-- 搜索 -->
+<!--    <el-collapse v-model="activeNames">
+     <el-collapse-item title="" name="1" > -->
+     
+	   <el-form ref="form"  :inline="true" label-width="80px" size="mini"><!-- 搜索框 -->
+		 <el-form-item label="" >
+		        <el-input v-model="param.tdName" placeholder="根据团队名称查询" @keyup.enter.native="load(0,0)"></el-input>
+		  </el-form-item>
+		 <el-form-item label="" >
+		        <el-input v-model="param.tzName" placeholder="根据团长姓名查询" @keyup.enter.native="load(0,0)"></el-input>
+		  </el-form-item>
+		  <el-form-item label="">
+			    <el-select v-model="param.acType" placeholder="请选择" style="width:14em" >
+				    <el-option v-for="u in acTypes " :label="u.name" :value="u.code"></el-option>
+				 </el-select>
+		</el-form-item>
+		  <el-form-item label="" >
+		    <el-select v-model="param.aStatus" placeholder="团队状态"  style="width:150px;">
+				<el-option label="报名中" value=1></el-option>
+				<el-option label="已关闭" value=2></el-option>
+				<el-option label="已满员" value=3></el-option>
+				<el-option label="组队失败" value=4></el-option>
+		    </el-select>
+		  </el-form-item>
+		 <el-form-item>
+		  <el-button onclick="reload();"   icon="el-icon-refresh"   ></el-button>
+		  <el-button  icon="el-icon-search"   @click="load(1,10)" ></el-button>
+		  <!-- <el-button type="warning" v-if="true||hasPermission('venuesbook:team:save')"    @click="save"  icon="el-icon-plus"></el-button> -->
+		</el-form-item>
+		
+		</el-form>
+<!-- 	 </el-collapse-item>
+	</el-collapse> -->
+	
+	<!-- table -->
+    <el-table :data="table.data" border  style="width: 100%"   :height="$(window).height()*0.7" highlight-current-row size="small" @selection-change="selectCases" >
+       <el-table-column   type="index"  width="50" label="序号"></el-table-column>
+       <!-- <el-table-column type="selection"  width="40"> </el-table-column> --> <!-- 选择框 -->
+      
+      <el-table-column  :label="col.title"      :width="col.width"  v-for="col in table.col"    >
+	       <template slot-scope="scope"  >
+	       		<div v-if="col.formatter==undefined"> {{scope.row[col.field]}}</div>
+	       		<div v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='string'"> 
+	       			{{col.formatter(scope.row[col.field],scope.row)}}
+	       	   </div>
+	       	    <div v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='object'"> 
+	       			 <el-tag :type="col.formatter(scope.row[col.field],scope.row).type"   effect="dark" style="width:100%" >
+	       				{{col.formatter(scope.row[col.field],scope.row).value}}
+	       			</el-tag>
+	       	   </div>
+	      </template>
+       </el-table-column>
+       
+    	<el-table-column   label="操作"  fixed="right"  width="200">
+              <template scope="scope" >
+                  <el-button :plain="true" v-if="true||hasPermission('venuesbook:activities:edit')" type="success" size="mini" 
+                  icon="el-icon-edit" @click="orgTree(scope.row)" ></el-button>报名列表
+              </template>
+         </el-table-column>
+    </el-table>
+	 <div class="block"> <!-- 页码 -->
+    <el-pagination
+      @size-change="handleSizeChange"  @current-change="handleCurrentChange" :current-page.sync="table.sync"
+      :page-sizes="table.pagesizes"  :page-size="table.pagesize"  layout="total, sizes, prev, pager, next, jumper"  :total="table.total">
+    </el-pagination>
+  </div>
+  </el-card>
+</div>
+
+<div th:include="include/footer_element::footer"></div>
+<script th:src="@{/js/venue/team/list.js}"></script>
+
+</body>
+</html>

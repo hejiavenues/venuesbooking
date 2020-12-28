@@ -54,7 +54,6 @@ public class BDicController extends AbstractController {
 	 * @param bDic
 	 * @return
 	 */
-	@SysLog("新增字典表")
 	@RequestMapping("/save")
 	public Result save(@RequestBody BDicEntity bDic) {
 		return bDicService.saveBDic(bDic);
@@ -65,7 +64,6 @@ public class BDicController extends AbstractController {
 	 * @param bDic
 	 * @return
 	 */
-	@SysLog("新增字典表")
 	@RequestMapping("/savehdlx")
 	public Result savehdlx(@RequestBody BDicEntity bDic) {
 		return bDicService.savehdlx(bDic);
@@ -91,7 +89,6 @@ public class BDicController extends AbstractController {
 	 * @param bDic
 	 * @return
 	 */
-	@SysLog("修改字典表")
 	@RequestMapping("/update")
 	public Result update(@RequestBody BDicEntity bDic) {
 		return bDicService.updateBDic(bDic);
@@ -107,7 +104,6 @@ public class BDicController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
-	@SysLog("删除字典表")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody Long[] id) {
 		return bDicService.batchRemove(id);

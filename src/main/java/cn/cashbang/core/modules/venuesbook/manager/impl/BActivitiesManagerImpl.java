@@ -28,7 +28,17 @@ public class BActivitiesManagerImpl implements BActivitiesManager {
 
 	@Override
 	public List<BActivitiesEntity> listBActivities(Page<BActivitiesEntity> page, Query search) {
-		return bActivitiesMapper.listForPage(page, search);
+		List<BActivitiesEntity> lists = bActivitiesMapper.listForPage(page, search);
+		for(BActivitiesEntity entity:lists) {
+			if(entity.getStatus().intValue() == 1) {
+				entity.setStatusDesc("公开");
+			}else if((entity.getStatus().intValue() == 2)) {
+				entity.setStatusDesc("不公开");
+			}else {
+				entity.setStatusDesc("未知");
+			}
+		}
+		return lists;
 	}
 
 	@Override

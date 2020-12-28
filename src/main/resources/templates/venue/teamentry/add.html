@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('团队报名记录表')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="bTeamEntry" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+			 <el-form-item label="团队id" prop="tid">
+			    <el-input v-model="bTeamEntry.tid"></el-input>
+			  </el-form-item>
+			 <el-form-item label="手机号" prop="mobile">
+			    <el-input v-model="bTeamEntry.mobile"></el-input>
+			  </el-form-item>
+			 <el-form-item label="姓名" prop="uname">
+			    <el-input v-model="bTeamEntry.uname"></el-input>
+			  </el-form-item>
+			 <el-form-item label="状态 1.报名成功 2.主动取消" prop="status">
+			    <el-input v-model="bTeamEntry.status"></el-input>
+			  </el-form-item>
+			 <el-form-item label="创建时间" prop="createTime">
+			    <el-input v-model="bTeamEntry.createTime"></el-input>
+			  </el-form-item>
+			 <el-form-item label="更新时间" prop="updateTime">
+			    <el-input v-model="bTeamEntry.updateTime"></el-input>
+			  </el-form-item>
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/venue/teamentry/add.js}"></script>
+</body>
+</html>
