@@ -55,7 +55,7 @@ public class BActivitiesController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/info")
-	public Result getById(@RequestBody Long id) {
+	public Result getById(@RequestBody String id) {
 		return bActivitiesService.getBActivitiesById(id);
 	}
 	

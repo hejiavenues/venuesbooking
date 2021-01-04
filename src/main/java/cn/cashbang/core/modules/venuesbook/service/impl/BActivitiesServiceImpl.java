@@ -45,7 +45,7 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 	}
 
 	@Override
-	public Result getBActivitiesById(Long id) {
+	public Result getBActivitiesById(String id) {
 		BActivitiesEntity bActivities = bActivitiesManager.getBActivitiesById(id);
 		return CommonUtils.msg(bActivities);
 	}

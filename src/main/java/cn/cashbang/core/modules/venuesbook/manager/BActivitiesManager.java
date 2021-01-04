@@ -20,7 +20,7 @@ public interface BActivitiesManager {
 	
 	int saveBActivities(BActivitiesEntity bActivities);
 	
-	BActivitiesEntity getBActivitiesById(Long id);
+	BActivitiesEntity getBActivitiesById(String id);
 	
 	int updateBActivities(BActivitiesEntity bActivities);
 	

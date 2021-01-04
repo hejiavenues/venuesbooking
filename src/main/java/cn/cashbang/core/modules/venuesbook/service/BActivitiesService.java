@@ -20,7 +20,7 @@ public interface BActivitiesService {
 	
 	Result saveBActivities(BActivitiesEntity bActivities);
 	
-	Result getBActivitiesById(Long id);
+	Result getBActivitiesById(String id);
 	
 	Result updateBActivities(BActivitiesEntity bActivities);
 	

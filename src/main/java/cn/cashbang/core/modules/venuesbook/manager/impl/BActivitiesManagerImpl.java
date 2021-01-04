@@ -47,7 +47,7 @@ public class BActivitiesManagerImpl implements BActivitiesManager {
 	}
 
 	@Override
-	public BActivitiesEntity getBActivitiesById(Long id) {
+	public BActivitiesEntity getBActivitiesById(String id) {
 		BActivitiesEntity bActivities = bActivitiesMapper.getObjectById(id);
 		return bActivities;
 	}
