@@ -6,7 +6,7 @@
 	<groupId>cn.cashbang.core</groupId>
 	<artifactId>venuesbook</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<packaging>war</packaging><!-- clean package -->
+	<packaging>jar</packaging><!-- clean package -->
 
 	<name>cashbang-backstage</name>
 	<description>cashbang-backstage SpringBoot版本</description>
