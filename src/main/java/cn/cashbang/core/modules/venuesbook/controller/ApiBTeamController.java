@@ -2,9 +2,12 @@ package cn.cashbang.core.modules.venuesbook.controller;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
+import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BTeamEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
+import cn.cashbang.core.modules.venuesbook.service.BTeamEntryService;
 import cn.cashbang.core.modules.venuesbook.service.BTeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -28,6 +31,9 @@ public class ApiBTeamController extends AbstractController {
 	
 	@Autowired
 	private BTeamService bTeamService;
+
+	@Autowired
+	private BTeamEntryService bTeamEntryService;
 	
 	/**
 	 * 列表
@@ -61,12 +67,22 @@ public class ApiBTeamController extends AbstractController {
 	}
 		
 	/**
-	 * 新增
-	 * @param bTeam
+	 * 团队组建接口
+	 * @param tname
 	 * @return
 	 */
-	@RequestMapping("/save")
-	public Result save(@RequestBody BTeamEntity bTeam) {
+	@RequestMapping("/buildTeam")
+	public Result buildTeam(String tname,Integer peopleCount,String activityType,
+					   String activityContent,String enterCondition) {
+
+		BTeamEntity bTeam = new BTeamEntity();
+		bTeam.setTname(tname);
+		bTeam.setPeopleCount(peopleCount);
+		bTeam.setActivityType(activityType);
+		bTeam.setActivityContent(activityContent);
+		bTeam.setEnterCondition(enterCondition);
+		String uuid = CommonUtils.createUUID();
+		bTeam.setTid(uuid);
 		return bTeamService.saveBTeam(bTeam);
 	}
 	
@@ -79,25 +95,37 @@ public class ApiBTeamController extends AbstractController {
 	public Result getById(@RequestBody Long id) {
 		return bTeamService.getBTeamById(id);
 	}
-	
+
 	/**
-	 * 修改
-	 * @param bTeam
+	 * 团队报名
+	 * @param teamId
 	 * @return
 	 */
-	@RequestMapping("/update")
-	public Result update(@RequestBody BTeamEntity bTeam) {
-		return bTeamService.updateBTeam(bTeam);
+	@RequestMapping("/entryTeamById")
+	public Result entryTeamById(String teamId,String userId) {
+
+		BTeamEntryEntity bTeamEntry = new BTeamEntryEntity();
+		bTeamEntry.setTid(teamId);
+		bTeamEntry.setMobile("1234test");
+		bTeamEntry.setUname("test");
+		String uuid = CommonUtils.createUUID();
+		bTeamEntry.setTid(uuid);
+		return bTeamEntryService.saveBTeamEntry(bTeamEntry);
 	}
-	
+
+
 	/**
-	 * 删除
-	 * @param id
+	 * 团队状态变更接口
+	 * @param teamId
 	 * @return
 	 */
-	@RequestMapping("/remove")
-	public Result batchRemove(@RequestBody Long[] id) {
-		return bTeamService.batchRemove(id);
+	@RequestMapping("/updateTeamStatus")
+	public Result updateTeamStatus(int status,String teamId) {
+
+		BTeamEntity bTeam = new BTeamEntity();
+		bTeam.setTid(teamId);
+		bTeam.setStatus(status);  // 1放开、2关闭、3满员、4.组队失败
+		return bTeamService.updateBTeam(bTeam);
 	}
 	
 }

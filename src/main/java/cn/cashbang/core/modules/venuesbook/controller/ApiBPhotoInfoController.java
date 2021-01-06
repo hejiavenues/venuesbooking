@@ -2,6 +2,7 @@ package cn.cashbang.core.modules.venuesbook.controller;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
+import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
@@ -62,11 +63,20 @@ public class ApiBPhotoInfoController extends AbstractController {
 		
 	/**
 	 * 新增
-	 * @param bPhotoInfo
+	 * @param userId
 	 * @return
 	 */
-	@RequestMapping("/save")
-	public Result save(@RequestBody BPhotoInfoEntity bPhotoInfo) {
+	@RequestMapping("/sendPhoto")
+	public Result sendPhoto(String userId,String content) {
+
+		BPhotoInfoEntity bPhotoInfo = new BPhotoInfoEntity();
+		bPhotoInfo.setUid(userId);
+		bPhotoInfo.setContent(content);
+		bPhotoInfo.setUname("王阿姨");
+		bPhotoInfo.setStatus(1);     //状态 1.正常 2.删除
+		bPhotoInfo.setPitureUrls("");
+		String uuid = CommonUtils.createUUID();
+		bPhotoInfo.setPid(uuid);
 		return bPhotoInfoService.saveBPhotoInfo(bPhotoInfo);
 	}
 	

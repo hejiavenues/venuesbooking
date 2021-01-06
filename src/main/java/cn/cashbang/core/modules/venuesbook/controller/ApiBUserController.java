@@ -2,6 +2,7 @@ package cn.cashbang.core.modules.venuesbook.controller;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
+import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
 import cn.cashbang.core.modules.venuesbook.service.BUserService;
@@ -38,16 +39,24 @@ public class ApiBUserController extends AbstractController {
 	}
 		
 	/**
-	 * 新增
+	 * 注册
 	 * @param
 	 * @return
 	 */
-	@RequestMapping("/save")
-	public Result save(String id) {
+	@RequestMapping("/uerRegister")
+	public Result uerRegister(String uname,Integer sex,String birthday,String mobile,String committeeId) {
 
-		System.out.println("-----------------"+id);
+		System.out.println("-----------------"+uname);
 
 		BUserEntity bUser = new BUserEntity();
+		bUser.setBirthday(birthday);
+		bUser.setCommitteeId(committeeId);
+		bUser.setSex(sex);
+		bUser.setUname(uname);
+		bUser.setMobile(mobile);
+		bUser.setUserRole(1);
+		String uuid = CommonUtils.createUUID();
+		bUser.setUid(uuid);
 		return bUserService.saveBUser(bUser);
 	}
 	

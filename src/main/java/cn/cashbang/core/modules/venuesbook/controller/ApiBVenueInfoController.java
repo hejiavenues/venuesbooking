@@ -2,10 +2,11 @@ package cn.cashbang.core.modules.venuesbook.controller;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
+import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
-import cn.cashbang.core.modules.venuesbook.entity.BUpdateVenueTime;
-import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoDTO;
-import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
+import cn.cashbang.core.modules.venuesbook.entity.*;
+import cn.cashbang.core.modules.venuesbook.service.BActivitiesService;
+import cn.cashbang.core.modules.venuesbook.service.BVenueBookService;
 import cn.cashbang.core.modules.venuesbook.service.BVenueInfoService;
 import com.alibaba.druid.util.StringUtils;
 import org.springframework.beans.BeanUtils;
@@ -32,6 +33,12 @@ public class ApiBVenueInfoController extends AbstractController {
 	
 	@Autowired
 	private BVenueInfoService bVenueInfoService;
+
+	@Autowired
+	private BActivitiesService bActivitiesService;
+
+	@Autowired
+	private BVenueBookService bVenueBookService;
 	
 	/**
 	 * 获取场馆列表
@@ -78,15 +85,56 @@ public class ApiBVenueInfoController extends AbstractController {
 	}
 	
 	/**
-	 * 修改
-	 * @param bVenueInfo
+	 * 场馆预约接口
+	 * @param
 	 * @return
 	 */
-	@RequestMapping("/update")
-	public Result update(@RequestBody MultipartFile imgFile, BVenueInfoDTO bVenueInfo) {
-		BVenueInfoEntity b = new BVenueInfoEntity();
-		BeanUtils.copyProperties(bVenueInfo, b);
-		return bVenueInfoService.updateBVenueInfo(imgFile,b);
+	@RequestMapping("/bookVenueById")
+	public Map<String, Object>  bookVenueById(String userId,String venueId,String bookDate,String bookTime,
+								String activityIdName,String activityType,String activityContent
+								,String activityIconUrl) {
+
+		Map<String, Object> result = new HashMap<>();
+
+		// 判断是不是可以预约  TODO
+
+		// 生成一条预约记录
+		BVenueBookEntity bVenueBook = new BVenueBookEntity();
+		bVenueBook.setBookStatus(2); // 已预约
+		bVenueBook.setBookTime(bookTime);
+		bVenueBook.setBookDate(bookDate);
+		bVenueBook.setUserId(userId);
+		bVenueBook.setVenueId(venueId);
+		String uuid = CommonUtils.createUUID();
+		bVenueBook.setId(uuid);
+		Result r1= bVenueBookService.saveBVenueBook(bVenueBook);
+
+		// 生成活动信息
+
+		BActivitiesEntity bActivities = new BActivitiesEntity();
+		bActivities.setActivityContent(activityContent);
+		bActivities.setActivityIdName(activityIdName);
+		bActivities.setActivityIconUrl(activityIconUrl);
+		bActivities.setActivityTime(bookDate +"  "+bookTime);
+		bActivities.setActivityType(activityType);
+		bActivities.setVenueId(venueId);
+		bActivities.setUid(userId);
+		String uuid2 = CommonUtils.createUUID();
+		bActivities.setActivityId(uuid2);
+		Result r2=bActivitiesService.saveBActivities(bActivities);
+
+		if(r1.get("code").toString().equals("0")&&
+				r2.get("code").toString().equals("0")){
+
+			result.put("code",0);
+			result.put("msg","预约成功！");
+		}
+		else{
+			result.put("code",-1);
+			result.put("msg","预约失败！");
+		}
+
+		return result;
 	}
 	
 	/**

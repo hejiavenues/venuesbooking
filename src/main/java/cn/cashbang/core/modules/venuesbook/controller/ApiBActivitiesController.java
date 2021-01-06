@@ -2,10 +2,13 @@ package cn.cashbang.core.modules.venuesbook.controller;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
+import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BActivityEntryEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
 import cn.cashbang.core.modules.venuesbook.service.BActivitiesService;
+import cn.cashbang.core.modules.venuesbook.service.BActivityEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -28,6 +31,9 @@ public class ApiBActivitiesController extends AbstractController {
 	
 	@Autowired
 	private BActivitiesService bActivitiesService;
+
+	@Autowired
+	private BActivityEntryService bActivityEntryService;
 	
 	/**
 	 * 列表
@@ -71,13 +77,54 @@ public class ApiBActivitiesController extends AbstractController {
 	}
 	
 	/**
-	 * 修改
-	 * @param bActivities
+	 * 活动报名接口
+	 * @param activityId
 	 * @return
 	 */
-	@RequestMapping("/update")
-	public Result update(@RequestBody BActivitiesEntity bActivities) {
-		return bActivitiesService.updateBActivities(bActivities);
+	@RequestMapping("/entryActById")
+	public Result entryActById(String activityId,String userId) {
+
+		BActivityEntryEntity bActivityEntry = new BActivityEntryEntity();
+		bActivityEntry.setActivityId(activityId);
+		bActivityEntry.setUid(userId);
+		bActivityEntry.setUname("");
+		bActivityEntry.setMobile("");
+		bActivityEntry.setStatus(1);
+		String uuid = CommonUtils.createUUID();
+		bActivityEntry.setEid(uuid);
+
+		return bActivityEntryService.saveBActivityEntry(bActivityEntry);
 	}
-	
+
+	/**
+	 * 取消活动报名接口
+	 * @param activityId
+	 * @return
+	 */
+	@RequestMapping("/cancelActById")
+	public Result cancelActById(String activityId,String userId) {
+
+		BActivityEntryEntity bActivityEntry = new BActivityEntryEntity();
+		bActivityEntry.setActivityId(activityId);
+		bActivityEntry.setUid(userId);
+		bActivityEntry.setStatus(2);  // 取消
+
+		return bActivityEntryService.updateBActivityEntry(bActivityEntry);
+	}
+
+	/**
+	 * 活动签到接口
+	 * @param activityId
+	 * @return
+	 */
+	@RequestMapping("/signActById")
+	public Result signActById(String activityId,String userId) {
+
+		BActivityEntryEntity bActivityEntry = new BActivityEntryEntity();
+		bActivityEntry.setActivityId(activityId);
+		bActivityEntry.setUid(userId);
+		bActivityEntry.setIspresent(Integer.valueOf(1));  // 签到
+
+		return bActivityEntryService.updateBActivityEntry(bActivityEntry);
+	}
 }
