@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +60,9 @@ public class BVenueBookServiceImpl implements BVenueBookService {
 		return CommonUtils.msg(id, count);
 	}
 
+	@Override
+	public List<BVenueBookEntity> getBVenueBookByVenueId(String venueId) {
+		List<BVenueBookEntity> list = bVenueBookManager.getVenueBookById(venueId);
+		return  list;
+	}
 }

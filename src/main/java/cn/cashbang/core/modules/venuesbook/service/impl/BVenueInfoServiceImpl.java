@@ -8,6 +8,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import cn.cashbang.core.common.utils.DateUtil;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -249,4 +252,42 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 		return CommonUtils.msg(1);
 	}
 
+	@Override
+	public Result getBookStatusList(BUpdateVenueTime bVenueInfo){
+
+		// 根据场馆ID查询出该场馆的预约情况
+		List<BVenueBookEntity> tags = bVenueBookManager.getVenueBookById(bVenueInfo.getVenueId());
+
+		// 计算出可以预约的七天日期
+		ArrayList<String>  dateList = DateUtil.getDateList();
+
+
+		JSONArray result  = new  JSONArray();
+		for (int k =0;k<dateList.size();k ++){
+
+			JSONObject object = new JSONObject();
+			String date = dateList.get(k);
+			object.put("date",date);
+			JSONArray array = new  JSONArray();
+
+			List<BDicEntity> bDics =bDicManager.getDicsByCode("avaTime");
+
+			for (int i =0;i<bDics.size();i ++){
+
+				JSONObject time = new JSONObject();
+				time.put("time",bDics.get(i).getName());
+
+				// 根据场馆Id日期和时间段，判断该场馆的状态
+				
+				time.put("state",1);
+				array.add(time);
+				object.put("list",array);
+			}
+
+			object.put("list",array);
+			result.add(object);
+		}
+
+		return Result.ok().put("scheduleData", result);
+	}
 }

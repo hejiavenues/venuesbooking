@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.cashbang.core.common.entity.Page;
@@ -25,5 +26,7 @@ public interface BVenueBookService {
 	Result updateBVenueBook(BVenueBookEntity bVenueBook);
 	
 	Result batchRemove(Long[] id);
+
+	List<BVenueBookEntity> getBVenueBookByVenueId(String venueId);
 	
 }

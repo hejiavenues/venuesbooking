@@ -3,6 +3,7 @@ package cn.cashbang.core.common.utils;
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -38,6 +39,21 @@ public class DateUtil {
 		calender.setTime(curReturnDay);
 		calender.add(Calendar.DAY_OF_MONTH, 1);
 		return calender.getTime();
+	}
+
+	public static ArrayList<String> getDateList(){
+
+		ArrayList<String>  dateList = new ArrayList<String>();
+		SimpleDateFormat sf = new SimpleDateFormat("yyyy-MM-dd");
+		
+		for (int k =0;k<7;k ++){
+			Calendar  calender=Calendar.getInstance();
+			calender.setTime(new Date());
+			calender.add(Calendar.DAY_OF_MONTH, 7+k);
+			dateList.add(sf.format(calender.getTime()));
+
+		}
+		return dateList;
 	}
 	
 	/***
@@ -368,5 +384,10 @@ public class DateUtil {
 
 		boolean flag = targetDate.before(paramDate);
 		return flag;
+	}
+
+	public static void main(String[] args) {
+		ArrayList a = DateUtil.getDateList();
+		System.out.println(a);
 	}
 }

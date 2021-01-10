@@ -34,5 +34,7 @@ public interface BVenueInfoService {
 	Result getDynamicTags(String venueId);
 
 	Result updateAllUnableTime(BUpdateVenueTime bVenueInfo);
+
+	Result getBookStatusList(BUpdateVenueTime bVenueInfo);
 	
 }

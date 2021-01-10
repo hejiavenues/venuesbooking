@@ -3,20 +3,23 @@ package cn.cashbang.core.modules.venuesbook.controller;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
+import cn.cashbang.core.common.utils.DateUtil;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.*;
 import cn.cashbang.core.modules.venuesbook.service.BActivitiesService;
+import cn.cashbang.core.modules.venuesbook.service.BDicService;
 import cn.cashbang.core.modules.venuesbook.service.BVenueBookService;
 import cn.cashbang.core.modules.venuesbook.service.BVenueInfoService;
 import com.alibaba.druid.util.StringUtils;
-import org.springframework.beans.BeanUtils;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -39,6 +42,9 @@ public class ApiBVenueInfoController extends AbstractController {
 
 	@Autowired
 	private BVenueBookService bVenueBookService;
+
+	@Autowired
+	private BDicService bDicService;
 	
 	/**
 	 * 获取场馆列表
@@ -136,6 +142,32 @@ public class ApiBVenueInfoController extends AbstractController {
 
 		return result;
 	}
+
+	/**
+	 * 场馆预约接口
+	 * @param
+	 * @return
+	 */
+	@RequestMapping("/getBookStatusList")
+	public Map<String, Object>  getBookStatusList(String userId,String venueId) {
+
+
+//		Map<String, Object> result = new HashMap<>();
+//
+//		if(true){
+//
+//			result.put("code",0);
+//			result.put("raws",object);
+//			result.put("msg","查询成功！");
+//		}
+//		else{
+//			result.put("code",-1);
+//			result.put("msg","预约失败！");
+//		}
+		BUpdateVenueTime bVenueInfo = new BUpdateVenueTime();
+		bVenueInfo.setVenueId(venueId);
+		return bVenueInfoService.getBookStatusList(bVenueInfo);
+	}
 	
 	/**
 	 * 修改
@@ -156,15 +188,6 @@ public class ApiBVenueInfoController extends AbstractController {
 	public Result updateAllUnableTime(BUpdateVenueTime bVenueInfo) {
 		return bVenueInfoService.updateAllUnableTime(bVenueInfo);
 	}
-	
-	/**
-	 * 删除
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping("/remove")
-	public Result batchRemove(@RequestBody String[] id) {
-		return bVenueInfoService.batchRemove(id);
-	}
+
 	
 }
