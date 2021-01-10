@@ -98,7 +98,7 @@ public class ApiBVenueInfoController extends AbstractController {
 	@RequestMapping("/bookVenueById")
 	public Map<String, Object>  bookVenueById(String userId,String venueId,String bookDate,String bookTime,
 								String activityIdName,String activityType,String activityContent
-								,String activityIconUrl) {
+								,String activityIconUrl,int status,int activityCount) {
 
 		Map<String, Object> result = new HashMap<>();
 
@@ -125,6 +125,8 @@ public class ApiBVenueInfoController extends AbstractController {
 		bActivities.setActivityType(activityType);
 		bActivities.setVenueId(venueId);
 		bActivities.setUid(userId);
+		bActivities.setStatus(status);     // 1 公开
+		bActivities.setActivityCount(activityCount);
 		String uuid2 = CommonUtils.createUUID();
 		bActivities.setActivityId(uuid2);
 		Result r2=bActivitiesService.saveBActivities(bActivities);

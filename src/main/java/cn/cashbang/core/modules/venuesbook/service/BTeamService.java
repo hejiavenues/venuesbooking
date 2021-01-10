@@ -20,7 +20,7 @@ public interface BTeamService {
 	
 	Result saveBTeam(BTeamEntity bTeam);
 	
-	Result getBTeamById(Long id);
+	Result getBTeamById(String id);
 	
 	Result updateBTeam(BTeamEntity bTeam);
 	

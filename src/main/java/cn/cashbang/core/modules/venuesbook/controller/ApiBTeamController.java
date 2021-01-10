@@ -72,10 +72,11 @@ public class ApiBTeamController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/buildTeam")
-	public Result buildTeam(String tname,Integer peopleCount,String activityType,
+	public Result buildTeam(String uid,String tname,Integer peopleCount,String activityType,
 					   String activityContent,String enterCondition) {
 
 		BTeamEntity bTeam = new BTeamEntity();
+		bTeam.setUid(uid);
 		bTeam.setTname(tname);
 		bTeam.setPeopleCount(peopleCount);
 		bTeam.setActivityType(activityType);
@@ -88,12 +89,12 @@ public class ApiBTeamController extends AbstractController {
 	
 	/**
 	 * 根据id查询详情
-	 * @param id
+	 * @param teamId
 	 * @return
 	 */
-	@RequestMapping("/info")
-	public Result getById(@RequestBody Long id) {
-		return bTeamService.getBTeamById(id);
+	@RequestMapping("/getBTeamById")
+	public Result getById(String teamId) {
+		return bTeamService.getBTeamById(teamId);
 	}
 
 	/**

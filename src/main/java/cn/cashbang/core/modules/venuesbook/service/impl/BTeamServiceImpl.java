@@ -42,7 +42,7 @@ public class BTeamServiceImpl implements BTeamService {
 	}
 
 	@Override
-	public Result getBTeamById(Long id) {
+	public Result getBTeamById(String id) {
 		BTeamEntity bTeam = bTeamManager.getBTeamById(id);
 		return CommonUtils.msg(bTeam);
 	}

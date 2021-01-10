@@ -37,7 +37,7 @@ public class BTeamManagerImpl implements BTeamManager {
 	}
 
 	@Override
-	public BTeamEntity getBTeamById(Long id) {
+	public BTeamEntity getBTeamById(String id) {
 		BTeamEntity bTeam = bTeamMapper.getObjectById(id);
 		return bTeam;
 	}

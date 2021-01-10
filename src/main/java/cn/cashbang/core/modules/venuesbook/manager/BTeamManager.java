@@ -20,7 +20,7 @@ public interface BTeamManager {
 	
 	int saveBTeam(BTeamEntity bTeam);
 	
-	BTeamEntity getBTeamById(Long id);
+	BTeamEntity getBTeamById(String id);
 	
 	int updateBTeam(BTeamEntity bTeam);
 	
