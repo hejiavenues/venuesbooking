@@ -20,7 +20,7 @@ public interface BUserService {
 	
 	Result saveBUser(BUserEntity bUser);
 	
-	Result getBUserById(Long id);
+	Result getBUserById(String id);
 	
 	Result updateBUser(BUserEntity bUser);
 	

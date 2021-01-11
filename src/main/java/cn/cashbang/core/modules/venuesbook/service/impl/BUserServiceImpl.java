@@ -42,7 +42,7 @@ public class BUserServiceImpl implements BUserService {
 	}
 
 	@Override
-	public Result getBUserById(Long id) {
+	public Result getBUserById(String id) {
 		BUserEntity bUser = bUserManager.getBUserById(id);
 		return CommonUtils.msg(bUser);
 	}

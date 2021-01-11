@@ -37,7 +37,7 @@ public class BUserManagerImpl implements BUserManager {
 	}
 
 	@Override
-	public BUserEntity getBUserById(Long id) {
+	public BUserEntity getBUserById(String id) {
 		BUserEntity bUser = bUserMapper.getObjectById(id);
 		return bUser;
 	}

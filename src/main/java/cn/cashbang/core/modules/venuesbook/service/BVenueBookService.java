@@ -28,5 +28,8 @@ public interface BVenueBookService {
 	Result batchRemove(Long[] id);
 
 	List<BVenueBookEntity> getBVenueBookByVenueId(String venueId);
-	
+
+	// 查询用户预约的场馆
+	Result queryBookByUserId(String userId);
+
 }

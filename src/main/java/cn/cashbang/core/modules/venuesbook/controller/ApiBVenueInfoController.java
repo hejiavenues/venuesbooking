@@ -52,14 +52,18 @@ public class ApiBVenueInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/getVenueList")
-	public Map<String, Object> getVenueList(int page) {
+	public Map<String, Object> getVenueList(int page,String queryCGName,
+											String queryComId,String queryActType,String queryCount) {
 
 		Map<String, Object> params = new HashMap<>();
 		Map<String, Object> result = new HashMap<>();
 
 		params.put("pageNumber",page);
 		params.put("pageSize",2);
-		params.put("keyword",null);
+		params.put("queryCGName",queryCGName);
+		params.put("queryComId",queryComId);
+		params.put("queryActType",queryActType);
+		params.put("queryCount",queryCount);
 		params.put("sortOrde","asc");
 
 		Page<BVenueInfoEntity> list = bVenueInfoService.listBVenueInfo(params);
@@ -88,6 +92,19 @@ public class ApiBVenueInfoController extends AbstractController {
 			venueId = venueId.replace("\"", "");
 		}
 		return bVenueInfoService.getBVenueInfoById(venueId);
+	}
+
+	/**
+	 * 根据用户id查询他预约的场馆场馆
+	 * @param uid
+	 * @return
+	 */
+	@RequestMapping("/queryBookByUserId")
+	public Result queryBookByUserId(String uid) {
+		if(!StringUtils.isEmpty(uid)) {
+			uid = uid.replace("\"", "");
+		}
+		return bVenueBookService.queryBookByUserId(uid);
 	}
 	
 	/**
@@ -152,20 +169,7 @@ public class ApiBVenueInfoController extends AbstractController {
 	 */
 	@RequestMapping("/getBookStatusList")
 	public Map<String, Object>  getBookStatusList(String userId,String venueId) {
-
-
-//		Map<String, Object> result = new HashMap<>();
-//
-//		if(true){
-//
-//			result.put("code",0);
-//			result.put("raws",object);
-//			result.put("msg","查询成功！");
-//		}
-//		else{
-//			result.put("code",-1);
-//			result.put("msg","预约失败！");
-//		}
+		
 		BUpdateVenueTime bVenueInfo = new BUpdateVenueTime();
 		bVenueInfo.setVenueId(venueId);
 		return bVenueInfoService.getBookStatusList(bVenueInfo);

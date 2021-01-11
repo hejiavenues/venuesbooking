@@ -65,4 +65,10 @@ public class BVenueBookServiceImpl implements BVenueBookService {
 		List<BVenueBookEntity> list = bVenueBookManager.getVenueBookById(venueId);
 		return  list;
 	}
+
+	@Override
+	public Result queryBookByUserId(String userId) {
+		List<BVenueBookEntity> list = bVenueBookManager.getVenueBookById(userId);
+		return Result.ok().put("raws", list);
+	}
 }

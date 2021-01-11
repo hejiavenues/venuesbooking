@@ -20,7 +20,7 @@ public interface BUserManager {
 	
 	int saveBUser(BUserEntity bUser);
 	
-	BUserEntity getBUserById(Long id);
+	BUserEntity getBUserById(String id);
 	
 	int updateBUser(BUserEntity bUser);
 	

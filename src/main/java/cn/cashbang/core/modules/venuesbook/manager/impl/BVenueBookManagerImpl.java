@@ -62,5 +62,12 @@ public class BVenueBookManagerImpl implements BVenueBookManager {
 	public List<BVenueBookEntity> getVenueBookById(String venueId) {
 		return bVenueBookMapper.getVenueBookById(venueId);
 	}
+
+	// 查询用户预约的场馆
+	@Override
+	public List<BVenueBookEntity> queryBookByUserId(String userId){
+		
+		return bVenueBookMapper.queryBookByUserId(userId);
+	}
 	
 }

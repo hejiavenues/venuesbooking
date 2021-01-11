@@ -29,5 +29,7 @@ public interface BVenueBookManager {
 	int deleteByVenueId(String venueId);
 
 	List<BVenueBookEntity> getVenueBookById(String venueId);
-	
+
+	// 查询用户预约的场馆
+	List<BVenueBookEntity> queryBookByUserId(String userId);
 }

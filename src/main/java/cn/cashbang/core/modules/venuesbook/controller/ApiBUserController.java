@@ -61,33 +61,31 @@ public class ApiBUserController extends AbstractController {
 	}
 	
 	/**
-	 * 根据id查询详情
-	 * @param id
+	 * 根据id查询用户详情
+	 * @param userId
 	 * @return
 	 */
-	@RequestMapping("/info")
-	public Result getById(@RequestBody Long id) {
-		return bUserService.getBUserById(id);
+	@RequestMapping("/getUserById")
+	public Result getById(String userId) {
+
+		return bUserService.getBUserById(userId);
 	}
 	
 	/**
-	 * 修改
-	 * @param bUser
+	 * 修改用户信息
+	 * @param birthday
 	 * @return
 	 */
-	@RequestMapping("/update")
-	public Result update(@RequestBody BUserEntity bUser) {
+	@RequestMapping("/updateUser")
+	public Result updateUser(String uid,String uname,Integer sex,String birthday) {
+
+		BUserEntity bUser = new BUserEntity();
+		bUser.setBirthday(birthday);
+		bUser.setUid(uid);
+		bUser.setSex(sex);
+		bUser.setUname(uname);
+
 		return bUserService.updateBUser(bUser);
-	}
-	
-	/**
-	 * 删除
-	 * @param id
-	 * @return
-	 */
-	@RequestMapping("/remove")
-	public Result batchRemove(@RequestBody Long[] id) {
-		return bUserService.batchRemove(id);
 	}
 	
 }

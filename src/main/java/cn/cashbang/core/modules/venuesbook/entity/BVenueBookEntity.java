@@ -56,7 +56,58 @@ public class BVenueBookEntity implements Serializable {
 	 * 
 	 */
 	private Date updateTime;
-	
+
+	/**
+	 * 场馆名称
+	 */
+	private String venueName;
+
+	/**
+	 * 最大容纳人数
+	 */
+	private Integer maxPeople;
+
+	/**
+	 * 场馆地址
+	 */
+	private String address;
+
+	/**
+	 * 支持的活动类型
+	 */
+	private String supportActiveType;
+
+	public String getSupportActiveType() {
+		return supportActiveType;
+	}
+
+	public void setSupportActiveType(String supportActiveType) {
+		this.supportActiveType = supportActiveType;
+	}
+
+	public String getVenueName() {
+		return venueName;
+	}
+
+	public void setVenueName(String venueName) {
+		this.venueName = venueName;
+	}
+
+	public Integer getMaxPeople() {
+		return maxPeople;
+	}
+
+	public void setMaxPeople(Integer maxPeople) {
+		this.maxPeople = maxPeople;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public BVenueBookEntity() {
 		super();

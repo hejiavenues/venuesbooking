@@ -9,6 +9,7 @@ import cn.cashbang.core.modules.venuesbook.entity.BActivityEntryEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
 import cn.cashbang.core.modules.venuesbook.service.BActivitiesService;
 import cn.cashbang.core.modules.venuesbook.service.BActivityEntryService;
+import cn.cashbang.core.modules.venuesbook.service.BUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -87,8 +88,6 @@ public class ApiBActivitiesController extends AbstractController {
 		BActivityEntryEntity bActivityEntry = new BActivityEntryEntity();
 		bActivityEntry.setActivityId(activityId);
 		bActivityEntry.setUid(userId);
-		bActivityEntry.setUname("");
-		bActivityEntry.setMobile("");
 		bActivityEntry.setStatus(1);
 		String uuid = CommonUtils.createUUID();
 		bActivityEntry.setEid(uuid);

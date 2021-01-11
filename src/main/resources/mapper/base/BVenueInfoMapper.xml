@@ -25,6 +25,16 @@
 			<if test="queryJWHName != null and queryJWHName != ''">
 				and	exists (select 1 from b_committees bc where bc.`cid` = bvi.`committee_id` and bc.cname like concat('%',#{queryJWHName},'%')) 
 			</if>
+			<if test="queryActType != null and queryActType != ''">
+				and	bvi.support_active_type like concat('%',#{queryActType},'%')
+			</if>
+			<if test="queryComId != null and queryComId != ''">
+				and	bvi.committee_id = #{queryComId}
+			</if>
+			<if test="queryCount != null and queryCount != ''">
+				<![CDATA[  and	bvi.max_people <= #{queryCount}   ]]>
+			</if>
+				
 			</where>
 		ORDER BY
 			venue_id DESC

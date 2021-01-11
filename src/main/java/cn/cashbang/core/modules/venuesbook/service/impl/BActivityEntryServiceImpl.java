@@ -2,6 +2,8 @@ package cn.cashbang.core.modules.venuesbook.service.impl;
 
 import java.util.Map;
 
+import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
+import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +31,9 @@ public class BActivityEntryServiceImpl implements BActivityEntryService {
 	@Autowired
 	private BActivityEntryManager bActivityEntryManager;
 
+	@Autowired
+	private BUserManager bUserManager;
+
 	@Override
 	public Page<BActivityEntryEntity> listBActivityEntry(Map<String, Object> params) {
 		if(!StringUtils.isEmpty((String)params.get("activityId"))) {
@@ -42,6 +47,13 @@ public class BActivityEntryServiceImpl implements BActivityEntryService {
 
 	@Override
 	public Result saveBActivityEntry(BActivityEntryEntity role) {
+
+		//根据userId查询用户信息
+		BUserEntity bUser = bUserManager.getBUserById(role.getUid());
+
+		role.setUname(bUser.getUname());
+		role.setMobile(bUser.getMobile());
+
 		int count = bActivityEntryManager.saveBActivityEntry(role);
 		return CommonUtils.msg(count);
 	}
