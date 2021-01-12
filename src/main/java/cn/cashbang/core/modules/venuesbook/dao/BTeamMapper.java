@@ -1,5 +1,7 @@
 package cn.cashbang.core.modules.venuesbook.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import cn.cashbang.core.modules.venuesbook.entity.BTeamEntity;
@@ -15,5 +17,6 @@ import cn.cashbang.core.modules.sys.dao.BaseMapper;
  */
 @Mapper
 public interface BTeamMapper extends BaseMapper<BTeamEntity> {
-	
+
+    List<BTeamEntity> listTeamByUserId(String uid);
 }

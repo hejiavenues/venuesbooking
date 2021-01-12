@@ -126,4 +126,10 @@ public class ApiBActivitiesController extends AbstractController {
 
 		return bActivityEntryService.updateBActivityEntry(bActivityEntry);
 	}
+
+	@RequestMapping("/listActByUserId")
+	public Result listActByUserId(String uid){
+
+		return   bActivitiesService.listActByUserId(uid);
+	}
 }

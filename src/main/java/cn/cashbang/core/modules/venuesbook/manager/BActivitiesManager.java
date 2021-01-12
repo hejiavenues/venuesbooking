@@ -25,5 +25,6 @@ public interface BActivitiesManager {
 	int updateBActivities(BActivitiesEntity bActivities);
 	
 	int batchRemove(Long[] id);
-	
+
+	List<BActivitiesEntity> listActByUserId(String uid);
 }

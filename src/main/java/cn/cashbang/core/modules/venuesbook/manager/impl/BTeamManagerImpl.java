@@ -2,6 +2,7 @@ package cn.cashbang.core.modules.venuesbook.manager.impl;
 
 import java.util.List;
 
+import cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -53,4 +54,8 @@ public class BTeamManagerImpl implements BTeamManager {
 		return count;
 	}
 	
+	@Override
+	public List<BTeamEntity> listTeamByUserId(String uid){
+		return bTeamMapper.listTeamByUserId(uid);
+	}
 }

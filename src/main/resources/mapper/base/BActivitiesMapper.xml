@@ -41,6 +41,25 @@
 		ORDER BY
 			ba.activity_id DESC
 	</select>
+
+	<select id="listActByUserId" resultType="cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity">
+		SELECT
+		ba.`activity_id`,
+		ba.`venue_id`,
+		(select venue_name from b_venue_info bvi where bvi.venue_id = ba.venue_id) as venueName,
+		ba.`uid`,
+		ba.`activity_id_name`,
+		ba.`activity_count`,
+		ba.`activity_type`,
+		ba.`activity_content`,
+		ba.`activity_icon_url`,
+		ba.`activity_time`
+		FROM
+		b_activity_entry bae left join 		b_activities ba
+		on bae.activity_id = ba.activity_id
+		where bae.uid=#{uid}
+		order by bae.create_time desc
+	</select>
 	
 	<insert id="save">
 		INSERT INTO b_activities (

@@ -38,6 +38,7 @@
 	<select id="getVenueBookById" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
 
 		select
+		b.`venue_id`,
 		i.venue_name as venueName,
 		i.address as address,
 		i.support_active_type as supportActiveType,

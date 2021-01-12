@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,4 +63,9 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 		return CommonUtils.msg(id, count);
 	}
 
+	@Override
+	public  Result listActByUserId(String uid) {
+		List<BActivitiesEntity>  list = bActivitiesManager.listActByUserId(uid);
+		return  Result.ok().put("raws", list);
+	}
 }

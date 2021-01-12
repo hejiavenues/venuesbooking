@@ -62,5 +62,10 @@ public class BActivitiesManagerImpl implements BActivitiesManager {
 		int count = bActivitiesMapper.batchRemove(id);
 		return count;
 	}
-	
+
+	@Override
+	public List<BActivitiesEntity> listActByUserId(String uid){
+
+		return bActivitiesMapper.listActByUserId(uid);
+	}
 }

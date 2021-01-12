@@ -37,6 +37,24 @@
 		ORDER BY
 			tid DESC
 	</select>
+
+	<select id="listTeamByUserId" resultType="cn.cashbang.core.modules.venuesbook.entity.BTeamEntity">
+		SELECT
+		bt.`tid`,
+		bt.`uid`,
+		bt.`tname`,
+		bt.`people_count`,
+		bt.`activity_type`,
+		(select bd.name from b_dic bd where bd.typecode='activityType' and CONVERT(bd.code USING utf8) COLLATE utf8_unicode_ci = bt.activity_type) as activityTypeDesc,
+		bt.`activity_content`,
+		bt.`enter_condition`,
+		bt.`status`,
+		bt.`dead_line`
+		FROM
+		b_team_entry bte left join b_team bt on bte.tid = bt.tid
+		where bte.uid=#{uid}
+		order by bte.create_time desc
+	</select>
 	
 	<insert id="save">
 		INSERT INTO b_team (
@@ -71,7 +89,9 @@
 		SELECT
 			`tid`, 
 			`uid`, 
-			`tname`, 
+			`tname`,
+			(select bd.name from b_dic bd where bd.typecode='activityType' and CONVERT(bd.code USING utf8)
+			COLLATE utf8_unicode_ci = bt.activity_type) as activityTypeDesc,
 			`people_count`, 
 			`activity_type`, 
 			`activity_content`, 
@@ -81,7 +101,7 @@
 			`create_time`, 
 			`update_time`
 		FROM
-			b_team
+			b_team   bt
 		WHERE
 			tid = #{tid}
 	</select>

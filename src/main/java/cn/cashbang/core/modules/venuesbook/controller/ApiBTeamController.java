@@ -84,6 +84,7 @@ public class ApiBTeamController extends AbstractController {
 		bTeam.setEnterCondition(enterCondition);
 		String uuid = CommonUtils.createUUID();
 		bTeam.setTid(uuid);
+		bTeam.setStatus(1);
 		return bTeamService.saveBTeam(bTeam);
 	}
 	
@@ -128,5 +129,10 @@ public class ApiBTeamController extends AbstractController {
 		bTeam.setStatus(status);  // 1放开、2关闭、3满员、4.组队失败
 		return bTeamService.updateBTeam(bTeam);
 	}
-	
+
+	@RequestMapping("/listTeamByUserId")
+	public Result listTeamByUserId(String uid){
+
+		return   bTeamService.listTeamByUserId(uid);
+	}
 }

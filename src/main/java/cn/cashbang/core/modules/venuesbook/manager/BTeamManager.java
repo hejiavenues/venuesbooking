@@ -25,5 +25,6 @@ public interface BTeamManager {
 	int updateBTeam(BTeamEntity bTeam);
 	
 	int batchRemove(Long[] id);
-	
+
+	List<BTeamEntity> listTeamByUserId(String uid);
 }
