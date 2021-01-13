@@ -25,5 +25,7 @@ public interface BUserService {
 	Result updateBUser(BUserEntity bUser);
 	
 	Result batchRemove(Long[] id);
+
+	Result loginUser(String code);
 	
 }

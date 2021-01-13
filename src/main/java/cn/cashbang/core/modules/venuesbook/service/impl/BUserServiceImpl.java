@@ -1,17 +1,21 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
-import java.util.Map;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
+import cn.cashbang.core.common.utils.HttpClientUtils;
+import cn.cashbang.core.common.utils.StringUtils;
 import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import cn.cashbang.core.modules.venuesbook.service.BUserService;
+import com.alibaba.fastjson.JSONObject;
+import com.yangwang.sysframework.wechat.boot.model.WxUserInfo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Map;
+
 
 /**
  * 用户信息表
@@ -57,6 +61,35 @@ public class BUserServiceImpl implements BUserService {
 	public Result batchRemove(Long[] id) {
 		int count = bUserManager.batchRemove(id);
 		return CommonUtils.msg(id, count);
+	}
+
+	@Override
+	public Result loginUser(String code){
+
+		String appId="wx3a6796d91e05c5bf";
+		String appSecret="dbf8c4107af70b407c9230705a4b126f";
+
+		WxUserInfo result = new WxUserInfo();
+		String requestUrl = "https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code&appid="
+				+ appId + "&secret=" + appSecret + "&js_code=" + code;
+		HttpClientUtils.HttpPostParams httpPostParams = HttpClientUtils.createHttpPostParams(requestUrl);
+		String res = HttpClientUtils.doPost(httpPostParams);
+
+		JSONObject jsonObject = JSONObject.parseObject(res);
+		String openId = (jsonObject.get("openid") == null ? jsonObject.get("openId") : jsonObject.get("openid")).toString();
+
+		BUserEntity bUser = bUserManager.getBUserById("9b62829f1303468985cf0813b51f1ee7");
+
+		if(StringUtils.isNotBlank(openId)){
+
+
+		}
+		else {
+
+		}
+
+		return Result.ok().put("raws", bUser);
+
 	}
 
 }

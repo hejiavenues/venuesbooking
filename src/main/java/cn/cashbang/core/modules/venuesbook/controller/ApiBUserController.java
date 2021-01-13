@@ -44,7 +44,8 @@ public class ApiBUserController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/uerRegister")
-	public Result uerRegister(String uname,Integer sex,String birthday,String mobile,String committeeId) {
+	public Result uerRegister(String uname,Integer sex,String birthday,String mobile,String committeeId,
+	String openId){
 
 		System.out.println("-----------------"+uname);
 
@@ -58,6 +59,12 @@ public class ApiBUserController extends AbstractController {
 		String uuid = CommonUtils.createUUID();
 		bUser.setUid(uuid);
 		return bUserService.saveBUser(bUser);
+	}
+
+	@RequestMapping("/uerLogin")
+	public Result uerLogin(String code){
+
+		return bUserService.loginUser(code);
 	}
 	
 	/**
@@ -77,7 +84,7 @@ public class ApiBUserController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/updateUser")
-	public Result updateUser(String uid,String uname,Integer sex,String birthday) {
+	public Result updateUser(String uid,String uname,Integer sex,String birthday){
 
 		BUserEntity bUser = new BUserEntity();
 		bUser.setBirthday(birthday);
