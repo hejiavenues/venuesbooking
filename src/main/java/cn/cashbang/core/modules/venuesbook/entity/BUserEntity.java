@@ -81,7 +81,19 @@ public class BUserEntity implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateTime;
-	
+
+	/**
+	 * 微信用户唯一标识
+	 */
+	private String openId;
+
+	public String getOpenId() {
+		return openId;
+	}
+
+	public void setOpenId(String openId) {
+		this.openId = openId;
+	}
 
 	public BUserEntity() {
 		super();
