@@ -10,7 +10,6 @@ import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import cn.cashbang.core.modules.venuesbook.service.BUserService;
 import com.alibaba.fastjson.JSONObject;
-import com.yangwang.sysframework.wechat.boot.model.WxUserInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -68,23 +67,33 @@ public class BUserServiceImpl implements BUserService {
 
 		String appId="wx3a6796d91e05c5bf";
 		String appSecret="dbf8c4107af70b407c9230705a4b126f";
-
-		WxUserInfo result = new WxUserInfo();
 		String requestUrl = "https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code&appid="
 				+ appId + "&secret=" + appSecret + "&js_code=" + code;
-		HttpClientUtils.HttpPostParams httpPostParams = HttpClientUtils.createHttpPostParams(requestUrl);
-		String res = HttpClientUtils.doPost(httpPostParams);
+		//HttpClientUtils.HttpPostParams httpPostParams = HttpClientUtils.createHttpPostParams(requestUrl);
+		String res = HttpClientUtils.doGet1(requestUrl);
 
 		JSONObject jsonObject = JSONObject.parseObject(res);
-		String openId = (jsonObject.get("openid") == null ? jsonObject.get("openId") : jsonObject.get("openid")).toString();
-
+		Object resO = jsonObject.get("openid") == null ? jsonObject.get("openId") : jsonObject.get("openid");
+		String openId = "";
+		if(resO!=null){
+			openId = openId.toString();
+		}
+		
 		BUserEntity bUser = bUserManager.getBUserById("9b62829f1303468985cf0813b51f1ee7");
+
+		bUser.setOpenId("test1234");
+		bUserManager.updateBUser(bUser);
 
 		if(StringUtils.isNotBlank(openId)){
 
+			// 根据openId查询用户是否存在
 
+			bUser.setOpenId(openId);
+			bUserManager.updateBUser(bUser);
 		}
 		else {
+
+			Result.error("登录失败");
 
 		}
 

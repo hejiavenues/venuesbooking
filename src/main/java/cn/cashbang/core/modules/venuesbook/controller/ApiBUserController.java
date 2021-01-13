@@ -58,6 +58,7 @@ public class ApiBUserController extends AbstractController {
 		bUser.setUserRole(1);
 		String uuid = CommonUtils.createUUID();
 		bUser.setUid(uuid);
+		bUser.setOpenId(openId);
 		return bUserService.saveBUser(bUser);
 	}
 
