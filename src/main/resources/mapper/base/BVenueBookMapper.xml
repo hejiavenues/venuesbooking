@@ -19,7 +19,7 @@
 			id DESC
 	</select>
 
-	<select id="queryBookByUserId" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
+	<select id="getVenueBookById" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
 		SELECT
 		`id`,
 		`user_id`,
@@ -35,7 +35,7 @@
 		id DESC
 	</select>
 	
-	<select id="getVenueBookById" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
+	<select id="queryBookByUserId" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
 
 		select
 		b.`venue_id`,

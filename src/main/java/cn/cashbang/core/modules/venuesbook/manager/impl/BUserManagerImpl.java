@@ -52,5 +52,11 @@ public class BUserManagerImpl implements BUserManager {
 		int count = bUserMapper.batchRemove(id);
 		return count;
 	}
-	
+
+	@Override
+	public BUserEntity getUserByOpenId(String openId){
+
+		BUserEntity bUser = bUserMapper.getUserByOpenId(openId);
+		return bUser;
+	}
 }

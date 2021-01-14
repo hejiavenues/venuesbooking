@@ -77,28 +77,23 @@ public class BUserServiceImpl implements BUserService {
 		String openId = "";
 		if(resO!=null){
 			openId = openId.toString();
-		}
-		
-		BUserEntity bUser = bUserManager.getBUserById("9b62829f1303468985cf0813b51f1ee7");
-
-		bUser.setOpenId("test1234");
-		bUserManager.updateBUser(bUser);
-
-		if(StringUtils.isNotBlank(openId)){
 
 			// 根据openId查询用户是否存在
+			BUserEntity bUser = bUserManager.getUserByOpenId(openId);
 
-			bUser.setOpenId(openId);
-			bUserManager.updateBUser(bUser);
+			if(bUser==null) {
+
+				bUser = new  BUserEntity();
+				bUser.setOpenId("openId");
+			}
+
+//			bUserManager.updateBUser(bUser);
+
+			return Result.ok().put("raws", bUser);
 		}
 		else {
-
-			Result.error("登录失败");
-
+			return Result.error("登录失败");
 		}
-
-		return Result.ok().put("raws", bUser);
-
 	}
 
 }
