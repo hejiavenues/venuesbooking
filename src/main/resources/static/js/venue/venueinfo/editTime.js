@@ -7,6 +7,7 @@ var vm = new Vue({
 		bVenueInfo: {
 			venueId: 0,
 			times: '',
+			commont:'',
 			dynamicTags:[],
 		},
 		avaTimes:[],
@@ -32,16 +33,22 @@ var vm = new Vue({
 	},
 	methods : {
 		selectChanged (val) {
+			if(!this.bVenueInfo.commont){
+				this.bVenueInfo.times='';
+				this.date1 = '';
+				dialogAlert("请先填写禁用描述");
+				return;
+			}
 			if(!this.date1){
 				this.bVenueInfo.times='';
 				dialogAlert("请先选择日期");
 				return;
 			}
-			if(this.dynamicTags11111.indexOf(this.date1+' '+val)==-1){
-				this.dynamicTags11111.push(this.date1+' '+val);
+			if(this.dynamicTags11111.indexOf(this.date1+' '+val+' '+this.bVenueInfo.commont)==-1){
+				this.dynamicTags11111.push(this.date1+' '+val+' '+this.bVenueInfo.commont);
 			}
-			if(this.bVenueInfo.dynamicTags.indexOf(this.date1+' '+val)==-1){
-				this.bVenueInfo.dynamicTags.push(this.date1+' '+val);
+			if(this.bVenueInfo.dynamicTags.indexOf(this.date1+' '+val+' '+this.bVenueInfo.commont)==-1){
+				this.bVenueInfo.dynamicTags.push(this.date1+' '+val+' '+this.bVenueInfo.commont);
 			}
 		},
 		acceptClick: function() {
