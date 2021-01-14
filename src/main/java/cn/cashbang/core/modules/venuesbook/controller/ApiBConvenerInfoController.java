@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.alibaba.druid.util.StringUtils;
+
 import java.util.Map;
 
 /**
@@ -54,7 +56,10 @@ public class ApiBConvenerInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/info")
-	public Result getById(@RequestBody Long id) {
+	public Result getById(@RequestBody String id) {
+		if(!StringUtils.isEmpty(id)) {
+			id = id.replace("\"", "");
+		}
 		return bConvenerInfoService.getBConvenerInfoById(id);
 	}
 	
