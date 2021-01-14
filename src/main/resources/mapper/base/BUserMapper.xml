@@ -81,6 +81,28 @@
 		WHERE
 			uid = #{uid}
 	</select>
+
+	<select id="getUserByOpenId" resultType="cn.cashbang.core.modules.venuesbook.entity.BUserEntity">
+		SELECT
+		`uid`,
+		`uname`,
+		`sex`,
+		`birthday`,
+		`mobile`,
+		`committee_id`,
+		`user_role`,
+		`user_age`,
+		`password`,
+		`status`,
+		`icon_url`,
+		openId,
+		`create_time`,
+		`update_time`
+		FROM
+		b_user
+		WHERE
+		openId = #{openId}
+	</select>
 	
 	<update id="update">
 		UPDATE b_user

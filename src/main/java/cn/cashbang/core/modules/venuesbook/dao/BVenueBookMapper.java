@@ -25,4 +25,5 @@ public interface BVenueBookMapper extends BaseMapper<BVenueBookEntity> {
 	// 查询用户预约的场馆
 	List<BVenueBookEntity> queryBookByUserId(String userId);
 
+	BVenueBookEntity getBookStatusById(String venueId,String bookDate);
 }

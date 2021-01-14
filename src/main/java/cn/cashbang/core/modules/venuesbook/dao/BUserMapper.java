@@ -15,5 +15,5 @@ import cn.cashbang.core.modules.sys.dao.BaseMapper;
  */
 @Mapper
 public interface BUserMapper extends BaseMapper<BUserEntity> {
-	
+    BUserEntity getUserByOpenId(String openId);
 }

@@ -163,12 +163,12 @@ public class ApiBVenueInfoController extends AbstractController {
 	}
 
 	/**
-	 * 场馆预约接口
+	 * 场馆预约情况查询接口
 	 * @param
 	 * @return
 	 */
 	@RequestMapping("/getBookStatusList")
-	public Map<String, Object>  getBookStatusList(String userId,String venueId) {
+	public Map<String, Object>  getBookStatusList(String venueId) {
 		
 		BUpdateVenueTime bVenueInfo = new BUpdateVenueTime();
 		bVenueInfo.setVenueId(venueId);
