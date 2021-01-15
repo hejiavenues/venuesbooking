@@ -127,7 +127,12 @@
 		FROM
 			b_venue_book
 		WHERE
-			venue_id = #{venueId} 
+			venue_id = #{venueId}
 	</delete>
+
+	<select id="getBookStatusById" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
+		select book_status from b_venue_book where venue_id=#{arg0}
+		and book_date = #{arg1} and book_time = #{arg2}
+	</select>
 
 </mapper>

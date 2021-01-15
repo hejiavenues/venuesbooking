@@ -69,5 +69,11 @@ public class BVenueBookManagerImpl implements BVenueBookManager {
 		
 		return bVenueBookMapper.queryBookByUserId(userId);
 	}
+
+	@Override
+	public BVenueBookEntity getBookStatusById(String venueId,String bookDate,String bookTime){
+		
+		return bVenueBookMapper.getBookStatusById(venueId,bookDate,bookTime);
+	}
 	
 }

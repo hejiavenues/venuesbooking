@@ -65,4 +65,10 @@ public class BTeamServiceImpl implements BTeamService {
 		List<BTeamEntity> list = bTeamManager.listTeamByUserId(uid);
 		return Result.ok().put("raws", list);
 	}
+
+	@Override
+	public Result listTeamByCreateUserId(String uid){
+		List<BTeamEntity> list = bTeamManager.listTeamByCreateUserId(uid);
+		return Result.ok().put("raws", list);
+	}
 }

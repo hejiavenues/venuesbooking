@@ -82,6 +82,17 @@ public class BUserEntity implements Serializable {
 	 */
 	private Date updateTime;
 
+	private String committeeName;
+
+
+	public String getCommitteeName() {
+		return committeeName;
+	}
+
+	public void setCommitteeName(String committeeName) {
+		this.committeeName = committeeName;
+	}
+
 	/**
 	 * 微信用户唯一标识
 	 */
