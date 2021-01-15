@@ -258,7 +258,7 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 	public Result getBookStatusList(BUpdateVenueTime bVenueInfo){
 
 		// 根据场馆ID查询出该场馆的预约情况
-		List<BVenueBookEntity> tags = bVenueBookManager.getVenueBookById(bVenueInfo.getVenueId());
+		// List<BVenueBookEntity> tags = bVenueBookManager.getVenueBookById(bVenueInfo.getVenueId());
 
 		// 计算出可以预约的七天日期
 		ArrayList<String>  dateList = DateUtil.getDateList();
@@ -278,10 +278,15 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 
 				JSONObject time = new JSONObject();
 				time.put("time",bDics.get(i).getName());
-
+				String venueId = bVenueInfo.getVenueId();
 				// 根据场馆Id日期和时间段，判断该场馆的状态
-				
+				BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
+						venueId,date,bDics.get(i).getName());
+
 				time.put("state",1);
+				if(entity!=null){
+					time.put("state",entity.getBookStatus());
+				}
 				array.add(time);
 				object.put("list",array);
 			}

@@ -58,4 +58,9 @@ public class BTeamManagerImpl implements BTeamManager {
 	public List<BTeamEntity> listTeamByUserId(String uid){
 		return bTeamMapper.listTeamByUserId(uid);
 	}
+
+	@Override
+	public List<BTeamEntity> listTeamByCreateUserId(String uid){
+		return bTeamMapper.listTeamByCreateUserId(uid);
+	}
 }

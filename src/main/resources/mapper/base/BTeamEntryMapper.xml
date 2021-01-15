@@ -6,7 +6,8 @@
 	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity">
 		SELECT
 			`teid`, 
-			`tid`, 
+			`tid`,
+			 uid,
 			`mobile`, 
 			`uname`, 
 			`status`, 
@@ -26,7 +27,8 @@
 	<insert id="save">
 		INSERT INTO b_team_entry (
 			`teid`, 
-			`tid`, 
+			`tid`,
+			uid,
 			`mobile`, 
 			`uname`, 
 			`status`, 
@@ -35,7 +37,8 @@
 		)
 		VALUES (
 			#{teid}, 
-			#{tid}, 
+			#{tid},
+			#{uid},
 			#{mobile}, 
 			#{uname}, 
 			#{status}, 
@@ -47,7 +50,8 @@
 	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity">
 		SELECT
 			`teid`, 
-			`tid`, 
+			`tid`,
+			 uid,
 			`mobile`, 
 			`uname`, 
 			`status`, 

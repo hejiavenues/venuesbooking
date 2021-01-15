@@ -32,4 +32,6 @@ public interface BVenueBookManager {
 
 	// 查询用户预约的场馆
 	List<BVenueBookEntity> queryBookByUserId(String userId);
+
+	BVenueBookEntity getBookStatusById(String venueId,String bookDate,String bookTime);
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -44,10 +45,12 @@ public class ApiBUserController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/uerRegister")
-	public Result uerRegister(String uname,Integer sex,String birthday,String mobile,String committeeId,
+	public Map<String, Object> uerRegister(String uname,Integer sex,String birthday,String mobile,String committeeId,
 	String openId){
 
 		System.out.println("-----------------"+uname);
+
+		Map<String, Object> result = new HashMap<>();
 
 		BUserEntity bUser = new BUserEntity();
 		bUser.setBirthday(birthday);
@@ -56,10 +59,24 @@ public class ApiBUserController extends AbstractController {
 		bUser.setUname(uname);
 		bUser.setMobile(mobile);
 		bUser.setUserRole(1);
+		bUser.setStatus(1);
 		String uuid = CommonUtils.createUUID();
 		bUser.setUid(uuid);
 		bUser.setOpenId(openId);
-		return bUserService.saveBUser(bUser);
+		Result r1 =   bUserService.saveBUser(bUser);
+
+		if(r1.get("code").toString().equals("0")){
+
+			result.put("code",0);
+			result.put("msg","注册成功！");
+			result.put("rows",bUser);
+		}
+		else{
+			result.put("code",-1);
+			result.put("msg","注册失败！");
+		}
+
+		return result;
 	}
 
 	@RequestMapping("/uerLogin")

@@ -76,7 +76,7 @@ public class BUserServiceImpl implements BUserService {
 		Object resO = jsonObject.get("openid") == null ? jsonObject.get("openId") : jsonObject.get("openid");
 		String openId = "";
 		if(resO!=null){
-			openId = openId.toString();
+			openId = resO.toString();
 
 			// 根据openId查询用户是否存在
 			BUserEntity bUser = bUserManager.getUserByOpenId(openId);
@@ -84,7 +84,7 @@ public class BUserServiceImpl implements BUserService {
 			if(bUser==null) {
 
 				bUser = new  BUserEntity();
-				bUser.setOpenId("openId");
+				bUser.setOpenId(openId);
 			}
 
 //			bUserManager.updateBUser(bUser);

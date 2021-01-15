@@ -104,14 +104,15 @@ public class ApiBTeamController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/entryTeamById")
-	public Result entryTeamById(String teamId,String userId) {
+	public Result entryTeamById(String teamId,String uid) {
 
 		BTeamEntryEntity bTeamEntry = new BTeamEntryEntity();
 		bTeamEntry.setTid(teamId);
 		bTeamEntry.setMobile("1234test");
 		bTeamEntry.setUname("test");
 		String uuid = CommonUtils.createUUID();
-		bTeamEntry.setTid(uuid);
+		bTeamEntry.setTeid(uuid);
+		bTeamEntry.setUid(uid);
 		return bTeamEntryService.saveBTeamEntry(bTeamEntry);
 	}
 
@@ -134,5 +135,11 @@ public class ApiBTeamController extends AbstractController {
 	public Result listTeamByUserId(String uid){
 
 		return   bTeamService.listTeamByUserId(uid);
+	}
+
+	@RequestMapping("/listTeamByCreateUserId")
+	public Result listTeamByCreateUserId(String uid){
+
+		return   bTeamService.listTeamByCreateUserId(uid);
 	}
 }

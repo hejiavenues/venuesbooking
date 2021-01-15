@@ -26,6 +26,11 @@ public class BTeamEntryEntity implements Serializable {
 	 * 团队id
 	 */
 	private String tid;
+
+	/**
+	 * 报名人的uid
+	 */
+	private String uid;
 	
 	/**
 	 * 手机号
@@ -51,7 +56,14 @@ public class BTeamEntryEntity implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateTime;
-	
+
+	public String getUid() {
+		return uid;
+	}
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
 
 	public BTeamEntryEntity() {
 		super();

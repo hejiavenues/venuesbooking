@@ -19,4 +19,6 @@ import cn.cashbang.core.modules.sys.dao.BaseMapper;
 public interface BTeamMapper extends BaseMapper<BTeamEntity> {
 
     List<BTeamEntity> listTeamByUserId(String uid);
+
+    List<BTeamEntity> listTeamByCreateUserId(String uid);
 }

@@ -27,4 +27,6 @@ public interface BTeamService {
 	Result batchRemove(Long[] id);
 	
 	Result listTeamByUserId(String uid);
+
+	Result listTeamByCreateUserId(String uid);
 }

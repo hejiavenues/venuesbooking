@@ -37,9 +37,9 @@
 			`user_age`, 
 			`password`, 
 			`status`, 
-			`icon_url`, 
+			`icon_url`,
+			 openId,
 			`create_time`,
-			openId,
 			`update_time`
 		)
 		VALUES (
@@ -67,7 +67,8 @@
 			`sex`, 
 			`birthday`, 
 			`mobile`, 
-			`committee_id`, 
+			`committee_id`,
+			(select cname from b_committees bc where bc.cid = bu.committee_id) as committeeName,
 			`user_role`, 
 			`user_age`, 
 			`password`, 
@@ -77,7 +78,7 @@
 			`create_time`, 
 			`update_time`
 		FROM
-			b_user
+			b_user bu
 		WHERE
 			uid = #{uid}
 	</select>

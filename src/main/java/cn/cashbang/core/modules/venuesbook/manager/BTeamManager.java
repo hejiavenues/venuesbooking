@@ -27,4 +27,6 @@ public interface BTeamManager {
 	int batchRemove(Long[] id);
 
 	List<BTeamEntity> listTeamByUserId(String uid);
+
+	List<BTeamEntity> listTeamByCreateUserId(String uid);
 }
