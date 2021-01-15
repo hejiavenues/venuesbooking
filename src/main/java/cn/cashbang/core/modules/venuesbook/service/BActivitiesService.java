@@ -1,10 +1,12 @@
 package cn.cashbang.core.modules.venuesbook.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BActivityEntryEntity;
 
 /**
  * 活动信息表

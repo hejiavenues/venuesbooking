@@ -3,6 +3,7 @@ package cn.cashbang.core.modules.venuesbook.controller;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
+import cn.cashbang.core.common.utils.StringUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
@@ -36,14 +37,21 @@ public class ApiBPhotoInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/getPhotoList")
-	public  Map<String, Object> getPhotoList(int page) {
+	public  Map<String, Object> getPhotoList(int page,String uid) {
 
 		Map<String, Object> params = new HashMap<>();
 		Map<String, Object> result = new HashMap<>();
 
 		params.put("pageNumber",page);
 		params.put("pageSize",2);
-		params.put("keyword",null);
+		
+		if(StringUtils.isNotBlank(uid)){
+			params.put("queryUserId",uid);
+		}
+		else {
+			params.put("queryUserId",null);
+		}
+
 		params.put("sortOrde","asc");
 
 		Page<BPhotoInfoEntity> list =  bPhotoInfoService.listBPhotoInfo(params);
@@ -63,20 +71,21 @@ public class ApiBPhotoInfoController extends AbstractController {
 		
 	/**
 	 * 新增
-	 * @param userId
+	 * @param uid
 	 * @return
 	 */
 	@RequestMapping("/sendPhoto")
-	public Result sendPhoto(String userId,String content) {
+	public Result sendPhoto(String uid,String content,String comId) {
 
 		BPhotoInfoEntity bPhotoInfo = new BPhotoInfoEntity();
-		bPhotoInfo.setUid(userId);
+		bPhotoInfo.setUid(uid);
 		bPhotoInfo.setContent(content);
-		bPhotoInfo.setUname("王阿姨");
+		//bPhotoInfo.setUname("王阿姨");
 		bPhotoInfo.setStatus(1);     //状态 1.正常 2.删除
 		bPhotoInfo.setPitureUrls("");
 		String uuid = CommonUtils.createUUID();
 		bPhotoInfo.setPid(uuid);
+		bPhotoInfo.setCommitteeId(comId);
 		return bPhotoInfoService.saveBPhotoInfo(bPhotoInfo);
 	}
 	

@@ -66,6 +66,23 @@
 		WHERE
 			eid = #{eid}
 	</select>
+
+	<select id="getUserListById" resultType="cn.cashbang.core.modules.venuesbook.entity.BActivityEntryEntity">
+		SELECT
+		`eid`,
+		`activity_id`,
+		`uid`,
+		`uname`,
+		`mobile`,
+		`ispresent`,
+		`status`,
+		`create_time`,
+		`update_time`
+		FROM
+		b_activity_entry
+		WHERE
+		`activity_id` = #{activityId}
+	</select>
 	
 	<update id="update">
 		UPDATE b_activity_entry
@@ -79,8 +96,7 @@
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}</if>
 		</set>
-		WHERE
-			eid = #{eid}
+		where `activity_id` = #{activityId}  and `uid` = #{uid}
 	</update>
 	
 	<delete id="batchRemove">

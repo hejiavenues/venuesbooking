@@ -132,4 +132,10 @@ public class ApiBActivitiesController extends AbstractController {
 
 		return   bActivitiesService.listActByUserId(uid);
 	}
+
+	@RequestMapping("/getUserListById")
+	public Result getUserListById(String activityId){
+
+		return   bActivityEntryService.getUserListById(activityId);
+	}
 }

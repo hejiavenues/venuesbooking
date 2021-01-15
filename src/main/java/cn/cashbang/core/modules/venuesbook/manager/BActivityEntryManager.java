@@ -25,5 +25,6 @@ public interface BActivityEntryManager {
 	int updateBActivityEntry(BActivityEntryEntity bActivityEntry);
 	
 	int batchRemove(Long[] id);
-	
+
+	List<BActivityEntryEntity> getUserListById(String actId);
 }

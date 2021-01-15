@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.cashbang.core.common.entity.Page;
@@ -25,5 +26,6 @@ public interface BTeamEntryService {
 	Result updateBTeamEntry(BTeamEntryEntity bTeamEntry);
 	
 	Result batchRemove(Long[] id);
-	
+
+	Result getTeamUserById(String tid);
 }

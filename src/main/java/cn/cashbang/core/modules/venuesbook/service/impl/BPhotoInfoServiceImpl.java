@@ -2,6 +2,8 @@ package cn.cashbang.core.modules.venuesbook.service.impl;
 
 import java.util.Map;
 
+import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
+import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,6 +29,9 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 	@Autowired
 	private BPhotoInfoManager bPhotoInfoManager;
 
+	@Autowired
+	private BUserManager bUserManager;
+
 	@Override
 	public Page<BPhotoInfoEntity> listBPhotoInfo(Map<String, Object> params) {
 		Query query = new Query(params);
@@ -37,6 +42,9 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 
 	@Override
 	public Result saveBPhotoInfo(BPhotoInfoEntity role) {
+
+		BUserEntity bUser = bUserManager.getBUserById(role.getUid());
+		role.setUname(bUser.getUname());
 		int count = bPhotoInfoManager.saveBPhotoInfo(role);
 		return CommonUtils.msg(count);
 	}

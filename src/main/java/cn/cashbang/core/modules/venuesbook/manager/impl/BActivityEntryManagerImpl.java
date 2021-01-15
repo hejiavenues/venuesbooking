@@ -52,5 +52,9 @@ public class BActivityEntryManagerImpl implements BActivityEntryManager {
 		int count = bActivityEntryMapper.batchRemove(id);
 		return count;
 	}
-	
+
+	@Override
+	public List<BActivityEntryEntity> getUserListById(String actId){
+		return bActivityEntryMapper.getUserListById(actId);
+	}
 }

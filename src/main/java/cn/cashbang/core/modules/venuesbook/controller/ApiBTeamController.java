@@ -142,4 +142,15 @@ public class ApiBTeamController extends AbstractController {
 
 		return   bTeamService.listTeamByCreateUserId(uid);
 	}
+
+	/**
+	 * 查询团队成员列表
+	 * @param teamId
+	 * @return
+	 */
+	@RequestMapping("/getTeamUserById")
+	public Result getTeamUserById(String teamId) {
+
+		return bTeamEntryService.getTeamUserById(teamId);
+	}
 }
