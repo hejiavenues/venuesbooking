@@ -281,7 +281,7 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 				BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
 						venueId,date,bDics.get(i).getName());
 
-				time.put("state",1);
+				time.put("state",0);
 				if(entity!=null){
 					time.put("state",entity.getBookStatus());
 				}

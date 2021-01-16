@@ -52,7 +52,7 @@
 		bt.`dead_line`
 		FROM
 		b_team_entry bte left join b_team bt on bte.tid = bt.tid
-		where bte.uid=#{uid}
+		where bte.uid=#{uid}  and  bte.status = 1
 		order by bte.create_time desc
 	</select>
 

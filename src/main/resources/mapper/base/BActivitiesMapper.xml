@@ -57,7 +57,7 @@
 		FROM
 		b_activity_entry bae left join 		b_activities ba
 		on bae.activity_id = ba.activity_id
-		where bae.uid=#{uid}
+		where bae.status = 1 and bae.uid=#{uid}
 		order by bae.create_time desc
 	</select>
 	

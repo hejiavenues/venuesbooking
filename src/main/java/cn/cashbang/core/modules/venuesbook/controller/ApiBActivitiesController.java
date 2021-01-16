@@ -49,7 +49,7 @@ public class ApiBActivitiesController extends AbstractController {
 
 		params.put("pageNumber",page);
 		params.put("pageSize",5);
-		params.put("keyword",null);
+		params.put("aStatus",1);  // 只有公开的活动才需要报名
 		params.put("sortOrde","asc");
 
 		Page<BActivitiesEntity> list = bActivitiesService.listBActivities(params);

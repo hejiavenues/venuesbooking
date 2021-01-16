@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -117,6 +118,25 @@ public class ApiBPhotoInfoController extends AbstractController {
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody String[] id) {
 		return bPhotoInfoService.batchRemove(id);
+	}
+
+	/**
+	 * 新增
+	 * @param imgFile
+	 * @return
+	 */
+	@RequestMapping("/saveImage")
+	public Result saveImage(MultipartFile imgFile, String type) {
+
+		Result resultEntity = new Result();
+
+		if(imgFile == null){
+			logger.error("新增图片，imgFile为空");
+			resultEntity = Result.error(-1, "图片为空");
+			return resultEntity;
+		}
+
+		return   bPhotoInfoService.saveImage(imgFile,type);
 	}
 	
 }

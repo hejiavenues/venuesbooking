@@ -113,6 +113,7 @@ public class ApiBTeamController extends AbstractController {
 		String uuid = CommonUtils.createUUID();
 		bTeamEntry.setTeid(uuid);
 		bTeamEntry.setUid(uid);
+		bTeamEntry.setStatus(1);
 		return bTeamEntryService.saveBTeamEntry(bTeamEntry);
 	}
 

@@ -68,7 +68,7 @@ public class BVenueBookServiceImpl implements BVenueBookService {
 
 	@Override
 	public Result queryBookByUserId(String userId) {
-		List<BVenueBookEntity> list = bVenueBookManager.getVenueBookById(userId);
+		List<BVenueBookEntity> list = bVenueBookManager.queryBookByUserId(userId);
 		return Result.ok().put("raws", list);
 	}
 }
