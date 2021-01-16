@@ -27,6 +27,9 @@
 			<if test="queryStatus != null and queryStatus != ''">
 				and	bp.`status` = #{queryStatus} 
 			</if>
+			  <if test="queryUserId != null and queryUserId != ''">
+				  and	bp.`uid` = #{queryUserId}
+			  </if>
 			</where>
 		ORDER BY
 			bp.create_time DESC

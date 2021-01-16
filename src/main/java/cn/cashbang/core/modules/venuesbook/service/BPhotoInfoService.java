@@ -5,6 +5,7 @@ import java.util.Map;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 随拍信息表
@@ -25,5 +26,7 @@ public interface BPhotoInfoService {
 	Result updateBPhotoInfo(BPhotoInfoEntity bPhotoInfo);
 	
 	Result batchRemove(String[] id);
+
+	Result saveImage(MultipartFile imgFile,String type);
 	
 }

@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,4 +60,11 @@ public class BTeamEntryServiceImpl implements BTeamEntryService {
 		return CommonUtils.msg(id, count);
 	}
 
+	@Override
+	public Result getTeamUserById(String tid){
+
+		List<BTeamEntryEntity> entity = bTeamEntryManager.getTeamUserById(tid);
+
+		return  Result.ok().put("raws", entity);
+	}
 }

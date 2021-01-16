@@ -113,6 +113,7 @@ public class ApiBTeamController extends AbstractController {
 		String uuid = CommonUtils.createUUID();
 		bTeamEntry.setTeid(uuid);
 		bTeamEntry.setUid(uid);
+		bTeamEntry.setStatus(1);
 		return bTeamEntryService.saveBTeamEntry(bTeamEntry);
 	}
 
@@ -141,5 +142,16 @@ public class ApiBTeamController extends AbstractController {
 	public Result listTeamByCreateUserId(String uid){
 
 		return   bTeamService.listTeamByCreateUserId(uid);
+	}
+
+	/**
+	 * 查询团队成员列表
+	 * @param teamId
+	 * @return
+	 */
+	@RequestMapping("/getTeamUserById")
+	public Result getTeamUserById(String teamId) {
+
+		return bTeamEntryService.getTeamUserById(teamId);
 	}
 }

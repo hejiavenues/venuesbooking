@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import cn.cashbang.core.modules.venuesbook.entity.BActivityEntryEntity;
 import cn.cashbang.core.modules.sys.dao.BaseMapper;
 
+import java.util.List;
+
 /**
  * 活动报名记录表
  *
@@ -15,5 +17,6 @@ import cn.cashbang.core.modules.sys.dao.BaseMapper;
  */
 @Mapper
 public interface BActivityEntryMapper extends BaseMapper<BActivityEntryEntity> {
-	
+
+    List<BActivityEntryEntity> getUserListById(String actId);
 }

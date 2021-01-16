@@ -3,6 +3,7 @@ package cn.cashbang.core.modules.venuesbook.controller;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
+import cn.cashbang.core.common.utils.StringUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -36,14 +38,21 @@ public class ApiBPhotoInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/getPhotoList")
-	public  Map<String, Object> getPhotoList(int page) {
+	public  Map<String, Object> getPhotoList(int page,String uid) {
 
 		Map<String, Object> params = new HashMap<>();
 		Map<String, Object> result = new HashMap<>();
 
 		params.put("pageNumber",page);
 		params.put("pageSize",2);
-		params.put("keyword",null);
+		
+		if(StringUtils.isNotBlank(uid)){
+			params.put("queryUserId",uid);
+		}
+		else {
+			params.put("queryUserId",null);
+		}
+
 		params.put("sortOrde","asc");
 
 		Page<BPhotoInfoEntity> list =  bPhotoInfoService.listBPhotoInfo(params);
@@ -63,20 +72,21 @@ public class ApiBPhotoInfoController extends AbstractController {
 		
 	/**
 	 * 新增
-	 * @param userId
+	 * @param uid
 	 * @return
 	 */
 	@RequestMapping("/sendPhoto")
-	public Result sendPhoto(String userId,String content) {
+	public Result sendPhoto(String uid,String content,String comId) {
 
 		BPhotoInfoEntity bPhotoInfo = new BPhotoInfoEntity();
-		bPhotoInfo.setUid(userId);
+		bPhotoInfo.setUid(uid);
 		bPhotoInfo.setContent(content);
-		bPhotoInfo.setUname("王阿姨");
+		//bPhotoInfo.setUname("王阿姨");
 		bPhotoInfo.setStatus(1);     //状态 1.正常 2.删除
 		bPhotoInfo.setPitureUrls("");
 		String uuid = CommonUtils.createUUID();
 		bPhotoInfo.setPid(uuid);
+		bPhotoInfo.setCommitteeId(comId);
 		return bPhotoInfoService.saveBPhotoInfo(bPhotoInfo);
 	}
 	
@@ -108,6 +118,25 @@ public class ApiBPhotoInfoController extends AbstractController {
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody String[] id) {
 		return bPhotoInfoService.batchRemove(id);
+	}
+
+	/**
+	 * 新增
+	 * @param imgFile
+	 * @return
+	 */
+	@RequestMapping("/saveImage")
+	public Result saveImage(MultipartFile imgFile, String type) {
+
+		Result resultEntity = new Result();
+
+		if(imgFile == null){
+			logger.error("新增图片，imgFile为空");
+			resultEntity = Result.error(-1, "图片为空");
+			return resultEntity;
+		}
+
+		return   bPhotoInfoService.saveImage(imgFile,type);
 	}
 	
 }

@@ -59,7 +59,7 @@ public class ApiBVenueInfoController extends AbstractController {
 		Map<String, Object> result = new HashMap<>();
 
 		params.put("pageNumber",page);
-		params.put("pageSize",2);
+		params.put("pageSize",5);
 		params.put("queryCGName",queryCGName);
 		params.put("queryComId",queryComId);
 		params.put("queryActType",queryActType);

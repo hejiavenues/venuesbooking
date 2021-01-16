@@ -62,6 +62,22 @@
 		WHERE
 			teid = #{teid}
 	</select>
+
+	<select id="getTeamUserById" resultType="cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity">
+		SELECT
+		`teid`,
+		`tid`,
+		uid,
+		`mobile`,
+		`uname`,
+		`status`,
+		`create_time`,
+		`update_time`
+		FROM
+		b_team_entry
+		WHERE
+		tid = #{tid}
+	</select>
 	
 	<update id="update">
 		UPDATE b_team_entry

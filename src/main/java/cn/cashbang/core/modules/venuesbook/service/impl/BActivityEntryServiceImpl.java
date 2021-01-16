@@ -1,7 +1,9 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
+import cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,4 +78,11 @@ public class BActivityEntryServiceImpl implements BActivityEntryService {
 		return CommonUtils.msg(id, count);
 	}
 
+	@Override
+	public Result getUserListById(String actId){
+
+		List<BActivityEntryEntity> entity = bActivityEntryManager.getUserListById(actId);
+
+		return  Result.ok().put("raws", entity);
+	}
 }

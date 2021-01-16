@@ -47,7 +47,7 @@ public class BVenueBookEntity implements Serializable {
 	private String bookTime;
 	
 	/**
-	 * 状态（1、不可用 2、已预约）
+	 * 状态（0 可选择、1、不可用 2、已预约）
 	 */
 	private Integer bookStatus;
 	

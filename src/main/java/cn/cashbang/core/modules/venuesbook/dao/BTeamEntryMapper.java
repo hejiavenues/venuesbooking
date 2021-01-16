@@ -5,6 +5,8 @@ import org.apache.ibatis.annotations.Mapper;
 import cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity;
 import cn.cashbang.core.modules.sys.dao.BaseMapper;
 
+import java.util.List;
+
 /**
  * 团队报名记录表
  *
@@ -15,5 +17,6 @@ import cn.cashbang.core.modules.sys.dao.BaseMapper;
  */
 @Mapper
 public interface BTeamEntryMapper extends BaseMapper<BTeamEntryEntity> {
-	
+
+    List<BTeamEntryEntity> getTeamUserById(String tid);
 }

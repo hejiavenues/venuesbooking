@@ -53,7 +53,7 @@
 		from
 		b_venue_book b
 		left join b_venue_info i on i.venue_id = b.venue_id
-		<![CDATA[  where user_id='9b62829f1303468985cf0813b51f1ee7'  ]]>
+		<![CDATA[  where user_id=#{userId}  ]]>
 		and b.create_time>'2021-01-01 14:18:25'
 		order by b.create_time asc
 

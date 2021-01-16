@@ -52,5 +52,9 @@ public class BTeamEntryManagerImpl implements BTeamEntryManager {
 		int count = bTeamEntryMapper.batchRemove(id);
 		return count;
 	}
-	
+
+	@Override
+	public List<BTeamEntryEntity> getTeamUserById(String tid){
+		return bTeamEntryMapper.getTeamUserById(tid);
+	}
 }
