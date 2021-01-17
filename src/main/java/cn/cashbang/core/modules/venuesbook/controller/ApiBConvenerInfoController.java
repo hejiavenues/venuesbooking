@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -38,13 +39,13 @@ public class ApiBConvenerInfoController extends AbstractController {
 
 		BConvenerInfoEntity  bConvenerInfo=new BConvenerInfoEntity();
 
-		bConvenerInfo.setIdcardBackUrl(idcardBackUrl);
-		bConvenerInfo.setIdcardFrontUrl(idcardFrontUrl);
+		bConvenerInfo.setIdcardBackUrl("/picture/"+idcardBackUrl);
+		bConvenerInfo.setIdcardFrontUrl("/picture/"+idcardFrontUrl);
 		bConvenerInfo.setActivityId(activityId);
 		//String uuid = CommonUtils.createUUID();
 		bConvenerInfo.setStatus(0); // 审核中
 		bConvenerInfo.setUid(userId);
-
+		bConvenerInfo.setCreateTime(new Date());
 		return bConvenerInfoService.saveBConvenerInfo(bConvenerInfo);
 	}
 	

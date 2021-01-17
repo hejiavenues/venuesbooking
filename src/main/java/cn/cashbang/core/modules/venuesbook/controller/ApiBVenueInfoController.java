@@ -17,10 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 场馆信息表
@@ -100,11 +97,11 @@ public class ApiBVenueInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/queryBookByUserId")
-	public Result queryBookByUserId(String uid) {
+	public Result queryBookByUserId(String uid,String activityId) {
 		if(!StringUtils.isEmpty(uid)) {
 			uid = uid.replace("\"", "");
 		}
-		return bVenueBookService.queryBookByUserId(uid);
+		return bVenueBookService.queryBookByUserId(uid,activityId);
 	}
 	
 	/**
@@ -130,6 +127,7 @@ public class ApiBVenueInfoController extends AbstractController {
 		bVenueBook.setVenueId(venueId);
 		String uuid = CommonUtils.createUUID();
 		bVenueBook.setId(uuid);
+		bVenueBook.setCreateTime(new Date());
 		Result r1= bVenueBookService.saveBVenueBook(bVenueBook);
 
 		// 生成活动信息
@@ -137,7 +135,7 @@ public class ApiBVenueInfoController extends AbstractController {
 		BActivitiesEntity bActivities = new BActivitiesEntity();
 		bActivities.setActivityContent(activityContent);
 		bActivities.setActivityIdName(activityIdName);
-		bActivities.setActivityIconUrl(activityIconUrl);
+		bActivities.setActivityIconUrl("/picture/"+activityIconUrl);
 		bActivities.setActivityTime(bookDate +"  "+bookTime);
 		bActivities.setActivityType(activityType);
 		bActivities.setVenueId(venueId);
@@ -146,6 +144,7 @@ public class ApiBVenueInfoController extends AbstractController {
 		bActivities.setActivityCount(activityCount);
 		String uuid2 = CommonUtils.createUUID();
 		bActivities.setActivityId(uuid2);
+		bActivities.setCreateTime(new Date());
 		Result r2=bActivitiesService.saveBActivities(bActivities);
 
 		if(r1.get("code").toString().equals("0")&&

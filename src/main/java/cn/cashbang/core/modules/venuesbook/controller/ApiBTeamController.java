@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -85,6 +86,7 @@ public class ApiBTeamController extends AbstractController {
 		String uuid = CommonUtils.createUUID();
 		bTeam.setTid(uuid);
 		bTeam.setStatus(1);
+		bTeam.setCreateTime(new Date());
 		return bTeamService.saveBTeam(bTeam);
 	}
 	
@@ -114,6 +116,7 @@ public class ApiBTeamController extends AbstractController {
 		bTeamEntry.setTeid(uuid);
 		bTeamEntry.setUid(uid);
 		bTeamEntry.setStatus(1);
+		bTeamEntry.setCreateTime(new Date());
 		return bTeamEntryService.saveBTeamEntry(bTeamEntry);
 	}
 

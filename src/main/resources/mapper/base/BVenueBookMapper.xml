@@ -45,16 +45,26 @@
 		i.max_people as maxPeople,
 		b.book_date,
 		b.book_time,
-		b.venue_id,
+		b.activity_id,
+		b.activity_content,
 		b.user_id,
 		b.create_time
 		from
 		b_venue_book b
 		left join b_venue_info i on i.venue_id = b.venue_id
-		<![CDATA[  where user_id=#{userId}  ]]>
-		and b.create_time>'2021-01-01 14:18:25'
-		order by b.create_time asc
+		<where>
+			<if test="userId != null">
+				and b.user_id = #{arg0}
+			</if>
+			<if test="activityId != null">
+				and b.activity_id = #{arg1}
+			</if>
 
+			<!--<if test="createTime != null">-->
+				<!--<![CDATA[  and b.create_time>#{createTime} ]]>-->
+			<!--</if>-->
+		</where>
+		order by b.create_time asc
 	</select>
 	
 	<insert id="save">
