@@ -54,10 +54,10 @@
 		left join b_venue_info i on i.venue_id = b.venue_id
 		<where>
 			<if test="userId != null">
-				and b.user_id = #{arg0}
+				and b.user_id = #{userId}
 			</if>
 			<if test="activityId != null">
-				and b.activity_id = #{arg1}
+				and b.activity_id = #{activityId}
 			</if>
 
 			<!--<if test="createTime != null">-->
