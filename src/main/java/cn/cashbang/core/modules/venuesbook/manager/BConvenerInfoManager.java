@@ -20,10 +20,10 @@ public interface BConvenerInfoManager {
 	
 	int saveBConvenerInfo(BConvenerInfoEntity bConvenerInfo);
 	
-	BConvenerInfoEntity getBConvenerInfoById(Long id);
+	BConvenerInfoEntity getBConvenerInfoById(String id);
 	
 	int updateBConvenerInfo(BConvenerInfoEntity bConvenerInfo);
 	
-	int batchRemove(Long[] id);
+	int batchRemove(String[] id);
 	
 }

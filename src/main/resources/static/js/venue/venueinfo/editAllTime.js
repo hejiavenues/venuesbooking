@@ -7,6 +7,7 @@ var vm = new Vue({
 		bVenueInfo: {
 			venueId: 0,
 			times: '',
+			commont:'',
 			dynamicTags:[],
 		},
 		avaTimes:[],
@@ -32,11 +33,15 @@ var vm = new Vue({
 	},
 	methods : {
 		selectChanged (val) {
+			if(!this.bVenueInfo.commont){
+				dialogAlert("请先填写禁用描述");
+				return ;
+			}
 			if(this.dynamicTags11111.indexOf(val)==-1){
-				this.dynamicTags11111.push(val);
+				this.dynamicTags11111.push(val+" "+this.bVenueInfo.commont);
 			}
 			if(this.bVenueInfo.dynamicTags.indexOf(val)==-1){
-				this.bVenueInfo.dynamicTags.push(val);
+				this.bVenueInfo.dynamicTags.push(val+" "+this.bVenueInfo.commont);
 			}
 		},
 		acceptClick: function() {

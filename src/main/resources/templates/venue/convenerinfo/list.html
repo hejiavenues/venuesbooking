@@ -121,6 +121,8 @@ body ,html{
                              v-if="scope.row.statusDesc == '已通过'"  disabled>审核</el-button>
                     <el-button :plain="true" type="danger" size="mini" @click="edit(scope.row)"
                              v-if="scope.row.statusDesc == '已拒绝'"  disabled>审核</el-button>
+                    <el-button :plain="true" type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)"
+                  		v-if="true||hasPermission('venuesbook:convenerinfo:remove')"  ></el-button>删除
               </template>
               
          </el-table-column>

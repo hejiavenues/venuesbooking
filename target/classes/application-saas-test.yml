@@ -1,5 +1,5 @@
 server:
-    port: 9069
+    port: 9010
 
 application-properties:
     server-url:
@@ -73,7 +73,7 @@ application-properties:
         userMobileInfoEncryptFlag: true #案件详情关于用户联系人和通话记录手机号是否加密标识
         
     uploadInfo: 
-        imageurl: /opt/deploy/sxImageFile/
+        imageurl: /root/deploy/piture/
         
     ins:
         ytUrl: http://218.17.200.232:66/NetPersonServlet
@@ -105,7 +105,7 @@ application-properties:
         r360MobileRaw: /SYS_EVN/r360/r360raw_mobile_ #360原始数据分析
         
     quartz:
-        autoStartup: true
+        autoStartup: false
 
 spring:
     # rabbitmq
@@ -118,25 +118,25 @@ spring:
         virtual-host: /sxcs_test
         exchange: sxcs
         concurrentConsumers: 1
-        consumerStartup: true
-        producerStartup: true
+        consumerStartup: false
+        producerStartup: false
     # 数据源
     datasource:
         type: com.alibaba.druid.pool.DruidDataSource
         driverClassName: com.mysql.jdbc.Driver
         druid:
             masterDataSource:  #主库数据源
-              url: jdbc:mysql://172.17.179.198:3307/sx_manage_test?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-              username: dev
-              password: dev_123
-            slaveDataSourceWrite:  #从库数据源
-              url: jdbc:mysql://172.17.179.198:3307/saas_api_master?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-              username: dev_risk
-              password: dev_123
-            slaveDataSourceRead:  #从库数据源
-              url: jdbc:mysql://172.17.179.198:3307/saas_api_master?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
-              username: dev_risk
-              password: dev_123
+              url: jdbc:mysql://182.92.148.30:3306/venuesbooking?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: root
+              password: g2q8PDCwzPmTlg9uWpPkzD5kw15Dk+XdAQYg4H7E7To0FymA6EHzXsjnVpjZjHaX
+            slaveDataSourceRead:  #从库数据源读
+              url: jdbc:mysql://182.92.148.30:3306/venuesbooking?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: root
+              password: g2q8PDCwzPmTlg9uWpPkzD5kw15Dk+XdAQYg4H7E7To0FymA6EHzXsjnVpjZjHaX
+            slaveDataSourceWrite:  #从库数据源写
+              url: jdbc:mysql://182.92.148.30:3306/venuesbooking?allowMultiQueries=true&useUnicode=true&characterEncoding=UTF-8&useSSL=false
+              username: root
+              password: g2q8PDCwzPmTlg9uWpPkzD5kw15Dk+XdAQYg4H7E7To0FymA6EHzXsjnVpjZjHaX
             initial-size: 10
             max-active: 100
             min-idle: 10
@@ -164,10 +164,10 @@ spring:
                         multi-statement-allow: true
     redis:
         open: true  # 是否开启redis缓存  true开启   false关闭
-        database: 6
-        host: 172.17.179.198  
+        database: 2
+        host: 182.92.148.30
         port: 6379
-        password: cashbang_test123  
+        password: 123456  
         timeout: 6000  # 连接超时时长（毫秒）
         pool:
             max-active: 1000  # 连接池最大连接数（使用负值表示没有限制）
@@ -176,4 +176,4 @@ spring:
             min-idle: 5       # 连接池中的最小空闲连接
 
 logback:
-    file: /opt/app/log/saas-sx-application-risk-ui
+    file: /root/deploy/logs/venuesbook-api-dev

@@ -31,6 +31,10 @@ public class BVenueBookEntity implements Serializable {
 	 * 场馆id
 	 */
 	private String venueId;
+	/**
+	 * 场馆id
+	 */
+	private String activityContent;
 	
 	/**
 	 * 预约日期
@@ -195,6 +199,14 @@ public class BVenueBookEntity implements Serializable {
 	
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public String getActivityContent() {
+		return activityContent;
+	}
+
+	public void setActivityContent(String activityContent) {
+		this.activityContent = activityContent;
 	}
 	
 }

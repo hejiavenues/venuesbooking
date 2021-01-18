@@ -43,7 +43,7 @@ public class BConvenerInfoServiceImpl implements BConvenerInfoService {
 	}
 
 	@Override
-	public Result getBConvenerInfoById(Long id) {
+	public Result getBConvenerInfoById(String id) {
 		BConvenerInfoEntity bConvenerInfo = bConvenerInfoManager.getBConvenerInfoById(id);
 		return CommonUtils.msg(bConvenerInfo);
 	}
@@ -58,7 +58,7 @@ public class BConvenerInfoServiceImpl implements BConvenerInfoService {
 	}
 
 	@Override
-	public Result batchRemove(Long[] id) {
+	public Result batchRemove(String[] id) {
 		int count = bConvenerInfoManager.batchRemove(id);
 		return CommonUtils.msg(id, count);
 	}

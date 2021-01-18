@@ -113,7 +113,8 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 			bbe.setVenueId(role.getVenueId());
 			bbe.setCreateTime(new Date());
 			bbe.setUpdateTime(new Date());
-			bbe.setBookTime(b.getName());
+			bbe.setBookTime(b.getName().split(" ")[0]);
+			bbe.setActivityContent(b.getName().split(" ")[1]);
 			bVenueBookManager.saveBVenueBook(bbe);
 		}
 		return CommonUtils.msg(count);
@@ -199,6 +200,7 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 					bbe.setUpdateTime(new Date());
 					bbe.setBookDate(b.split(" ")[0]);
 					bbe.setBookTime(b.split(" ")[1]);
+					bbe.setActivityContent(b.split(" ")[2]);
 					bVenueBookManager.saveBVenueBook(bbe);
 				}
 			}else {
@@ -214,7 +216,7 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 		List<BVenueBookEntity> tags = bVenueBookManager.getVenueBookById(venueId);
 		String [] dynamicTags = new String[tags.size()];
 		for(int i=0;i<tags.size();i++) {
-			dynamicTags[i] = tags.get(i).getBookDate()+" "+tags.get(i).getBookTime();
+			dynamicTags[i] = tags.get(i).getBookDate()+" "+tags.get(i).getBookTime()+" "+tags.get(i).getActivityContent();
 			dynamicTags[i] = dynamicTags[i].replace("null", "");
 		}
 		return Result.ok().put("dynamicTags", dynamicTags);

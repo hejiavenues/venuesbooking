@@ -49,7 +49,7 @@ public class BConvenerInfoManagerImpl implements BConvenerInfoManager {
 	}
 
 	@Override
-	public BConvenerInfoEntity getBConvenerInfoById(Long id) {
+	public BConvenerInfoEntity getBConvenerInfoById(String id) {
 		BConvenerInfoEntity bConvenerInfo = bConvenerInfoMapper.getObjectById(id);
 		return bConvenerInfo;
 	}
@@ -60,7 +60,7 @@ public class BConvenerInfoManagerImpl implements BConvenerInfoManager {
 	}
 
 	@Override
-	public int batchRemove(Long[] id) {
+	public int batchRemove(String[] id) {
 		int count = bConvenerInfoMapper.batchRemove(id);
 		return count;
 	}

@@ -27,6 +27,9 @@ html,body
   <dev id="zsvm"  style="height:100%;">
 <el-form :model="bVenueInfo" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
 padding-right:5%" >
+		<el-form-item label="禁用描述" prop="bVenueInfo.commont">
+			    <el-input style="width:14em" v-model="bVenueInfo.commont"></el-input>
+		</el-form-item>
 		<el-form-item class="" label="活动时间：" prop="activityTime">
   			<el-date-picker
       			v-model="date1"
