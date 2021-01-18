@@ -11,8 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.alibaba.druid.util.StringUtils;
-
+import java.util.Date;
 import java.util.Map;
 
 /**
@@ -40,13 +39,13 @@ public class ApiBConvenerInfoController extends AbstractController {
 
 		BConvenerInfoEntity  bConvenerInfo=new BConvenerInfoEntity();
 
-		bConvenerInfo.setIdcardBackUrl(idcardBackUrl);
-		bConvenerInfo.setIdcardFrontUrl(idcardFrontUrl);
+		bConvenerInfo.setIdcardBackUrl("/picture/"+idcardBackUrl);
+		bConvenerInfo.setIdcardFrontUrl("/picture/"+idcardFrontUrl);
 		bConvenerInfo.setActivityId(activityId);
 		//String uuid = CommonUtils.createUUID();
 		bConvenerInfo.setStatus(0); // 审核中
 		bConvenerInfo.setUid(userId);
-
+		bConvenerInfo.setCreateTime(new Date());
 		return bConvenerInfoService.saveBConvenerInfo(bConvenerInfo);
 	}
 	
@@ -56,10 +55,7 @@ public class ApiBConvenerInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/info")
-	public Result getById(@RequestBody String id) {
-		if(!StringUtils.isEmpty(id)) {
-			id = id.replace("\"", "");
-		}
+	public Result getById(@RequestBody Long id) {
 		return bConvenerInfoService.getBConvenerInfoById(id);
 	}
 	

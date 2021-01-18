@@ -81,6 +81,26 @@ public class BVenueBookEntity implements Serializable {
 	 */
 	private String supportActiveType;
 
+	private String activityId;
+
+	private String activityContent;
+
+	public String getActivityContent() {
+		return activityContent;
+	}
+
+	public void setActivityContent(String activityContent) {
+		this.activityContent = activityContent;
+	}
+
+	public String getActivityId() {
+		return activityId;
+	}
+
+	public void setActivityId(String activityId) {
+		this.activityId = activityId;
+	}
+
 	public String getSupportActiveType() {
 		return supportActiveType;
 	}

@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -44,7 +45,7 @@ public class ApiBPhotoInfoController extends AbstractController {
 		Map<String, Object> result = new HashMap<>();
 
 		params.put("pageNumber",page);
-		params.put("pageSize",2);
+		params.put("pageSize",10);
 		
 		if(StringUtils.isNotBlank(uid)){
 			params.put("queryUserId",uid);
@@ -76,17 +77,18 @@ public class ApiBPhotoInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/sendPhoto")
-	public Result sendPhoto(String uid,String content,String comId) {
+	public Result sendPhoto(String uid,String content,String comId,String pitureUrls) {
 
 		BPhotoInfoEntity bPhotoInfo = new BPhotoInfoEntity();
 		bPhotoInfo.setUid(uid);
 		bPhotoInfo.setContent(content);
 		//bPhotoInfo.setUname("王阿姨");
 		bPhotoInfo.setStatus(1);     //状态 1.正常 2.删除
-		bPhotoInfo.setPitureUrls("");
+		bPhotoInfo.setPitureUrls(pitureUrls);
 		String uuid = CommonUtils.createUUID();
 		bPhotoInfo.setPid(uuid);
 		bPhotoInfo.setCommitteeId(comId);
+		bPhotoInfo.setCreateTime(new Date());
 		return bPhotoInfoService.saveBPhotoInfo(bPhotoInfo);
 	}
 	

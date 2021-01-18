@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -63,6 +64,7 @@ public class ApiBUserController extends AbstractController {
 		String uuid = CommonUtils.createUUID();
 		bUser.setUid(uuid);
 		bUser.setOpenId(openId);
+		bUser.setCreateTime(new Date());
 		Result r1 =   bUserService.saveBUser(bUser);
 
 		if(r1.get("code").toString().equals("0")){

@@ -1,7 +1,11 @@
 package cn.cashbang.core.modules.venuesbook.manager.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import cn.cashbang.core.common.utils.StringUtils;
+import cn.cashbang.core.modules.venuesbook.dao.BDicMapper;
+import cn.cashbang.core.modules.venuesbook.entity.BDicEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,11 +28,36 @@ public class BVenueInfoManagerImpl implements BVenueInfoManager {
 
 	@Autowired
 	private BVenueInfoMapper bVenueInfoMapper;
-	
+
+	@Autowired
+	private BDicMapper bDicMapper;
 
 	@Override
 	public List<BVenueInfoEntity> listBVenueInfo(Page<BVenueInfoEntity> page, Query search) {
-		return bVenueInfoMapper.listForPage(page, search);
+
+		List<BVenueInfoEntity> list =    bVenueInfoMapper.listForPage(page, search);
+		List<BVenueInfoEntity> listnew = new ArrayList<>() ;
+		for (BVenueInfoEntity venue:  list) {
+			String ats = venue.getSupportActiveType();
+			String atsdes = "";
+			String[] atarry = ats.split(",");
+			for (String a:atarry){
+				BDicEntity dic = bDicMapper.getBActivityDicByCode(a);
+				String name = dic.getName();
+
+				if(StringUtils.isNotBlank(atsdes)) {
+					atsdes = atsdes +","+ name;
+				}
+				else {
+					atsdes = name;
+				}
+			}
+
+			venue.setSupportActiveTypeDes(atsdes);
+			listnew.add(venue);
+		}
+		
+		return listnew;
 	}
 
 	@Override

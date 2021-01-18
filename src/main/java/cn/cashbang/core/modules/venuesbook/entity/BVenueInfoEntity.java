@@ -74,7 +74,19 @@ public class BVenueInfoEntity implements Serializable {
 	 * 修改时间
 	 */
 	private Date updateTime;
-	
+
+	/**
+	 * 支持的活动类型
+	 */
+	private String supportActiveTypeDes;
+
+	public String getSupportActiveTypeDes() {
+		return supportActiveTypeDes;
+	}
+
+	public void setSupportActiveTypeDes(String supportActiveTypeDes) {
+		this.supportActiveTypeDes = supportActiveTypeDes;
+	}
 
 	public BVenueInfoEntity() {
 		super();

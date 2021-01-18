@@ -30,6 +30,6 @@ public interface BVenueBookService {
 	List<BVenueBookEntity> getBVenueBookByVenueId(String venueId);
 
 	// 查询用户预约的场馆
-	Result queryBookByUserId(String userId);
+	Result queryBookByUserId(String userId,String activityId);
 
 }
