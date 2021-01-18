@@ -3,6 +3,7 @@ package cn.cashbang.core.modules.venuesbook.controller;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
+import cn.cashbang.core.common.utils.StringUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BConvenerInfoEntity;
 import cn.cashbang.core.modules.venuesbook.service.BConvenerInfoService;
@@ -55,7 +56,11 @@ public class ApiBConvenerInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/info")
-	public Result getById(@RequestBody Long id) {
+	public Result getById(@RequestBody String id) {
+		if(!StringUtils.isEmpty(id)) {
+			id = id.replace("\"", "");
+		}
+
 		return bConvenerInfoService.getBConvenerInfoById(id);
 	}
 	
