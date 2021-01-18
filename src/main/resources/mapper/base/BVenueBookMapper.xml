@@ -74,7 +74,9 @@
 			`venue_id`, 
 			`book_date`, 
 			`book_time`, 
-			`book_status`, 
+			`book_status`,
+			activity_id,
+		    activity_content,
 			`create_time`, 
 			`update_time`
 		)
@@ -84,7 +86,9 @@
 			#{venueId}, 
 			#{bookDate}, 
 			#{bookTime}, 
-			#{bookStatus}, 
+			#{bookStatus},
+			#{activityId},
+			#{activityContent},
 			#{createTime}, 
 			#{updateTime}
 		)

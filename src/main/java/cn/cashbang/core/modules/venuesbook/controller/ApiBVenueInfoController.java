@@ -118,18 +118,6 @@ public class ApiBVenueInfoController extends AbstractController {
 
 		// 判断是不是可以预约  TODO
 
-		// 生成一条预约记录
-		BVenueBookEntity bVenueBook = new BVenueBookEntity();
-		bVenueBook.setBookStatus(2); // 已预约
-		bVenueBook.setBookTime(bookTime);
-		bVenueBook.setBookDate(bookDate);
-		bVenueBook.setUserId(userId);
-		bVenueBook.setVenueId(venueId);
-		String uuid = CommonUtils.createUUID();
-		bVenueBook.setId(uuid);
-		bVenueBook.setCreateTime(new Date());
-		Result r1= bVenueBookService.saveBVenueBook(bVenueBook);
-
 		// 生成活动信息
 
 		BActivitiesEntity bActivities = new BActivitiesEntity();
@@ -146,6 +134,22 @@ public class ApiBVenueInfoController extends AbstractController {
 		bActivities.setActivityId(uuid2);
 		bActivities.setCreateTime(new Date());
 		Result r2=bActivitiesService.saveBActivities(bActivities);
+
+		// 生成一条预约记录
+		BVenueBookEntity bVenueBook = new BVenueBookEntity();
+		bVenueBook.setBookStatus(2); // 已预约
+		bVenueBook.setBookTime(bookTime);
+		bVenueBook.setBookDate(bookDate);
+		bVenueBook.setUserId(userId);
+		bVenueBook.setVenueId(venueId);
+		bVenueBook.setActivityId(uuid2);
+		bVenueBook.setActivityContent(activityContent);
+		String uuid = CommonUtils.createUUID();
+		bVenueBook.setId(uuid);
+		bVenueBook.setCreateTime(new Date());
+		Result r1= bVenueBookService.saveBVenueBook(bVenueBook);
+
+
 
 		if(r1.get("code").toString().equals("0")&&
 				r2.get("code").toString().equals("0")){

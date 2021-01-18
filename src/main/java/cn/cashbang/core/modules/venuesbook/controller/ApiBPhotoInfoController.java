@@ -45,7 +45,7 @@ public class ApiBPhotoInfoController extends AbstractController {
 		Map<String, Object> result = new HashMap<>();
 
 		params.put("pageNumber",page);
-		params.put("pageSize",2);
+		params.put("pageSize",10);
 		
 		if(StringUtils.isNotBlank(uid)){
 			params.put("queryUserId",uid);
