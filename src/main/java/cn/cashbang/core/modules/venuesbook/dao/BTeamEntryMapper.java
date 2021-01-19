@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity;
 import cn.cashbang.core.modules.sys.dao.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ import java.util.List;
 public interface BTeamEntryMapper extends BaseMapper<BTeamEntryEntity> {
 
     List<BTeamEntryEntity> getTeamUserById(String tid);
+
+    int updateTeamStatus(@Param("tid") String tid, @Param("uid") String uid);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 团队报名记录表
@@ -27,4 +28,6 @@ public interface BTeamEntryManager {
 	int batchRemove(Long[] id);
 
 	List<BTeamEntryEntity> getTeamUserById(String tid);
+
+	int updateTeamStatus(String tid,String uid);
 }

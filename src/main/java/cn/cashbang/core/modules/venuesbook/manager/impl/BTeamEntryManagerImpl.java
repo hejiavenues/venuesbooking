@@ -57,4 +57,9 @@ public class BTeamEntryManagerImpl implements BTeamEntryManager {
 	public List<BTeamEntryEntity> getTeamUserById(String tid){
 		return bTeamEntryMapper.getTeamUserById(tid);
 	}
+
+	@Override
+	public int updateTeamStatus(String tid,String uid){
+		return bTeamEntryMapper.updateTeamStatus(tid,uid);
+	}
 }

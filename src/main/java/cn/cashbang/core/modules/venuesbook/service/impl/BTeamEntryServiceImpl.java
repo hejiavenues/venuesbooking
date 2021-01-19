@@ -67,4 +67,10 @@ public class BTeamEntryServiceImpl implements BTeamEntryService {
 
 		return  Result.ok().put("raws", entity);
 	}
+
+	@Override
+	public Result updateTeamStatus(String tid,String uid){
+		int count = bTeamEntryManager.updateTeamStatus(tid,uid);
+		return CommonUtils.msg(count);
+	}
 }

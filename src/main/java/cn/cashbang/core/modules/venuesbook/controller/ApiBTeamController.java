@@ -135,12 +135,22 @@ public class ApiBTeamController extends AbstractController {
 		return bTeamService.updateBTeam(bTeam);
 	}
 
+	/**
+	 * 我加入的团队
+	 * @param uid
+	 * @return
+	 */
 	@RequestMapping("/listTeamByUserId")
 	public Result listTeamByUserId(String uid){
 
 		return   bTeamService.listTeamByUserId(uid);
 	}
 
+	/**
+	 * 我发起的团队
+	 * @param uid
+	 * @return
+	 */
 	@RequestMapping("/listTeamByCreateUserId")
 	public Result listTeamByCreateUserId(String uid){
 
@@ -156,5 +166,17 @@ public class ApiBTeamController extends AbstractController {
 	public Result getTeamUserById(String teamId) {
 
 		return bTeamEntryService.getTeamUserById(teamId);
+	}
+
+	/**
+	 * 删除(退出团队)
+	 * @param tid
+	 * @return
+	 */
+	@RequestMapping("/exitTeam")
+	public Result exitTeam(String tid,String uid) {
+
+		  //状态 1.报名成功 2.主动取消
+		return bTeamEntryService.updateTeamStatus(tid,uid);
 	}
 }

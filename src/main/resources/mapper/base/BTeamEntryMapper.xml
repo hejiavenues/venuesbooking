@@ -92,6 +92,12 @@
 		WHERE
 			teid = #{teid}
 	</update>
+
+	<update id="updateTeamStatus">
+		UPDATE b_team_entry set `status` = 2
+		WHERE
+		`tid` = #{tid} and `uid` = #{uid}
+	</update>
 	
 	<delete id="batchRemove">
 		DELETE

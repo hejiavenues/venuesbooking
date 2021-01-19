@@ -41,6 +41,7 @@
 
 		select
 		b.`venue_id`,
+		i.icon_url as iconUrl,
 		i.venue_name as venueName,
 		i.address as address,
 		i.support_active_type as supportActiveType,

@@ -83,14 +83,14 @@ public class BVenueBookEntity implements Serializable {
 
 	private String activityId;
 
-	private String activityContent;
+	private String iconUrl;
 
-	public String getActivityContent() {
-		return activityContent;
+	public String getIconUrl() {
+		return iconUrl;
 	}
 
-	public void setActivityContent(String activityContent) {
-		this.activityContent = activityContent;
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
 	}
 
 	public String getActivityId() {

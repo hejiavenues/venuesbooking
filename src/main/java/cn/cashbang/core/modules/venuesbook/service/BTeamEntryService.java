@@ -28,4 +28,6 @@ public interface BTeamEntryService {
 	Result batchRemove(Long[] id);
 
 	Result getTeamUserById(String tid);
+
+	Result updateTeamStatus(String tid,String uid);
 }
