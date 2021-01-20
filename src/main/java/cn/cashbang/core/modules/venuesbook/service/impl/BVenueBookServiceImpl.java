@@ -71,4 +71,9 @@ public class BVenueBookServiceImpl implements BVenueBookService {
 		List<BVenueBookEntity> list = bVenueBookManager.queryBookByUserId(userId,activityId);
 		return Result.ok().put("raws", list);
 	}
+
+	@Override
+	public BVenueBookEntity countUserBookTime(String uid){
+		return bVenueBookManager.countUserBookTime(uid);
+	}
 }

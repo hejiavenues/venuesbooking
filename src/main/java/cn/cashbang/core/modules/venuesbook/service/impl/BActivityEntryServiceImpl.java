@@ -50,6 +50,16 @@ public class BActivityEntryServiceImpl implements BActivityEntryService {
 	@Override
 	public Result saveBActivityEntry(BActivityEntryEntity role) {
 
+		// 查询是不是已经报过名了
+		List<BActivityEntryEntity> entityList = bActivityEntryManager
+				.getUserListById(role.getActivityId(),role.getUid());
+
+		if(entityList!=null){
+			   if(entityList.size()>0){
+				   return  Result.error("您已经报名该活动，不能再重复报名！");
+			   }
+		}
+
 		//根据userId查询用户信息
 		BUserEntity bUser = bUserManager.getBUserById(role.getUid());
 
@@ -79,9 +89,9 @@ public class BActivityEntryServiceImpl implements BActivityEntryService {
 	}
 
 	@Override
-	public Result getUserListById(String actId){
+	public Result getUserListById(String actId,String uid){
 
-		List<BActivityEntryEntity> entity = bActivityEntryManager.getUserListById(actId);
+		List<BActivityEntryEntity> entity = bActivityEntryManager.getUserListById(actId,uid);
 
 		return  Result.ok().put("raws", entity);
 	}

@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 
 import cn.cashbang.core.modules.venuesbook.entity.BActivityEntryEntity;
 import cn.cashbang.core.modules.sys.dao.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -18,5 +19,5 @@ import java.util.List;
 @Mapper
 public interface BActivityEntryMapper extends BaseMapper<BActivityEntryEntity> {
 
-    List<BActivityEntryEntity> getUserListById(String actId);
+    List<BActivityEntryEntity> getUserListById(@Param("activityId")String activityId, @Param("uid")String uid);
 }

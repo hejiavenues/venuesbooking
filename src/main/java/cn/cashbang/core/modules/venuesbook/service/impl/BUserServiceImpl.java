@@ -6,7 +6,9 @@ import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.common.utils.HttpClientUtils;
 import cn.cashbang.core.common.utils.StringUtils;
+import cn.cashbang.core.modules.venuesbook.entity.BConvenerInfoEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
+import cn.cashbang.core.modules.venuesbook.manager.BConvenerInfoManager;
 import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import cn.cashbang.core.modules.venuesbook.service.BUserService;
 import com.alibaba.fastjson.JSONObject;
@@ -30,6 +32,9 @@ public class BUserServiceImpl implements BUserService {
 	@Autowired
 	private BUserManager bUserManager;
 
+	@Autowired
+	private BConvenerInfoManager bConvenerInfoManager;
+
 	@Override
 	public Page<BUserEntity> listBUser(Map<String, Object> params) {
 		Query query = new Query(params);
@@ -47,6 +52,12 @@ public class BUserServiceImpl implements BUserService {
 	@Override
 	public Result getBUserById(String id) {
 		BUserEntity bUser = bUserManager.getBUserById(id);
+		BConvenerInfoEntity con = bConvenerInfoManager.getBConvenerInfoById(id);
+		if(con!=null) {
+			if(con.getStatus()==0){
+				bUser.setStatus(0);  // 召集人审核中状态
+			}
+		}
 		return CommonUtils.msg(bUser);
 	}
 

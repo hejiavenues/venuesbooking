@@ -32,4 +32,5 @@ public interface BVenueBookService {
 	// 查询用户预约的场馆
 	Result queryBookByUserId(String userId,String activityId);
 
+	BVenueBookEntity countUserBookTime(String uid);
 }

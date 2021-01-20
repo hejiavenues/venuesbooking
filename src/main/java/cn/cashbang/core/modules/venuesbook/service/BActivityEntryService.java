@@ -26,5 +26,5 @@ public interface BActivityEntryService {
 	
 	Result batchRemove(Long[] id);
 
-	Result getUserListById(String actId);
+	Result getUserListById(String actId,String uid);
 }

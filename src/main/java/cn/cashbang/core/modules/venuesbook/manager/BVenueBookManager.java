@@ -34,4 +34,6 @@ public interface BVenueBookManager {
 	List<BVenueBookEntity> queryBookByUserId(String userId,String activityId);
 
 	BVenueBookEntity getBookStatusById(String venueId,String bookDate,String bookTime);
+	
+	BVenueBookEntity countUserBookTime(String uid);
 }

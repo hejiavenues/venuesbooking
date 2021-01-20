@@ -27,4 +27,6 @@ public interface BVenueBookMapper extends BaseMapper<BVenueBookEntity> {
 	List<BVenueBookEntity> queryBookByUserId(@Param("userId") String userId,@Param("activityId") String activityId);
 
 	BVenueBookEntity getBookStatusById(String venueId,String bookDate,String bookTime);
+
+	BVenueBookEntity countUserBookTime(String uid);
 }

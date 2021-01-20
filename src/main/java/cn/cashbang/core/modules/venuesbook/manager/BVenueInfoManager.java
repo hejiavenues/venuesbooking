@@ -4,6 +4,7 @@ import java.util.List;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
+import cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueInfoEntity;
 
 /**

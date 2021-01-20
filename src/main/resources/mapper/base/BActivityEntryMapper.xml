@@ -82,6 +82,7 @@
 		b_activity_entry
 		WHERE
 		`activity_id` = #{activityId}
+		<if test="uid != null"> and `uid` = #{uid} </if>
 	</select>
 	
 	<update id="update">

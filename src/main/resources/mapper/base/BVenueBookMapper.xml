@@ -36,6 +36,16 @@
 		ORDER BY
 		id DESC
 	</select>
+
+	<select id="countUserBookTime" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
+		SELECT
+		*
+		FROM
+			b_venue_book
+		WHERE
+			user_id = #{userId}
+    		and date_format(create_time, '%YY%cc%dd') = date_format(now(), '%YY%cc%dd')
+	</select>
 	
 	<select id="queryBookByUserId" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
 
@@ -74,8 +84,7 @@
 		INSERT INTO b_venue_book (
 			`id`, 
 			`user_id`, 
-			`venue_id`, 
-			`activity_content`, 
+			`venue_id`,
 			`book_date`, 
 			`book_time`, 
 			`book_status`,
@@ -87,8 +96,7 @@
 		VALUES (
 			#{id}, 
 			#{userId}, 
-			#{venueId}, 
-			#{activityContent}, 
+			#{venueId},
 			#{bookDate}, 
 			#{bookTime}, 
 			#{bookStatus},

@@ -6,6 +6,7 @@ import java.util.List;
 import cn.cashbang.core.common.utils.StringUtils;
 import cn.cashbang.core.modules.venuesbook.dao.BDicMapper;
 import cn.cashbang.core.modules.venuesbook.entity.BDicEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -86,5 +87,4 @@ public class BVenueInfoManagerImpl implements BVenueInfoManager {
 	public BVenueInfoEntity getBVenueInfoByName(String venueName) {
 		return bVenueInfoMapper.getBVenueInfoByName(venueName);
 	}
-	
 }

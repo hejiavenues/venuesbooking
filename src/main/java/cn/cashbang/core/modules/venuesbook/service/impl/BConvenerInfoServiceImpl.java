@@ -39,6 +39,7 @@ public class BConvenerInfoServiceImpl implements BConvenerInfoService {
 	@Override
 	public Result saveBConvenerInfo(BConvenerInfoEntity role) {
 		int count = bConvenerInfoManager.saveBConvenerInfo(role);
+
 		return CommonUtils.msg(count);
 	}
 

@@ -116,7 +116,13 @@ public class ApiBVenueInfoController extends AbstractController {
 
 		Map<String, Object> result = new HashMap<>();
 
-		// 判断是不是可以预约  TODO
+		// 判断是不是可以预约（每人每天只能预约一次）  TODO
+
+		if(bVenueBookService.countUserBookTime(userId)!=null){
+			result.put("code",1);
+			result.put("msg","每人每天只能预约一次！");
+			return result;
+		}
 
 		// 生成活动信息
 
