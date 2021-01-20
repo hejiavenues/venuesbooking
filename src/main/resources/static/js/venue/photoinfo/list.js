@@ -14,11 +14,11 @@ var vm = new Vue({
 		},
 		table:{//表格数据
 			  "col":[
+				    {field : "createTime", title : "发布时间", width : "150px"}, 
+					{field : "committeeName", title : "社区名称", width : "180px"}, 
 					{field : "uname", title : "发布人姓名", width : "100px"}, 
 					{field : "content", title : "内容", width : "300px"}, 
-					{field : "committeeName", title : "社区名称", width : ""}, 
 					/*{field : "status", title : "随拍状态", width : ""},*/ 
-					{field : "createTime", title : "发布时间", width : "150px"}, 
 			  ],
 			  "pagesizes":[1,10, 20, 30, 100],//size选择器
 			  "pagesize ":10,

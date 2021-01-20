@@ -1,10 +1,13 @@
 package cn.cashbang.core.modules.venuesbook.manager.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import com.alibaba.druid.util.StringUtils;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
@@ -29,7 +32,16 @@ public class BTeamManagerImpl implements BTeamManager {
 
 	@Override
 	public List<BTeamEntity> listBTeam(Page<BTeamEntity> page, Query search) {
-		return bTeamMapper.listForPage(page, search);
+		List<BTeamEntity> lists = new ArrayList<BTeamEntity>();
+		lists = bTeamMapper.listForPage(page, search);
+		for(BTeamEntity entity:lists) {
+			if(entity.getStatus().intValue() == 1) {
+				entity.setStatusStr("放开");
+			}else {
+				entity.setStatusStr("关闭");
+			}
+		}
+		return lists;
 	}
 
 	@Override

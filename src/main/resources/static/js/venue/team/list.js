@@ -21,7 +21,7 @@ var vm = new Vue({
 					{field : "activityTypeDesc", title : "活动类型", width : ""}, 
 					{field : "activityContent", title : "活动内容", width : ""}, 
 					{field : "enterCondition", title : "加入条件", width : ""}, 
-					{field : "status", title : "团队状态", width : ""}, 
+					{field : "statusStr", title : "团队状态", width : ""}, 
 					{field : "deadLine", title : "截止时间", width : "150px"}, 
 					{field : "createTime", title : "创建时间", width : "150px"}, 
 					{field : "updateTime", title : "更新时间", width : "150px"}
@@ -93,16 +93,16 @@ var vm = new Vue({
 					console.log(r);
 					for(var i=0;i<r.rows.length;i++){
 						if(r.rows[i].status == 1){
-                        r.rows[i].status = '报名中';
+                        r.rows[i].statusStr = '报名中';
 						}
                     	else if(r.rows[i].status == 2){
-                        r.rows[i].status = '已关闭';
+                        r.rows[i].statusStr = '已关闭';
                     	}
                     	else if(r.rows[i].status == 3){
-                        r.rows[i].status = '已满员';
+                        r.rows[i].statusStr = '已满员';
                     	}
                     	else if(r.rows[i].status == 4){
-                        r.rows[i].status = '组队失败';
+                        r.rows[i].statusStr = '组队失败';
                     	}
 					}
 					th.table.data=r.rows;
@@ -141,6 +141,36 @@ var vm = new Vue({
 				});
 			}
 		},
+		updateStatus: function(row) {
+            var ck =[row];
+            var msg = '';
+			if(row.status == 3){
+				//1放开、2关闭、3满员、4.组队失败
+				dialogAlert("此团队已满员，不允许操作");
+				return;
+			}
+			if(row.status == 4){
+				dialogAlert("此团队已组队失败，不允许操作");
+				return;
+			}
+            if(row.status == 2){
+                msg = '您确定要放开此团队吗？';
+                ck[0].status=1;
+            }else{
+                msg = '您确定要关闭此团队吗？';
+                ck[0].status=2;
+            }
+            if(checkedRow(ck)){
+                $.ConfirmForm({
+					msg:msg,
+                    url: '../../venuesbook/team/update?_' + $.now(),
+                    param: ck[0],
+                    success: function(data) {
+                        $.currentIframe().vm.load();
+                    }
+                });
+            }
+        },
 		remove: function(row) {
 			var ck = [row], ids = [];	
 			if(checkedArray(ck)){

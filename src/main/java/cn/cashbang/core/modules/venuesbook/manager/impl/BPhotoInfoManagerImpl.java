@@ -36,7 +36,7 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 				String [] arrs = bPhotoInfoEntity.getPitureUrls().split(",");
 				String[] origin = bPhotoInfoEntity.getArraypitureUrl();
 				for(int i=0;i<arrs.length;i++) {
-					origin[i] = arrs[i];
+					origin[i] = "/picture/"+arrs[i];
 				}
 				bPhotoInfoEntity.setArraypitureUrl(origin);
 			}

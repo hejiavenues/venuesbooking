@@ -64,6 +64,10 @@ public class BTeamEntity implements Serializable {
 	 * 状态 1放开、2关闭、3满员、4.组队失败
 	 */
 	private Integer status;
+	/**
+	 * 状态 1放开、2关闭、3满员、4.组队失败
+	 */
+	private String statusStr;
 	
 	/**
 	 * 截止时间
@@ -187,6 +191,14 @@ public class BTeamEntity implements Serializable {
 
 	public void setUname(String uname) {
 		this.uname = uname;
+	}
+
+	public String getStatusStr() {
+		return statusStr;
+	}
+
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
 	}
 	
 }
