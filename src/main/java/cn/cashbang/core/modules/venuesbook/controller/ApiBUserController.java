@@ -3,6 +3,7 @@ package cn.cashbang.core.modules.venuesbook.controller;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
+import cn.cashbang.core.common.utils.StringUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
 import cn.cashbang.core.modules.venuesbook.service.BUserService;
@@ -46,8 +47,8 @@ public class ApiBUserController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/uerRegister")
-	public Map<String, Object> uerRegister(String uname,Integer sex,String birthday,String mobile,String committeeId,
-	String openId){
+	public Map<String, Object> uerRegister(String uname,Integer sex,String birthday,String mobile,
+										   String committeeId, String openId,String iconUrl){
 
 		System.out.println("-----------------"+uname);
 
@@ -65,6 +66,7 @@ public class ApiBUserController extends AbstractController {
 		bUser.setUid(uuid);
 		bUser.setOpenId(openId);
 		bUser.setCreateTime(new Date());
+		bUser.setIconUrl(iconUrl);
 		Result r1 =   bUserService.saveBUser(bUser);
 
 		if(r1.get("code").toString().equals("0")){
@@ -104,13 +106,18 @@ public class ApiBUserController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/updateUser")
-	public Result updateUser(String uid,String uname,Integer sex,String birthday){
+	public Result updateUser(String uid,String uname,Integer sex,String birthday
+			,String iconUrl){
 
 		BUserEntity bUser = new BUserEntity();
 		bUser.setBirthday(birthday);
 		bUser.setUid(uid);
 		bUser.setSex(sex);
 		bUser.setUname(uname);
+
+		if(StringUtils.isNotBlank(iconUrl)){
+			bUser.setIconUrl(iconUrl);
+		}
 
 		return bUserService.updateBUser(bUser);
 	}

@@ -8,6 +8,7 @@
 			bp.`pid`, 
 			bp.`uid`, 
 			(select `uname` from b_user u where u.`uid` = bp.`uid` ) as uname,
+		    (select icon_url from b_user u where u.`uid` = bp.`uid` ) as iconUrl,
 			bp.`content`, 
 			bp.`piture_urls`, 
 			bp.`committee_id`, 

@@ -73,6 +73,15 @@
 		where bt.uid=#{uid}
 		order by bt.create_time desc
 	</select>
+
+	<select id="countTeamByCreateUserId" resultType="int">
+		SELECT
+		count(*)
+		FROM
+		b_team bt
+		where bt.uid=#{uid}
+		and date_format(create_time, '%Y%m') = date_format(now(), '%Y%m')
+	</select>
 	
 	<insert id="save">
 		INSERT INTO b_team (

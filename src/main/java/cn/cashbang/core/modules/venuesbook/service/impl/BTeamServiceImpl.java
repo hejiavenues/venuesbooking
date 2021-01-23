@@ -38,6 +38,12 @@ public class BTeamServiceImpl implements BTeamService {
 
 	@Override
 	public Result saveBTeam(BTeamEntity role) {
+
+		int teamNo = bTeamManager.countTeamByCreateUserId(role.getUid());
+
+		if(teamNo>1){
+			return Result.error("您本月创建的团队已经超过两个，不能再创建团队了。");
+		}
 		int count = bTeamManager.saveBTeam(role);
 		return CommonUtils.msg(count);
 	}

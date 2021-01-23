@@ -44,7 +44,7 @@
 			b_venue_book
 		WHERE
 			user_id = #{userId}
-    		and date_format(create_time, '%YY%cc%dd') = date_format(now(), '%YY%cc%dd')
+    	and date_format(create_time, '%Y%m%d') = date_format(now(), '%Y%m%d')
 	</select>
 	
 	<select id="queryBookByUserId" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">

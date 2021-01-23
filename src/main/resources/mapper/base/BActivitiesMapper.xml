@@ -94,22 +94,24 @@
 	
 	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity">
 		SELECT
-			`activity_id`, 
-			`venue_id`, 
-			`uid`, 
-			`activity_id_name`, 
-			`activity_count`, 
-			`activity_type`, 
-			`activity_content`, 
-			`activity_icon_url`, 
-			`status`, 
-			`activity_time`, 
-			`create_time`, 
-			`update_time`
+			a.`activity_id`,
+			a.`venue_id`,
+			a.`uid`,
+			a.`activity_id_name`,
+			a.`activity_count`,
+			a.`activity_type`,
+			a.`activity_content`,
+			a.`activity_icon_url`,
+			a.`status`,
+			a.`activity_time`,
+			i.venue_name,
+			i.address,
+			a.`create_time`,
+			a.`update_time`
 		FROM
-			b_activities
+			b_activities a	    left join b_venue_info i on a.venue_id=i.venue_id
 		WHERE
-			activity_id = #{activityId}
+			a.activity_id = #{activityId}
 	</select>
 	
 	<update id="update">

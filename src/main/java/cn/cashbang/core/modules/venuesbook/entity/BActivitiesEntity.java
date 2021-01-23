@@ -64,6 +64,8 @@ public class BActivitiesEntity implements Serializable {
 	 * 活动图片url
 	 */
 	private String activityIconUrl;
+
+	private String address;
 	
 	/**
 	 * 活动状态（1.公开 2.不公开）
@@ -88,7 +90,14 @@ public class BActivitiesEntity implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateTime;
-	
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
 
 	public BActivitiesEntity() {
 		super();

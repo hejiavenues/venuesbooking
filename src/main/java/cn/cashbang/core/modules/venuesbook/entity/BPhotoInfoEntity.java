@@ -72,7 +72,16 @@ public class BPhotoInfoEntity implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateTime;
-	
+
+	private String iconUrl;
+
+	public String getIconUrl() {
+		return iconUrl;
+	}
+
+	public void setIconUrl(String iconUrl) {
+		this.iconUrl = iconUrl;
+	}
 
 	public BPhotoInfoEntity() {
 		super();

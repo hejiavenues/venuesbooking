@@ -278,15 +278,22 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 
 				JSONObject time = new JSONObject();
 				time.put("time",bDics.get(i).getName());
-				String venueId = bVenueInfo.getVenueId();
-				// 根据场馆Id日期和时间段，判断该场馆的状态
-				BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
-						venueId,date,bDics.get(i).getName());
 
-				time.put("state",0);
-				if(entity!=null){
-					time.put("state",entity.getBookStatus());
+				if("19:00-21:00".equals(bDics.get(i).getName())){
+					time.put("state",1);
+				}else {
+
+					String venueId = bVenueInfo.getVenueId();
+					// 根据场馆Id日期和时间段，判断该场馆的状态
+					BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
+							venueId,date,bDics.get(i).getName());
+
+					time.put("state",0);
+					if(entity!=null){
+						time.put("state",entity.getBookStatus());
+					}
 				}
+
 				array.add(time);
 				object.put("list",array);
 			}

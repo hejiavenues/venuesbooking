@@ -55,7 +55,7 @@ public class BUserServiceImpl implements BUserService {
 		BConvenerInfoEntity con = bConvenerInfoManager.getBConvenerInfoById(id);
 		if(con!=null) {
 			if(con.getStatus()==0){
-				bUser.setStatus(0);  // 召集人审核中状态
+				bUser.setUserRole(0);  // 召集人审核中状态
 			}
 		}
 		return CommonUtils.msg(bUser);
@@ -76,8 +76,14 @@ public class BUserServiceImpl implements BUserService {
 	@Override
 	public Result loginUser(String code){
 
-		String appId="wx3a6796d91e05c5bf";
-		String appSecret="dbf8c4107af70b407c9230705a4b126f";
+		// 静波的小程序
+//		String appId="wx3a6796d91e05c5bf";
+//		String appSecret="dbf8c4107af70b407c9230705a4b126f";
+
+		// 金顶街的小程序
+		String appId="wx2d9d1a4c8beb93ab";
+		String appSecret="499110e6ad602f46f89f689cfd3d0087";
+
 		String requestUrl = "https://api.weixin.qq.com/sns/jscode2session?grant_type=authorization_code&appid="
 				+ appId + "&secret=" + appSecret + "&js_code=" + code;
 		//HttpClientUtils.HttpPostParams httpPostParams = HttpClientUtils.createHttpPostParams(requestUrl);
@@ -96,6 +102,13 @@ public class BUserServiceImpl implements BUserService {
 
 				bUser = new  BUserEntity();
 				bUser.setOpenId(openId);
+			}
+
+			BConvenerInfoEntity con = bConvenerInfoManager.getBConvenerInfoById(bUser.getUid());
+			if(con!=null) {
+				if(con.getStatus()==0){
+					bUser.setUserRole(0);  // 召集人审核中状态
+				}
 			}
 
 //			bUserManager.updateBUser(bUser);

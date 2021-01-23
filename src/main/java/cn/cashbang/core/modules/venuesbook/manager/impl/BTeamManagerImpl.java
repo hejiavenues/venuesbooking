@@ -75,4 +75,9 @@ public class BTeamManagerImpl implements BTeamManager {
 	public List<BTeamEntity> listTeamByCreateUserId(String uid){
 		return bTeamMapper.listTeamByCreateUserId(uid);
 	}
+
+	@Override
+	public int countTeamByCreateUserId(String uid){
+		return  bTeamMapper.countTeamByCreateUserId(uid);
+	}
 }

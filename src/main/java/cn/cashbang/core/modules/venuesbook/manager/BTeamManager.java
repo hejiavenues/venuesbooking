@@ -29,4 +29,6 @@ public interface BTeamManager {
 	List<BTeamEntity> listTeamByUserId(String uid);
 
 	List<BTeamEntity> listTeamByCreateUserId(String uid);
+
+	int countTeamByCreateUserId(String uid);
 }

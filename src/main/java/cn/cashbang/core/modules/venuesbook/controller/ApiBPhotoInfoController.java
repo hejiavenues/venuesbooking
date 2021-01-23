@@ -83,7 +83,7 @@ public class ApiBPhotoInfoController extends AbstractController {
 		bPhotoInfo.setUid(uid);
 		bPhotoInfo.setContent(content);
 		//bPhotoInfo.setUname("王阿姨");
-		bPhotoInfo.setStatus(1);     //状态 1.正常 2.删除
+		bPhotoInfo.setStatus(0);     //状态 0.审核中，1.正常 2.删除
 		bPhotoInfo.setPitureUrls(pitureUrls);
 		String uuid = CommonUtils.createUUID();
 		bPhotoInfo.setPid(uuid);

@@ -30,4 +30,6 @@ public interface BTeamEntryManager {
 	List<BTeamEntryEntity> getTeamUserById(String tid);
 
 	int updateTeamStatus(String tid,String uid);
+
+
 }
