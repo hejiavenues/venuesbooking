@@ -15,5 +15,7 @@ import cn.cashbang.core.modules.sys.dao.BaseMapper;
  */
 @Mapper
 public interface BPhotoInfoMapper extends BaseMapper<BPhotoInfoEntity> {
+
+	int passApply(String[] id);
 	
 }

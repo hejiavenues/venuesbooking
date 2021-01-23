@@ -28,5 +28,7 @@ public interface BPhotoInfoService {
 	Result batchRemove(String[] id);
 
 	Result saveImage(MultipartFile imgFile,String type);
+
+	Result passApply(String[] id);
 	
 }

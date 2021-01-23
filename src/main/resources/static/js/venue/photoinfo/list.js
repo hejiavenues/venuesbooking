@@ -112,7 +112,28 @@ var vm = new Vue({
 				});
 			}
 		},
-	
+		passApply: function(row) {
+			var ck = [row], ids = [];	
+			if(checkedArray(ck)){
+				$.each(ck, function(idx, item){
+					ids[idx] = item.pid;
+				});
+				/*$.RemoveForm({
+					url: '../../venuesbook/photoinfo/passApply?_' + $.now(),
+			    	param: ids,
+			    	success: function(data) {
+			    		vm.load();
+			    	}
+				});*/
+				zs_post({
+				url: '../../venuesbook/photoinfo/passApply?_' + $.now(),
+				param:ids,
+				success:function(r){
+					vm.load();
+				}
+			})
+			}
+		},
 	 },
 	 mounted:function(){
 	 	this.load();

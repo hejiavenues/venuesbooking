@@ -99,5 +99,16 @@
 			#{id}
 		</foreach>
 	</delete>
+	
+	<update id="passApply">
+		 UPDATE 
+			b_photo_info
+			SET status = 1 
+		WHERE
+			pid IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</update>
 
 </mapper>

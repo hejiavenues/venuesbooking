@@ -114,4 +114,10 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 			return Result.error("图片内容为空");
 		}
 	}
+
+	@Override
+	public Result passApply(String[] id) {
+		int count = bPhotoInfoManager.passApply(id);
+		return CommonUtils.msg(id, count);
+	}
 }

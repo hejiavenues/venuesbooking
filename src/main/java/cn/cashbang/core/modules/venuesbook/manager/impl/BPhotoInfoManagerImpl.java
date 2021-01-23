@@ -40,8 +40,11 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 				}
 				bPhotoInfoEntity.setArraypitureUrl(origin);
 			}
+			if(bPhotoInfoEntity.getStatus().intValue() == 0) {
+				bPhotoInfoEntity.setStatusDesc("待审核");
+			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 1) {
-				bPhotoInfoEntity.setStatusDesc("正常");
+				bPhotoInfoEntity.setStatusDesc("已通过");
 			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 2) {
 				bPhotoInfoEntity.setStatusDesc("已删除");
@@ -69,6 +72,12 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 	@Override
 	public int batchRemove(String[] id) {
 		int count = bPhotoInfoMapper.batchRemove(id);
+		return count;
+	}
+
+	@Override
+	public int passApply(String[] id) {
+		int count = bPhotoInfoMapper.passApply(id);
 		return count;
 	}
 	

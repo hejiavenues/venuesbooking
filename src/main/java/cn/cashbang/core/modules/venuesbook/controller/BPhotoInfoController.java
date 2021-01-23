@@ -79,4 +79,14 @@ public class BPhotoInfoController extends AbstractController {
 		return bPhotoInfoService.batchRemove(id);
 	}
 	
+	/**
+	 * 删除
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/passApply")
+	public Result passApply(@RequestBody String[] id) {
+		return bPhotoInfoService.passApply(id);
+	}
+	
 }
