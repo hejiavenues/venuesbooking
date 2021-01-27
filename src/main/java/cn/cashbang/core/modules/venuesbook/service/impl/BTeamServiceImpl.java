@@ -3,6 +3,10 @@ package cn.cashbang.core.modules.venuesbook.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import cn.cashbang.core.common.utils.StringUtils;
+import cn.cashbang.core.common.utils.WebUtils;
+import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
+import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +32,9 @@ public class BTeamServiceImpl implements BTeamService {
 	@Autowired
 	private BTeamManager bTeamManager;
 
+	@Autowired
+	private BAccessTokenManager bAccessTokenManager;
+
 	@Override
 	public Page<BTeamEntity> listBTeam(Map<String, Object> params) {
 		Query query = new Query(params);
@@ -39,12 +46,36 @@ public class BTeamServiceImpl implements BTeamService {
 	@Override
 	public Result saveBTeam(BTeamEntity role) {
 
-		int teamNo = bTeamManager.countTeamByCreateUserId(role.getUid());
+        int count = 0;
 
-		if(teamNo>1){
-			return Result.error("您本月创建的团队已经超过两个，不能再创建团队了。");
-		}
-		int count = bTeamManager.saveBTeam(role);
+        BAccessTokenEntity token = bAccessTokenManager.getBAccessTokenById(1L);
+        String content = role.getActivityContent()+role.getTname()+role.getEnterCondition();
+        String code = WebUtils.msgCheck(token.getAccessToken(),content);
+        System.out.println("content"+content);
+        if("40001".equals(code)||"42001".equals(code)){
+             String tokenString = WebUtils.getAccessToken();
+            if(StringUtils.isNotBlank(tokenString)){
+
+                BAccessTokenEntity bAccessToken = new BAccessTokenEntity();
+                bAccessToken.setId(1);
+                bAccessToken.setAccessToken(tokenString);
+                bAccessTokenManager.updateBAccessToken(bAccessToken);
+            }
+             code = WebUtils.msgCheck(tokenString,content);
+        }
+        if("0".equals(code)){
+            int teamNo = bTeamManager.countTeamByCreateUserId(role.getUid());
+
+            if(teamNo>1){
+                return Result.error("您本月创建的团队已经超过两个，不能再创建团队了。");
+            }
+
+            count = bTeamManager.saveBTeam(role);
+        }
+        else {
+            return Result.error("上传的信息中含有敏感内容，请修改后再上传。");
+        }
+
 		return CommonUtils.msg(count);
 	}
 

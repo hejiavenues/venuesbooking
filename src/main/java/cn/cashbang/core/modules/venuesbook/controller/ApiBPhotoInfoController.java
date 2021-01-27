@@ -49,10 +49,14 @@ public class ApiBPhotoInfoController extends AbstractController {
 		
 		if(StringUtils.isNotBlank(uid)){
 			params.put("queryUserId",uid);
+			params.put("queryStatus",null);
 		}
 		else {
 			params.put("queryUserId",null);
+			params.put("queryStatus",1);
 		}
+
+
 
 		params.put("sortOrde","asc");
 

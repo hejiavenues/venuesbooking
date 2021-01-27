@@ -48,7 +48,7 @@ public class ApiBTeamController extends AbstractController {
 		Map<String, Object> result = new HashMap<>();
 
 		params.put("pageNumber",page);
-		params.put("pageSize",2);
+		params.put("pageSize",10);
 		params.put("keyword",null);
 		params.put("sortOrde","asc");
 
