@@ -38,6 +38,11 @@ var vm = new Vue({
 		
 		  this.$refs
 		  ["ruleForm"].validate(function(yes,b){
+				if(vm.bDic.status == '禁用'){
+                        vm.bDic.status = 0;
+                    }else if(vm.bDic.status == '启用'){
+                        vm.bDic.status = 1;
+                    };
 				if(yes){
 			 $.ConfirmForm({
 				    	url: '../../venuesbook/dic/update?_' + $.now(),
