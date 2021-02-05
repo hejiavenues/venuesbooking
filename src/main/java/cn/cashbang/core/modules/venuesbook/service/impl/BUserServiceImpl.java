@@ -6,8 +6,11 @@ import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.common.utils.HttpClientUtils;
 import cn.cashbang.core.common.utils.StringUtils;
+import cn.cashbang.core.common.utils.WebUtils;
+import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BConvenerInfoEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
+import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
 import cn.cashbang.core.modules.venuesbook.manager.BConvenerInfoManager;
 import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import cn.cashbang.core.modules.venuesbook.service.BUserService;
@@ -35,6 +38,9 @@ public class BUserServiceImpl implements BUserService {
 	@Autowired
 	private BConvenerInfoManager bConvenerInfoManager;
 
+    @Autowired
+    private BAccessTokenManager bAccessTokenManager;
+
 	@Override
 	public Page<BUserEntity> listBUser(Map<String, Object> params) {
 		Query query = new Query(params);
@@ -45,7 +51,31 @@ public class BUserServiceImpl implements BUserService {
 
 	@Override
 	public Result saveBUser(BUserEntity role) {
-		int count = bUserManager.saveBUser(role);
+	    
+        int count = 0;
+        BAccessTokenEntity token = bAccessTokenManager.getBAccessTokenById(1L);
+        String content = role.getUname();
+        String code = WebUtils.msgCheck(token.getAccessToken(),content);
+        System.out.println("content"+content);
+        if("40001".equals(code)||"42001".equals(code)){
+            String tokenString = WebUtils.getAccessToken();
+            if(StringUtils.isNotBlank(tokenString)){
+
+                BAccessTokenEntity bAccessToken = new BAccessTokenEntity();
+                bAccessToken.setId(1);
+                bAccessToken.setAccessToken(tokenString);
+                bAccessTokenManager.updateBAccessToken(bAccessToken);
+            }
+            code = WebUtils.msgCheck(tokenString,content);
+        }
+        if("0".equals(code)){
+
+            count = bUserManager.saveBUser(role);
+        }
+        else {
+            return Result.error("上传的信息中含有敏感内容，请修改后再上传。");
+        }
+		//int count = bUserManager.saveBUser(role);
 		return CommonUtils.msg(count);
 	}
 

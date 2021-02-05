@@ -3,6 +3,10 @@ package cn.cashbang.core.modules.venuesbook.service.impl;
 import java.util.Date;
 import java.util.Map;
 
+import cn.cashbang.core.common.utils.StringUtils;
+import cn.cashbang.core.common.utils.WebUtils;
+import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
+import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +46,7 @@ public class BConvenerInfoServiceImpl implements BConvenerInfoService {
 
 	@Override
 	public Result saveBConvenerInfo(BConvenerInfoEntity role) {
+
 		int count = bConvenerInfoManager.saveBConvenerInfo(role);
 
 		return CommonUtils.msg(count);

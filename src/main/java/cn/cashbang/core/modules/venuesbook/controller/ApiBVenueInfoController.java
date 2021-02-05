@@ -125,7 +125,6 @@ public class ApiBVenueInfoController extends AbstractController {
 		}
 
 		// 生成活动信息
-
 		BActivitiesEntity bActivities = new BActivitiesEntity();
 		bActivities.setActivityContent(activityContent);
 		bActivities.setActivityIdName(activityIdName);
@@ -139,36 +138,19 @@ public class ApiBVenueInfoController extends AbstractController {
 		String uuid2 = CommonUtils.createUUID();
 		bActivities.setActivityId(uuid2);
 		bActivities.setCreateTime(new Date());
-		Result r2=bActivitiesService.saveBActivities(bActivities);
+		Result r2=bActivitiesService.saveBActivities(bActivities,bookDate,bookTime);
+//
+//		if(r2.get("code").toString().equals("0")){
+//
+//			result.put("code",0);
+//			result.put("msg","预约成功！");
+//		}
+//		else{
+//			result.put("code",-1);
+//			result.put("msg","预约失败！");
+//		}
 
-		// 生成一条预约记录
-		BVenueBookEntity bVenueBook = new BVenueBookEntity();
-		bVenueBook.setBookStatus(2); // 已预约
-		bVenueBook.setBookTime(bookTime);
-		bVenueBook.setBookDate(bookDate);
-		bVenueBook.setUserId(userId);
-		bVenueBook.setVenueId(venueId);
-		bVenueBook.setActivityId(uuid2);
-		bVenueBook.setActivityContent(activityContent);
-		String uuid = CommonUtils.createUUID();
-		bVenueBook.setId(uuid);
-		bVenueBook.setCreateTime(new Date());
-		Result r1= bVenueBookService.saveBVenueBook(bVenueBook);
-
-
-
-		if(r1.get("code").toString().equals("0")&&
-				r2.get("code").toString().equals("0")){
-
-			result.put("code",0);
-			result.put("msg","预约成功！");
-		}
-		else{
-			result.put("code",-1);
-			result.put("msg","预约失败！");
-		}
-
-		return result;
+		return r2;
 	}
 
 	/**

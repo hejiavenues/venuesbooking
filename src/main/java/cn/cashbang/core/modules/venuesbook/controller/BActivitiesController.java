@@ -48,7 +48,7 @@ public class BActivitiesController extends AbstractController {
 	 */
 	@RequestMapping("/save")
 	public Result save(@RequestBody BActivitiesEntity bActivities) {
-		return bActivitiesService.saveBActivities(bActivities);
+		return bActivitiesService.saveBActivities(bActivities,null,null);
 	}
 	
 	/**

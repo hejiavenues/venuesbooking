@@ -20,7 +20,7 @@ public interface BActivitiesService {
 
 	Page<BActivitiesEntity> listBActivities(Map<String, Object> params);
 	
-	Result saveBActivities(BActivitiesEntity bActivities);
+	Result saveBActivities(BActivitiesEntity bActivities,String bookDate,String bookTime);
 	
 	Result getBActivitiesById(String id);
 	

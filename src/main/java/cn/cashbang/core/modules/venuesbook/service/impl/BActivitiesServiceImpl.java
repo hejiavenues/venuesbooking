@@ -1,8 +1,15 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import cn.cashbang.core.common.utils.WebUtils;
+import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity;
+import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
+import cn.cashbang.core.modules.venuesbook.manager.BVenueBookManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +37,12 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 	@Autowired
 	private BActivitiesManager bActivitiesManager;
 
+    @Autowired
+    private BVenueBookManager bVenueBookManager;
+
+    @Autowired
+    private BAccessTokenManager bAccessTokenManager;
+
 	@Override
 	public Page<BActivitiesEntity> listBActivities(Map<String, Object> params) {
 		
@@ -40,8 +53,51 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 	}
 
 	@Override
-	public Result saveBActivities(BActivitiesEntity role) {
-		int count = bActivitiesManager.saveBActivities(role);
+	public Result saveBActivities(BActivitiesEntity role,String bookDate,String bookTime) {
+
+        int count = 0;
+        BAccessTokenEntity token = bAccessTokenManager.getBAccessTokenById(1L);
+        String content = role.getActivityContent()+role.getActivityIdName();
+        String code = WebUtils.msgCheck(token.getAccessToken(),content);
+        System.out.println("content"+content);
+        if("40001".equals(code)||"42001".equals(code)){
+            String tokenString = WebUtils.getAccessToken();
+            if(cn.cashbang.core.common.utils.StringUtils.isNotBlank(tokenString)){
+
+                BAccessTokenEntity bAccessToken = new BAccessTokenEntity();
+                bAccessToken.setId(1);
+                bAccessToken.setAccessToken(tokenString);
+                bAccessTokenManager.updateBAccessToken(bAccessToken);
+            }
+            code = WebUtils.msgCheck(tokenString,content);
+        }
+        if("0".equals(code)){
+
+            int r2 = bActivitiesManager.saveBActivities(role);
+
+            // 生成一条预约记录
+            BVenueBookEntity bVenueBook = new BVenueBookEntity();
+            bVenueBook.setBookStatus(2); // 已预约
+            bVenueBook.setBookTime(bookTime);
+            bVenueBook.setBookDate(bookDate);
+            bVenueBook.setUserId(role.getUid());
+            bVenueBook.setVenueId(role.getVenueId());
+            bVenueBook.setActivityId(role.getActivityId());
+            bVenueBook.setActivityContent(role.getActivityContent());
+            String uuid = CommonUtils.createUUID();
+            bVenueBook.setId(uuid);
+            bVenueBook.setCreateTime(new Date());
+            int r1= bVenueBookManager.saveBVenueBook(bVenueBook);
+            count = r1+r2;
+
+            if(count==2){
+                count = 1;
+            }
+        }
+        else {
+            return Result.error("上传的信息中含有敏感内容，请修改后再上传。");
+        }
+
 		return CommonUtils.msg(count);
 	}
 

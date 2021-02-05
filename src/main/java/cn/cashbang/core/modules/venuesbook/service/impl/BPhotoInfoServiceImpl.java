@@ -7,7 +7,12 @@ import java.util.Date;
 import java.util.Map;
 
 import cn.cashbang.core.common.utils.SpringContextUtils;
+import cn.cashbang.core.common.utils.StringUtils;
+import cn.cashbang.core.common.utils.WebUtils;
+import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity;
+import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
 import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,6 +43,9 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 	@Autowired
 	private BUserManager bUserManager;
 
+    @Autowired
+    private BAccessTokenManager bAccessTokenManager;
+
 	@Override
 	public Page<BPhotoInfoEntity> listBPhotoInfo(Map<String, Object> params) {
 		Query query = new Query(params);
@@ -49,9 +57,32 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 	@Override
 	public Result saveBPhotoInfo(BPhotoInfoEntity role) {
 
-		BUserEntity bUser = bUserManager.getBUserById(role.getUid());
-		role.setUname(bUser.getUname());
-		int count = bPhotoInfoManager.saveBPhotoInfo(role);
+        int count = 0;
+        BAccessTokenEntity token = bAccessTokenManager.getBAccessTokenById(1L);
+        String content = role.getContent();
+        String code = WebUtils.msgCheck(token.getAccessToken(),content);
+        System.out.println("content"+content);
+        if("40001".equals(code)||"42001".equals(code)){
+            String tokenString = WebUtils.getAccessToken();
+            if(StringUtils.isNotBlank(tokenString)){
+
+                BAccessTokenEntity bAccessToken = new BAccessTokenEntity();
+                bAccessToken.setId(1);
+                bAccessToken.setAccessToken(tokenString);
+                bAccessTokenManager.updateBAccessToken(bAccessToken);
+            }
+            code = WebUtils.msgCheck(tokenString,content);
+        }
+        if("0".equals(code)){
+
+            BUserEntity bUser = bUserManager.getBUserById(role.getUid());
+            role.setUname(bUser.getUname());
+            count = bPhotoInfoManager.saveBPhotoInfo(role);
+        }
+        else {
+            return Result.error("上传的信息中含有敏感内容，请修改后再上传。");
+        }
+
 		return CommonUtils.msg(count);
 	}
 
@@ -75,44 +106,65 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 
 	@Override
 	public Result saveImage(MultipartFile file, String type){
+        
+        BAccessTokenEntity token = bAccessTokenManager.getBAccessTokenById(1L);
+        String code = WebUtils.imgCheck(token.getAccessToken(),file);
 
-		String uuid = CommonUtils.createUUID();
+        if("40001".equals(code)||"42001".equals(code)){
+            String tokenString = WebUtils.getAccessToken();
+            if(cn.cashbang.core.common.utils.StringUtils.isNotBlank(tokenString)){
 
-		String fileName = "";
-		if(file != null){
-			//取得当前上传文件的文件名称
-			String myFileName = file.getOriginalFilename();
-			System.out.println("----"+file.getName());
-			String suffix = myFileName.substring(myFileName.lastIndexOf(".") + 1);
-			String middle = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS").format(new Date());
-			//如果名称不为“”,说明该文件存在，否则说明该文件不存在
-			String uploadUrl = SpringContextUtils.getApplicationProperties().getUploadInfo().get("imageurl");
-			if(myFileName.trim() !=""){
-				//重命名上传后的文件名
-				fileName = uuid.substring(0, 8)+"-"+middle+"."+suffix;
-				File dirPath = new File(uploadUrl);
-				if(!dirPath.exists()){
-					dirPath.mkdirs();
-				}
+                BAccessTokenEntity bAccessToken = new BAccessTokenEntity();
+                bAccessToken.setId(1);
+                bAccessToken.setAccessToken(tokenString);
+                bAccessTokenManager.updateBAccessToken(bAccessToken);
+            }
+            code = WebUtils.imgCheck(tokenString,file);
+        }
 
-				//定义上传路径
-				String path = dirPath + File.separator + fileName;
-				File localFile = new File(path);
-				try {
-					file.transferTo(localFile);
-					return Result.ok().put("raws", fileName);
-				} catch (IllegalStateException|IOException e) {
-					e.printStackTrace();
-					return Result.error("导入图片失败");
-				}
-			}
-			else  {
-				return Result.error("图片内容为空");
-			}
-		}
-		else {
-			return Result.error("图片内容为空");
-		}
+        if("0".equals(code)){
+
+            String uuid = CommonUtils.createUUID();
+
+            String fileName = "";
+            if(file != null){
+                //取得当前上传文件的文件名称
+                String myFileName = file.getOriginalFilename();
+                System.out.println("----"+file.getName());
+                String suffix = myFileName.substring(myFileName.lastIndexOf(".") + 1);
+                String middle = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss_SSS").format(new Date());
+                //如果名称不为“”,说明该文件存在，否则说明该文件不存在
+                String uploadUrl = SpringContextUtils.getApplicationProperties().getUploadInfo().get("imageurl");
+                if(myFileName.trim() !=""){
+                    //重命名上传后的文件名
+                    fileName = uuid.substring(0, 8)+"-"+middle+"."+suffix;
+                    File dirPath = new File(uploadUrl);
+                    if(!dirPath.exists()){
+                        dirPath.mkdirs();
+                    }
+
+                    //定义上传路径
+                    String path = dirPath + File.separator + fileName;
+                    File localFile = new File(path);
+                    try {
+                        file.transferTo(localFile);
+                        return Result.ok().put("raws", fileName);
+                    } catch (IllegalStateException|IOException e) {
+                        e.printStackTrace();
+                        return Result.error("导入图片失败");
+                    }
+                }
+                else  {
+                    return Result.error("图片内容为空");
+                }
+            }
+            else {
+                return Result.error("图片内容为空");
+            }
+        }
+        else {
+            return Result.error("上传的信息中含有敏感内容，请修改后再上传。");
+        }
 	}
 
 	@Override
