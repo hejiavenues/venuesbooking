@@ -102,8 +102,12 @@ body ,html{
             </template>
         </el-table-column>
         
-    <el-table-column   label="操作"  fixed="right"  width="200">
+    <el-table-column   label="操作"  fixed="right"  width="300">
               <template scope="scope" >
+              	  <el-button :plain="true" v-if="true||hasPermission('venuesbook:activities:edit')" type="success" size="mini" 
+                  icon="el-icon-edit" @click="edit(scope.row)" ></el-button>修改
+                  <el-button :plain="true" type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)"
+                  v-if="true||hasPermission('venuesbook:activities:remove')"  ></el-button>删除
                   <el-button :plain="true" v-if="true||hasPermission('venuesbook:activities:edit')" type="success" size="mini" 
                   icon="el-icon-edit" @click="orgTree(scope.row)" ></el-button>报名列表
               </template>

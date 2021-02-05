@@ -86,6 +86,8 @@ var vm = new Vue({
 					success: function(iframeId){
 						top.frames[iframeId].vm.bVenueInfo.venueId = ck[0].venueId;
 						top.frames[iframeId].vm.setForm();
+						/*setTimeout(function(){},2000);
+						top.frames[iframeId].vm.getDynamicTags();*/
 					},
 					yes: function(iframeId){
 						top.frames[iframeId].vm.acceptClick();

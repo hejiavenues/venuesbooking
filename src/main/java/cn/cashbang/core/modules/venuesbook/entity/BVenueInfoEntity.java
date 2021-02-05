@@ -28,6 +28,8 @@ public class BVenueInfoEntity implements Serializable {
 	 */
 	private String venueName;
 	
+	private String dynamicTags;
+	
 	/**
 	 * 最大容纳人数
 	 */
@@ -186,6 +188,14 @@ public class BVenueInfoEntity implements Serializable {
 
 	public void setCommitteeName(String committeeName) {
 		this.committeeName = committeeName;
+	}
+
+	public String getDynamicTags() {
+		return dynamicTags;
+	}
+
+	public void setDynamicTags(String dynamicTags) {
+		this.dynamicTags = dynamicTags;
 	}
 	
 }

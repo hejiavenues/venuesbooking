@@ -71,6 +71,7 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 		}
 		String uuid = CommonUtils.createUUID();
 		role.setVenueId(uuid);
+		role.setSupportActiveType(role.getDynamicTags());
 		String fileName = "";
 		if(file != null){
             //取得当前上传文件的文件名称  
@@ -164,8 +165,11 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
             bVenueInfo.setIconUrl("/picture/"+fileName);
         }
 		BVenueInfoEntity b = new BVenueInfoEntity();
+		System.out.println("bVenueInfo.getDynamicTags():"+bVenueInfo.getDynamicTags());
+		b.setSupportActiveType(bVenueInfo.getDynamicTags());
 		BeanUtils.copyProperties(bVenueInfo, b);
 		b.setUpdateTime(new Date());
+		bVenueInfo.setSupportActiveType(bVenueInfo.getDynamicTags());
 		int count = bVenueInfoManager.updateBVenueInfo(bVenueInfo);
 		return CommonUtils.msg(count);
 	}

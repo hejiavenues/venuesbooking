@@ -58,7 +58,7 @@ public class BActivitiesManagerImpl implements BActivitiesManager {
 	}
 
 	@Override
-	public int batchRemove(Long[] id) {
+	public int batchRemove(String[] id) {
 		int count = bActivitiesMapper.batchRemove(id);
 		return count;
 	}

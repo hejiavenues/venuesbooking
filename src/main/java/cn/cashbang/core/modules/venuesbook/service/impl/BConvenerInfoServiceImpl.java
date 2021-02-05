@@ -11,7 +11,9 @@ import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.modules.venuesbook.entity.BConvenerInfoEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BConvenerInfoManager;
+import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import cn.cashbang.core.modules.venuesbook.service.BConvenerInfoService;
 
 /**
@@ -27,6 +29,8 @@ public class BConvenerInfoServiceImpl implements BConvenerInfoService {
 
 	@Autowired
 	private BConvenerInfoManager bConvenerInfoManager;
+	@Autowired
+	private BUserManager bUserManager;
 
 	@Override
 	public Page<BConvenerInfoEntity> listBConvenerInfo(Map<String, Object> params) {
@@ -55,6 +59,12 @@ public class BConvenerInfoServiceImpl implements BConvenerInfoService {
 			bConvenerInfo.setUpdateTime(new Date());
 		}
 		int count = bConvenerInfoManager.updateBConvenerInfo(bConvenerInfo);
+		if(bConvenerInfo.getStatus().intValue() == 1) {
+			//如果审核通过，则更新用户角色
+			BUserEntity user = bUserManager.getBUserById(bConvenerInfo.getUid());
+			user.setUserRole(2);
+			bUserManager.updateBUser(user);
+		}
 		return CommonUtils.msg(count);
 	}
 

@@ -6,8 +6,13 @@ var vm = new Vue({
 	data: {
 		bVenueInfo: {
 			venueId: 0,
+			times: '',
+			dynamicTags:[],
 			imgFile:null,
 		},
+		avaTimes:[],
+		dynamicTags11111: [],
+		inputVisible: false,
 		committees:[],
 		imageUrl: '',
 		rules:{//form 规则
@@ -27,8 +32,21 @@ var vm = new Vue({
 	},
 	created:function(){
 		this.getAllUser();
+		this.getAllTimes();
 	},
 	methods : {
+		selectChanged (val) {
+			
+			if(this.dynamicTags11111.indexOf(val.name)==-1){
+				this.dynamicTags11111.push(val.name);
+			}
+			if(this.bVenueInfo.dynamicTags.indexOf(val.code)==-1){
+				this.bVenueInfo.dynamicTags.push(val.code);
+			}
+			console.log("val.code:"+val.code);
+			console.log("dynamicTags11111:"+this.dynamicTags11111);
+			console.log("dynamicTags:"+this.bVenueInfo.dynamicTags);
+		},
 		acceptClick: function() {
 		  this.$refs
 		  ["ruleForm"].validate(function(yes,b){
@@ -66,6 +84,15 @@ var vm = new Vue({
 		    	}
 		    })
 		},
+		getAllTimes:function(){
+			var th=this;
+		    zs_post({
+		    	url:'../../venuesbook/dic/getDicsByCode?typeCode=activityType',
+		    	success:function(r){
+		    		th.avaTimes=r.bDics;
+		    	}
+		    })
+		},
         handleAvatarSuccess(res, file) {
             this.imageUrl = URL.createObjectURL(file.raw);
         },
@@ -87,6 +114,44 @@ var vm = new Vue({
 
             });
             return true;
-        }
+        },
+		getDynamicTags:function(){
+			var th=this;
+		    zs_post({
+		    	url:'../../venuesbook/dic/getDicsByCode?typeCode=activityType',
+		    	success:function(r){
+					console.log(r.bDics);
+					for(var a=0;a<r.bDics.length;a++){
+						if(th.dynamicTags11111.indexOf(r.bDics[a].name)==-1){
+							th.dynamicTags11111.push(r.bDics[a].name);
+						}
+						if(th.bVenueInfo.dynamicTags.indexOf(r.bDics[a].name)==-1){
+							th.bVenueInfo.dynamicTags.push(r.bDics[a].name);
+						}
+					};
+		    	}
+		    })
+		},
+		handleClose(tag) {
+			console.log(111111111)
+        	this.dynamicTags11111.splice(this.dynamicTags11111.indexOf(tag), 1);
+        	this.bVenueInfo.dynamicTags.splice(this.bVenueInfo.dynamicTags.indexOf(tag), 1);
+      	},
+      	showInput() {
+        	this.inputVisible = true;
+        	this.$nextTick(_ => {
+          	this.$refs.saveTagInput.$refs.input.focus();
+        	});
+      	},
+
+      	handleInputConfirm() {
+			console.log(22222222)
+        	var inputValue = this.inputValue;
+        	if (inputValue) {
+          	this.dynamicTags11111.push(inputValue);
+        	}
+        	this.inputVisible = false;
+        	this.inputValue = '';
+      }
 	}
 })

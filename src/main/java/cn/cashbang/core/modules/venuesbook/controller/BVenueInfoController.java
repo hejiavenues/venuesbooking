@@ -83,6 +83,7 @@ public class BVenueInfoController extends AbstractController {
 	@RequestMapping("/update")
 	public Result update(@RequestBody MultipartFile imgFile, BVenueInfoDTO bVenueInfo) {
 		BVenueInfoEntity b = new BVenueInfoEntity();
+		b.setSupportActiveType(bVenueInfo.getDynamicTags());
 		BeanUtils.copyProperties(bVenueInfo, b);
 		return bVenueInfoService.updateBVenueInfo(imgFile,b);
 	}

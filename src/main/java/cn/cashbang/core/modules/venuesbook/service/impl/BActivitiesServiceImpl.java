@@ -58,7 +58,7 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 	}
 
 	@Override
-	public Result batchRemove(Long[] id) {
+	public Result batchRemove(String[] id) {
 		int count = bActivitiesManager.batchRemove(id);
 		return CommonUtils.msg(id, count);
 	}

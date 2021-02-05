@@ -41,16 +41,19 @@ public class BVenueInfoManagerImpl implements BVenueInfoManager {
 		for (BVenueInfoEntity venue:  list) {
 			String ats = venue.getSupportActiveType();
 			String atsdes = "";
-			String[] atarry = ats.split(",");
-			for (String a:atarry){
-				BDicEntity dic = bDicMapper.getBActivityDicByCode(a);
-				String name = dic.getName();
+			if(!StringUtils.isEmpty(ats)) {
+				
+				String[] atarry = ats.split(",");
+				for (String a:atarry){
+					BDicEntity dic = bDicMapper.getBActivityDicByCode(a);
+					String name = dic.getName();
 
-				if(StringUtils.isNotBlank(atsdes)) {
-					atsdes = atsdes +","+ name;
-				}
-				else {
-					atsdes = name;
+					if(StringUtils.isNotBlank(atsdes)) {
+						atsdes = atsdes +","+ name;
+					}
+					else {
+						atsdes = name;
+					}
 				}
 			}
 

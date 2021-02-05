@@ -6,9 +6,14 @@ var vm = new Vue({
 	data: {
 		bVenueInfo: {
 			venueId: 0,
+			times: '',
+			dynamicTags:[],
 			imgFile:null,
 		},
+		avaTimes:[],
+		dynamicTags11111: [],
 		committees:[],
+		inputVisible: false,
 		imageUrl: '',
 		rules:{//form 规则
 		
@@ -16,6 +21,7 @@ var vm = new Vue({
 		    venueName: [ {  required: true, message: '场馆名称', trigger: 'blur' } ], 
 		    maxPeople: [ {  required: true, message: '最大容纳人数', trigger: 'blur' } ], 
 		    address: [ {  required: true, message: '场馆地址', trigger: 'blur' } ], 
+			supportActiveType: [ {  required: true, message: '支持的活动类型', trigger: 'blur' } ], 
 		    /*committeeId: [ {  required: true, message: '所属居委会id', trigger: 'blur' } ], 
 		    supportActiveType: [ {  required: true, message: '支持的活动类型', trigger: 'blur' } ], 
 		    iconUrl: [ {  required: true, message: '图片地址', trigger: 'blur' } ], 
@@ -25,10 +31,30 @@ var vm = new Vue({
 		}
 			
 	},
+	watch:{
+        	"bVenueInfo.supportActiveType":function(a,b){
+        		this.getDynamicTags();
+        	}
+		},
 	created:function(){
 		this.getAllUser();
+		this.getAllTimes();
 	},
 	methods : {
+		selectChanged (val) {
+			console.log("val.code:"+val.code);
+			console.log("dynamicTags11111:"+this.dynamicTags11111);
+			console.log("dynamicTags:"+this.bVenueInfo.dynamicTags);
+			if(this.dynamicTags11111.indexOf(val.name)==-1){
+				this.dynamicTags11111.push(val.name);
+			}
+			if(this.bVenueInfo.dynamicTags.indexOf(val.code)==-1){
+				this.bVenueInfo.dynamicTags.push(val.code);
+			}
+			console.log("val.code:"+val.code);
+			console.log("dynamicTags11111:"+this.dynamicTags11111);
+			console.log("dynamicTags:"+this.bVenueInfo.dynamicTags);
+		},
 	   setForm: function() {
 			$.SetForm({
 				url: '../../venuesbook/venueinfo/info?_' + $.now(),
@@ -77,6 +103,15 @@ var vm = new Vue({
 		    	}
 		    })
 		},
+		getAllTimes:function(){
+			var th=this;
+		    zs_post({
+		    	url:'../../venuesbook/dic/getDicsByCode?typeCode=activityType',
+		    	success:function(r){
+		    		th.avaTimes=r.bDics;
+		    	}
+		    })
+		},
         handleAvatarSuccess(res, file) {
             this.imageUrl = URL.createObjectURL(file.raw);
         },
@@ -98,6 +133,57 @@ var vm = new Vue({
 
             });
             return true;
-        }
+        },
+		
+		getDynamicTags:function(){
+			var th=this;
+		    zs_post({
+		    	url:'../../venuesbook/dic/getDicsByCode?typeCode=activityType',
+		    	success:function(r){
+					console.log(r.bDics);
+					for(var a=0;a<r.bDics.length;a++){
+						if(th.dynamicTags11111){
+							if(th.dynamicTags11111.indexOf(r.bDics[a].code)==-1){
+								if((','+th.bVenueInfo.supportActiveType+',').indexOf(','+r.bDics[a].code+',')>=0){
+									th.dynamicTags11111.push(r.bDics[a].name);
+								}
+							}
+						}
+						
+						th.bVenueInfo.dynamicTags = th.bVenueInfo.supportActiveType.split(',');
+						/*if(th.bVenueInfo.dynamicTags){
+							if(th.bVenueInfo.dynamicTags.indexOf(r.bDics[a].code)==-1){
+								if((','+th.bVenueInfo.supportActiveType+',').indexOf(','+r.bDics[a].code+',')>=0){
+									th.bVenueInfo.dynamicTags.push(r.bDics[a].code);
+								}
+							}
+						}*/
+					};
+					console.log("th.dynamicTags11111"+th.dynamicTags11111);
+					console.log("th.bVenueInfo.dynamicTags"+th.bVenueInfo.dynamicTags);
+		    	}
+		    })
+		},
+		handleClose(tag) {
+			console.log(111111111)
+        	this.dynamicTags11111.splice(this.dynamicTags11111.indexOf(tag), 1);
+        	this.bVenueInfo.dynamicTags.splice(this.bVenueInfo.dynamicTags.indexOf(tag), 1);
+      	},
+      	showInput() {
+        	this.inputVisible = true;
+        	this.$nextTick(_ => {
+          	this.$refs.saveTagInput.$refs.input.focus();
+        	});
+      	},
+
+      	handleInputConfirm() {
+			console.log(22222222)
+        	var inputValue = this.inputValue;
+        	if (inputValue) {
+          	this.dynamicTags11111.push(inputValue);
+        	}
+        	this.inputVisible = false;
+        	this.inputValue = '';
+      }
 	}
 })
