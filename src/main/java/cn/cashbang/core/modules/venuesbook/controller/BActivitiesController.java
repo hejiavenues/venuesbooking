@@ -19,6 +19,7 @@ import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity;
 import cn.cashbang.core.modules.venuesbook.service.BActivitiesService;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 活动信息表
@@ -55,27 +56,14 @@ public class BActivitiesController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/save")
-	public Map<String, Object> save(@RequestBody BActivitiesEntity bActivities) {
-
-        Map<String, Object> result = new HashMap<>();
-
-        // 判断是不是可以预约（每人每天只能预约一次）  TODO
-
-        if(org.apache.commons.lang3.StringUtils.isNotEmpty(bActivities.getUid())){
-            if(bVenueBookService.countUserBookTime(bActivities.getUid())!=null){
-                result.put("code",1);
-                result.put("msg","每人每天只能预约一次！");
-                return result;
-            }
-        }
+	public Map<String, Object> save(@RequestBody BActivitiesEntity bActivities,@RequestBody MultipartFile imgFile) {
 
         // 生成活动信息
-        bActivities.setActivityIconUrl("/picture/"+bActivities.getActivityIconUrl());
         bActivities.setActivityTime(bActivities.getBookDate() +"  "+bActivities.getBookTime());
         String uuid2 = CommonUtils.createUUID();
         bActivities.setActivityId(uuid2);
         bActivities.setCreateTime(new Date());
-        Result r2=bActivitiesService.saveBActivities(bActivities,bActivities.getBookDate(),bActivities.getBookTime());
+        Result r2=bActivitiesService.saveBActivitiesHoutai(imgFile,bActivities,bActivities.getBookDate(),bActivities.getBookTime());
 
 		return r2;
 	}

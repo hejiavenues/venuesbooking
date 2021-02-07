@@ -39,6 +39,32 @@ padding-right:5%" >
 			 <el-form-item label="活动内容" prop="activityContent">
 			    <el-input v-model="bActivities.activityContent"></el-input>
 			  </el-form-item>
+            <el-form-item label="活动状态" prop="status">
+                <!--<el-input v-model="bActivities.status"></el-input>-->
+                <el-select v-model="bActivities.status" placeholder="请选择" style="width:14em" filterable >
+                    <el-option value="1">公开</el-option>
+                    <el-option value="2">不公开</el-option>
+                </el-select>
+            </el-form-item>
+
+
+            <el-form-item class="" label="活动日期：" prop="bookDate">
+                <el-date-picker
+                        v-model="bActivities.bookDate"
+                        :picker-options="pickerOptions1"
+                        type="date"
+                        format="yyyy-MM-dd"
+                        value-format="yyyy-MM-dd"
+                        placeholder="选择日期">
+                </el-date-picker>
+            </el-form-item>
+
+            <el-form-item label="选择时段" prop="bookTime">
+                <!--<el-input v-model="bActivities.activityTime"></el-input>-->
+                <el-select v-model="bActivities.bookTime" placeholder="请选择" style="width:14em" filterable>
+                    <el-option v-for="us in avaTimes " :label="us.name" :value="us.name"></el-option>
+                </el-select>
+            </el-form-item>
 			 <!--<el-form-item label="活动图片url" prop="activityIconUrl">-->
 			    <!--<el-input v-model="bActivities.activityIconUrl"></el-input>-->
 			  <!--</el-form-item>-->
@@ -54,32 +80,7 @@ padding-right:5%" >
                     <div slot="tip" class="el-upload__tip">仅支持jpg、png格式的图片</div>
                 </el-upload>
             </el-form-item>
-			 <el-form-item label="活动状态" prop="status">
-			    <!--<el-input v-model="bActivities.status"></el-input>-->
-                 <el-select v-model="bActivities.status" placeholder="请选择" style="width:14em" filterable >
-                     <el-option value="1">公开</el-option>
-                     <el-option value="2">不公开</el-option>
-                 </el-select>
-			  </el-form-item>
 
-
-                <el-form-item class="" label="活动日期：" prop="bookDate">
-                    <el-date-picker
-                            v-model="bActivities.bookDate"
-                            :picker-options="pickerOptions1"
-                            type="date"
-                            format="yyyy-MM-dd"
-                            value-format="yyyy-MM-dd"
-                            placeholder="选择日期">
-                    </el-date-picker>
-                </el-form-item>
-
-                <el-form-item label="选择时段" prop="bookTime">
-                    <!--<el-input v-model="bActivities.activityTime"></el-input>-->
-                    <el-select v-model="bActivities.bookTime" placeholder="请选择" style="width:14em" filterable>
-                        <el-option v-for="us in avaTimes " :label="us.name" :value="us.name"></el-option>
-                    </el-select>
-                </el-form-item>
 </el-form>
 </dev>	
 	<div th:include="include/footer_element::footer"></div>
