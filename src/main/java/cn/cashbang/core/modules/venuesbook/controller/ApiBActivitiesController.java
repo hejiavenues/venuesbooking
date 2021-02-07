@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -42,7 +43,8 @@ public class ApiBActivitiesController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/getActList")
-	public  Map<String, Object> getActList(int page) {
+	public  Map<String, Object> getActList(int page,String queryCGName,
+                                           String queryComId,String queryActType,String queryCount) {
 		
 		Map<String, Object> params = new HashMap<>();
 		Map<String, Object> result = new HashMap<>();
@@ -51,6 +53,10 @@ public class ApiBActivitiesController extends AbstractController {
 		params.put("pageSize",5);
 		params.put("aStatus",1);  // 只有公开的活动才需要报名
 		params.put("sortOrde","asc");
+        params.put("acName",queryCGName);
+        params.put("queryComId",queryComId);
+        params.put("queryActType",queryActType);
+        params.put("queryCount",queryCount);
 
 		Page<BActivitiesEntity> list = bActivitiesService.listBActivities(params);
 		if(list.getTotal()>0){
@@ -91,7 +97,7 @@ public class ApiBActivitiesController extends AbstractController {
 		bActivityEntry.setStatus(1);
 		String uuid = CommonUtils.createUUID();
 		bActivityEntry.setEid(uuid);
-
+        bActivityEntry.setCreateTime(new Date());
 		return bActivityEntryService.saveBActivityEntry(bActivityEntry);
 	}
 

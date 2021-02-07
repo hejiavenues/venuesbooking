@@ -42,15 +42,18 @@ public class ApiBTeamController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/getTeamList")
-	public  Map<String, Object> getTeamList(int page) {
+	public  Map<String, Object> getTeamList(int page,String queryCGName,
+      String queryActType,String queryCount) {
 
 		Map<String, Object> params = new HashMap<>();
 		Map<String, Object> result = new HashMap<>();
 
 		params.put("pageNumber",page);
 		params.put("pageSize",10);
-		params.put("keyword",null);
+		params.put("tdName",queryCGName);
 		params.put("sortOrde","asc");
+        params.put("acType",queryActType);
+        params.put("queryCount",queryCount);
 
 		Page<BTeamEntity> list = bTeamService.listBTeam(params);
 		if(list.getTotal()>0){

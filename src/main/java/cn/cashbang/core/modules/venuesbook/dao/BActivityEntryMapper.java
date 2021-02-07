@@ -20,4 +20,6 @@ import java.util.List;
 public interface BActivityEntryMapper extends BaseMapper<BActivityEntryEntity> {
 
     List<BActivityEntryEntity> getUserListById(@Param("activityId")String activityId, @Param("uid")String uid);
+
+    int deleteByActivityId(String activityId);
 }

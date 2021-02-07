@@ -58,4 +58,9 @@ public class BActivityEntryManagerImpl implements BActivityEntryManager {
 	public List<BActivityEntryEntity> getUserListById(String actId,String uid){
 		return bActivityEntryMapper.getUserListById(actId,uid);
 	}
+
+    @Override
+    public int deleteByActivityId(String activityId) {
+        return bActivityEntryMapper.deleteByActivityId(activityId);
+    }
 }

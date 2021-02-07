@@ -33,6 +33,9 @@
 			<if test="aStatus != null and aStatus != ''">
 				and	bt.`status` = #{aStatus} 
 			</if>
+            <if test="queryCount != null and queryCount != ''">
+                <![CDATA[  and	bt.people_count <= #{queryCount}   ]]>
+            </if>
 			</where>
 		ORDER BY
 			tid DESC

@@ -7,6 +7,7 @@ var vm = new Vue({
 		bActivities: {
 			activityId: 0
 		},
+        activityTypes: [],
 		rules:{//form 规则
 		
 			    activityId: [ {  required: true, message: '活动id', trigger: 'blur' } ], 
@@ -25,6 +26,11 @@ var vm = new Vue({
 		}
 			
 	},
+    created:function(){
+        this.getAllUser();
+        //this.getAllTimes();
+        //this.getVenueinfo();
+    },
 	methods : {
 	   setForm: function() {
 			$.SetForm({
@@ -52,6 +58,15 @@ var vm = new Vue({
 				}
 				 
 			 });
-		}
+		},
+        getAllUser:function(){
+            var th=this;
+            zs_post({
+                url:'../../venuesbook/dic/getDicsByCode?typeCode=activityType',
+                success:function(r){
+                    th.activityTypes=r.bDics;
+                }
+            })
+        },
 	}
 })

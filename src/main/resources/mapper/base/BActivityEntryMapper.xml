@@ -111,4 +111,12 @@
 		</foreach>
 	</delete>
 
+    <delete id="deleteByActivityId">
+        DELETE
+        FROM
+        b_activity_entry
+        WHERE
+        `activity_id` = #{activityId}
+    </delete>
+
 </mapper>

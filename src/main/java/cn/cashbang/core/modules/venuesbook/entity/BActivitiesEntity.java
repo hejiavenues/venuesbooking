@@ -80,6 +80,16 @@ public class BActivitiesEntity implements Serializable {
 	 * 活动时段
 	 */
 	private String activityTime;
+
+    /**
+     * 预约日期
+     */
+    private String bookDate;
+
+    /**
+     * 预约时段
+     */
+    private String bookTime;
 	
 	/**
 	 * 创建时间
@@ -91,7 +101,23 @@ public class BActivitiesEntity implements Serializable {
 	 */
 	private Date updateTime;
 
-	public String getAddress() {
+    public String getBookDate() {
+        return bookDate;
+    }
+
+    public void setBookDate(String bookDate) {
+        this.bookDate = bookDate;
+    }
+
+    public String getBookTime() {
+        return bookTime;
+    }
+
+    public void setBookTime(String bookTime) {
+        this.bookTime = bookTime;
+    }
+
+    public String getAddress() {
 		return address;
 	}
 

@@ -1,7 +1,11 @@
 package cn.cashbang.core.modules.venuesbook.controller;
 
+import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
+import cn.cashbang.core.common.utils.CommonUtils;
+import cn.cashbang.core.modules.venuesbook.service.BVenueBookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -30,6 +34,10 @@ public class BActivitiesController extends AbstractController {
 	
 	@Autowired
 	private BActivitiesService bActivitiesService;
+
+
+    @Autowired
+    private BVenueBookService bVenueBookService;
 	
 	/**
 	 * 列表
@@ -47,8 +55,29 @@ public class BActivitiesController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/save")
-	public Result save(@RequestBody BActivitiesEntity bActivities) {
-		return bActivitiesService.saveBActivities(bActivities,null,null);
+	public Map<String, Object> save(@RequestBody BActivitiesEntity bActivities) {
+
+        Map<String, Object> result = new HashMap<>();
+
+        // 判断是不是可以预约（每人每天只能预约一次）  TODO
+
+        if(org.apache.commons.lang3.StringUtils.isNotEmpty(bActivities.getUid())){
+            if(bVenueBookService.countUserBookTime(bActivities.getUid())!=null){
+                result.put("code",1);
+                result.put("msg","每人每天只能预约一次！");
+                return result;
+            }
+        }
+
+        // 生成活动信息
+        bActivities.setActivityIconUrl("/picture/"+bActivities.getActivityIconUrl());
+        bActivities.setActivityTime(bActivities.getBookDate() +"  "+bActivities.getBookTime());
+        String uuid2 = CommonUtils.createUUID();
+        bActivities.setActivityId(uuid2);
+        bActivities.setCreateTime(new Date());
+        Result r2=bActivitiesService.saveBActivities(bActivities,bActivities.getBookDate(),bActivities.getBookTime());
+
+		return r2;
 	}
 	
 	/**

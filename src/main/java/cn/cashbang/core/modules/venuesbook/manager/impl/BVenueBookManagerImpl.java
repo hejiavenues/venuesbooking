@@ -80,4 +80,9 @@ public class BVenueBookManagerImpl implements BVenueBookManager {
 	public BVenueBookEntity countUserBookTime(String uid){
 		return bVenueBookMapper.countUserBookTime(uid);
 	}
+
+    @Override
+    public int deleteByActivityId(String activityId) {
+        return bVenueBookMapper.deleteByActivityId(activityId);
+    }
 }

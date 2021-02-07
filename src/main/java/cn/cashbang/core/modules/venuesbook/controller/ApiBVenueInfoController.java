@@ -57,7 +57,7 @@ public class ApiBVenueInfoController extends AbstractController {
 
 		params.put("pageNumber",page);
 		params.put("pageSize",5);
-		params.put("queryCGName",queryCGName);
+		params.put("acName",queryCGName);
 		params.put("queryComId",queryComId);
 		params.put("queryActType",queryActType);
 		params.put("queryCount",queryCount);

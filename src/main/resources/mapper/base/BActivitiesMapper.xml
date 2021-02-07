@@ -37,6 +37,15 @@
 			<if test="activityId != null and activityId != ''">
 				and	ba.`activity_id` = #{activityId} 
 			</if>
+            <if test="queryActType != null and queryActType != ''">
+                and	ba.activity_type like concat('%',#{queryActType},'%')
+            </if>
+            <if test="queryComId != null and queryComId != ''">
+                and	exists (select 1 from b_venue_info bvi where bvi.`venue_id` = ba.`venue_id` and bvi.committee_id = #{queryComId})
+            </if>
+            <if test="queryCount != null and queryCount != ''">
+                <![CDATA[  and	ba.activity_count <= #{queryCount}   ]]>
+            </if>
 			</where>
 		ORDER BY
 			ba.activity_id DESC

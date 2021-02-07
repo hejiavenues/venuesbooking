@@ -12,39 +12,41 @@ html,body
   <dev id="zsvm"  style="height:100%;">
 <el-form :model="bActivities" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
 padding-right:5%" >
-			 <el-form-item label="场馆id" prop="venueId">
-			    <el-input v-model="bActivities.venueId"></el-input>
-			  </el-form-item>
-			 <el-form-item label="预约人id" prop="uid">
-			    <el-input v-model="bActivities.uid"></el-input>
-			  </el-form-item>
+			 <!--<el-form-item label="场馆id" prop="venueId">-->
+			    <!--<el-input v-model="bActivities.venueId"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="预约人id" prop="uid">-->
+			    <!--<el-input v-model="bActivities.uid"></el-input>-->
+			  <!--</el-form-item>-->
 			 <el-form-item label="活动名称" prop="activityIdName">
 			    <el-input v-model="bActivities.activityIdName"></el-input>
 			  </el-form-item>
 			 <el-form-item label="活动人数" prop="activityCount">
 			    <el-input v-model="bActivities.activityCount"></el-input>
 			  </el-form-item>
-			 <el-form-item label="活动类型" prop="activityType">
-			    <el-input v-model="bActivities.activityType"></el-input>
-			  </el-form-item>
+			 <!--<el-form-item label="活动类型" prop="activityType">-->
+			    <!--<el-input v-model="bActivities.activityType"></el-input>-->
+			  <!--</el-form-item>-->
+            <el-form-item label="活动类型" prop="activityType">
+                <el-select v-model="bActivities.activityType" placeholder="请选择" style="width:14em" filterable>
+                    <el-option v-for="us in activityTypes " :label="us.name" :value="us.code"></el-option>
+                </el-select>
+            </el-form-item>
 			 <el-form-item label="活动内容" prop="activityContent">
 			    <el-input v-model="bActivities.activityContent"></el-input>
 			  </el-form-item>
-			 <el-form-item label="活动图片url" prop="activityIconUrl">
-			    <el-input v-model="bActivities.activityIconUrl"></el-input>
-			  </el-form-item>
-			 <el-form-item label="活动状态（1.公开 2.不公开）" prop="status">
-			    <el-input v-model="bActivities.status"></el-input>
-			  </el-form-item>
-			 <el-form-item label="活动时段" prop="activityTime">
-			    <el-input v-model="bActivities.activityTime"></el-input>
-			  </el-form-item>
-			 <el-form-item label="创建时间" prop="createTime">
-			    <el-input v-model="bActivities.createTime"></el-input>
-			  </el-form-item>
-			 <el-form-item label="更新时间" prop="updateTime">
-			    <el-input v-model="bActivities.updateTime"></el-input>
-			  </el-form-item>
+			 <!--<el-form-item label="活动图片url" prop="activityIconUrl">-->
+			    <!--<el-input v-model="bActivities.activityIconUrl"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="活动状态" prop="status">-->
+			    <!--<el-input v-model="bActivities.status"></el-input>-->
+			  <!--</el-form-item>-->
+            <el-form-item label="活动状态" prop="status">
+                <el-select v-model="bActivities.status" placeholder="请选择" style="width:14em" filterable >
+                    <el-option value="1">公开</el-option>
+                    <el-option value="2">不公开</el-option>
+                </el-select>
+            </el-form-item>
 </el-form>
 </dev>	
 	<div th:include="include/footer_element::footer"></div>

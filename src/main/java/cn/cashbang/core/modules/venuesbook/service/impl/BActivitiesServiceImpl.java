@@ -9,6 +9,7 @@ import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
+import cn.cashbang.core.modules.venuesbook.manager.BActivityEntryManager;
 import cn.cashbang.core.modules.venuesbook.manager.BVenueBookManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -43,7 +44,11 @@ public class BActivitiesServiceImpl implements BActivitiesService {
     @Autowired
     private BAccessTokenManager bAccessTokenManager;
 
-	@Override
+    @Autowired
+    private BActivityEntryManager bActivityEntryManager;
+
+
+    @Override
 	public Page<BActivitiesEntity> listBActivities(Map<String, Object> params) {
 		
 		Query query = new Query(params);
@@ -72,7 +77,7 @@ public class BActivitiesServiceImpl implements BActivitiesService {
             code = WebUtils.msgCheck(tokenString,content);
         }
         if("0".equals(code)){
-
+            
             int r2 = bActivitiesManager.saveBActivities(role);
 
             // 生成一条预约记录
@@ -116,6 +121,11 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 	@Override
 	public Result batchRemove(String[] id) {
 		int count = bActivitiesManager.batchRemove(id);
+
+		// 删除预约信息
+        bActivityEntryManager.deleteByActivityId(id[0]);
+        // 删除报名信息
+        bVenueBookManager.deleteByActivityId(id[0]);
 		return CommonUtils.msg(id, count);
 	}
 
