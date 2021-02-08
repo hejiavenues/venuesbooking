@@ -8,7 +8,7 @@ var vm = new Vue({
 			venueId: 0,
 			times: '',
 			dynamicTags:[],
-			imgFile:null,
+			imgFile: null,
 		},
 		avaTimes:[],
 		dynamicTags11111: [],

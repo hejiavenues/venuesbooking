@@ -56,7 +56,7 @@ public class BActivitiesController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/save")
-	public Map<String, Object> save(@RequestBody BActivitiesEntity bActivities,@RequestBody MultipartFile imgFile) {
+	public Map<String, Object> save(BActivitiesEntity bActivities,MultipartFile imgFile) {
 
         // 生成活动信息
         bActivities.setActivityTime(bActivities.getBookDate() +"  "+bActivities.getBookTime());

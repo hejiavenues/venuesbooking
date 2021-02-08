@@ -6,7 +6,7 @@ var vm = new Vue({
 	data: {
 		bActivities: {
 			activityId: 0,
-	        imgFile:null
+	        imgFile: null,
 		},
         avaTimes:[],
         activityTypes: [],
@@ -42,13 +42,24 @@ var vm = new Vue({
 		  this.$refs
 		  ["ruleForm"].validate(function(yes,b){
 				if(yes){
-					 $.SaveForm({
+					 /*$.SaveForm({
 				    	url: '../../venuesbook/activities/save?_' + $.now(),
 				    	param: vm.bActivities,
 				    	success: function(data) {
 				    		$.currentIframe().vm.load();
 				    	}
-				    });
+				    });*/
+					zs_postFormA(vm,{
+                        url: '../../venuesbook/activities/save?_' + $.now(),
+                        param: vm.bActivities,
+                        success: function(data) {
+                            vm.$message.success('添加成功');
+                            $.currentIframe().vm.load();
+                            setTimeout(function() {
+                                dialogClose();
+                            }, 1000);
+                        }
+                    });
 				}else{
 					 return false;
 				}
