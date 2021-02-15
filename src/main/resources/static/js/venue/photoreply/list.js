@@ -1,5 +1,5 @@
 /**
- * banner图表js
+ * js
  */
 
 var vm = new Vue({
@@ -10,22 +10,15 @@ var vm = new Vue({
 			channel:parent.vm.user.channel,//saas必要参数channel
 		    pageNumber:1,//第几页
 			pageSize:10,//查询条数
-			keyword: null
+			keyword: null,
+			reply: '',
 		},
 		table:{//表格数据
 			  "col":[
-					/*{field : "bid", title : "主键", width : ""}, */
-					{field : "bannerDesc", title : "banner图描述", width : ""}, 
-					/*{field : "bannerImgUrl", title : "图片", width : "150px",align: 'center',
-						formatter: function(value,row,index){
-                    	return '<img style="height:100px;width:150px" src='+value+'>';
-                		}
-					}, 
-					{field : "bizztype", title : "类型", width : ""}, */
-					{field : "sortid", title : "排序(大值优先轮播)", width : ""}, 
-					{field : "isuse", title : "禁用启用", width : ""}, 
-					{field : "createTime", title : "创建时间", width : "145px"}, 
-					{field : "updateTime", title : "更新时间", width : "145px"}
+					{field : "photoContent", title : "随拍内容", width : ""}, 
+					{field : "uname", title : "评论人", width : ""}, 
+					{field : "content", title : "评论内容", width : ""}, 
+					{field : "createTime", title : "评论时间", width : "150px"}, 
 			  ],
 			  "pagesizes":[1,10, 20, 30, 100],//size选择器
 			  "pagesize ":10,
@@ -56,34 +49,19 @@ var vm = new Vue({
 				this.param.pageSize=size;
 			}
 			zs_post({
-				url: '../../venuesbook/banner/list?_' + $.now(),
+				url: '../../venuesbook/photoreply/list?_' + $.now(),
 				param:th.param,
 				success:function(r){
 					console.log(r);
-					for(var i=0;i<r.rows.length;i++){
-						if(r.rows[i].isuse == 0){
-                        r.rows[i].isuse = '禁用';
-						}
-                    	else if(r.rows[i].isuse == 1){
-                        r.rows[i].isuse = '启用';
-                    	}
-						if(r.rows[i].bizztype == 1){
-                        r.rows[i].bizztype = '首页';
-						}
-                    	else if(r.rows[i].bizztype == 2){
-                        r.rows[i].bizztype = '随拍';
-                    	}
-					}
-					
 					th.table.data=r.rows;
 					th.table.total=r.total;
 				}
-			});
+			})
 		},
 		save: function() {
 			dialogOpen({
-				title: '新增轮播图',
-				url: 'venue/banner/add.html?_' + $.now(),
+				title: '新增',
+				url: 'venue/photoreply/add.html?_' + $.now(),
 				width: '40%',
 				height: '80%',
 				success: function(iframeId){
@@ -97,12 +75,12 @@ var vm = new Vue({
 			var ck =[row];
 			if(checkedRow(ck)){
 				dialogOpen({
-					title: '编辑轮播图',
-					url: 'venue/banner/edit.html?_' + $.now(),
+					title: '编辑',
+					url: 'venue/photoreply/edit.html?_' + $.now(),
 					width: '40%',
 					height: '80%',
 					success: function(iframeId){
-						top.frames[iframeId].vm.bBannerInfo.bid = ck[0].bid;
+						top.frames[iframeId].vm.bPhotoReply.reply = ck[0].reply;
 						top.frames[iframeId].vm.setForm();
 					},
 					yes: function(iframeId){
@@ -115,10 +93,10 @@ var vm = new Vue({
 			var ck = [row], ids = [];	
 			if(checkedArray(ck)){
 				$.each(ck, function(idx, item){
-					ids[idx] = item.bid;
+					ids[idx] = item.reply;
 				});
 				$.RemoveForm({
-					url: '../../venuesbook/banner/remove?_' + $.now(),
+					url: '../../venuesbook/photoreply/remove?_' + $.now(),
 			    	param: ids,
 			    	success: function(data) {
 			    		vm.load();
@@ -129,6 +107,6 @@ var vm = new Vue({
 	
 	 },
 	 mounted:function(){
-	 	this.load();
+	 	//this.load();
 	 }
 })

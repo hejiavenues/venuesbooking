@@ -98,7 +98,7 @@ public class BUserServiceImpl implements BUserService {
 	}
 
 	@Override
-	public Result batchRemove(Long[] id) {
+	public Result batchRemove(String[] id) {
 		int count = bUserManager.batchRemove(id);
 		return CommonUtils.msg(id, count);
 	}

@@ -28,7 +28,20 @@ public class BUserManagerImpl implements BUserManager {
 
 	@Override
 	public List<BUserEntity> listBUser(Page<BUserEntity> page, Query search) {
-		return bUserMapper.listForPage(page, search);
+		List<BUserEntity> lists = bUserMapper.listForPage(page, search);
+		for(BUserEntity bu:lists) {
+			if(bu.getStatus().intValue() == 1) {
+				bu.setStatusStr("正常");
+			}else if(bu.getStatus().intValue() == 2) {
+				bu.setStatusStr("禁用");
+			}
+			if(bu.getSex().intValue() == 1) {
+				bu.setSexStr("男");
+			}else if(bu.getSex().intValue() == 0) {
+				bu.setSexStr("女");
+			}
+		}
+		return lists;
 	}
 
 	@Override
@@ -48,7 +61,7 @@ public class BUserManagerImpl implements BUserManager {
 	}
 
 	@Override
-	public int batchRemove(Long[] id) {
+	public int batchRemove(String[] id) {
 		int count = bUserMapper.batchRemove(id);
 		return count;
 	}

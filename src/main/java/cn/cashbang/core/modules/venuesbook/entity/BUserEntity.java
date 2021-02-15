@@ -32,6 +32,8 @@ public class BUserEntity implements Serializable {
 	 */
 	private Integer sex;
 	
+	private String sexStr;
+	
 	/**
 	 * 出生日期
 	 */
@@ -66,6 +68,8 @@ public class BUserEntity implements Serializable {
 	 * 用户状态（1.正常 2.禁用 3.删除）
 	 */
 	private Integer status;
+	
+	private String statusStr;
 	
 	/**
 	 * 头像地址
@@ -212,6 +216,22 @@ public class BUserEntity implements Serializable {
 	
 	public Date getUpdateTime() {
 		return updateTime;
+	}
+
+	public String getStatusStr() {
+		return statusStr;
+	}
+
+	public void setStatusStr(String statusStr) {
+		this.statusStr = statusStr;
+	}
+
+	public String getSexStr() {
+		return sexStr;
+	}
+
+	public void setSexStr(String sexStr) {
+		this.sexStr = sexStr;
 	}
 	
 }

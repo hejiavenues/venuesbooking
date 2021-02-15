@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('')"></head>
+<style>
+body ,html{
+  background:#eee;
+}
+
+.el-form-item {
+    margin-bottom: 10px;
+}
+
+</style>
+<body>
+<div id="zsvm"  v-cloak>
+
+  <el-card class="box-card"> 
+  
+  <!-- 搜索 -->
+<!--    <el-collapse v-model="activeNames">
+     <el-collapse-item title="" name="1" > -->
+     
+	   <!-- <el-form ref="form"  :inline="true" label-width="80px" size="mini">搜索框
+		 <el-form-item label="" >
+		        <el-input v-model="param.keyword" placeholder="根据评论内容查询" @keyup.enter.native="load(0,0)"></el-input>
+		  </el-form-item>
+		  
+		 <el-form-item>
+		  <el-button onclick="reload();"   icon="el-icon-refresh"   ></el-button>
+		  <el-button  icon="el-icon-search"   @click="load(1,10)" ></el-button>
+		  <el-button type="warning" v-if="true||hasPermission('venuesbook:photoreply:save')"    @click="save"  icon="el-icon-plus"></el-button>
+		</el-form-item>
+		
+		</el-form> -->
+<!-- 	 </el-collapse-item>
+	</el-collapse> -->
+	
+	<!-- table -->
+    <el-table :data="table.data" border  style="width: 100%"   :height="$(window).height()*0.7" highlight-current-row size="small" @selection-change="selectCases" >
+       <el-table-column   type="index"  width="50" label = "序号"></el-table-column>
+       <!-- <el-table-column type="selection"  width="40"> </el-table-column> --> <!-- 选择框 -->
+      
+      <el-table-column  :label="col.title"      :width="col.width"  v-for="col in table.col"    >
+	       <template slot-scope="scope"  >
+	       		<div v-if="col.formatter==undefined"> {{scope.row[col.field]}}</div>
+	       		<div v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='string'"> 
+	       			{{col.formatter(scope.row[col.field],scope.row)}}
+	       	   </div>
+	       	    <div v-if="col.formatter!=undefined && typeof(col.formatter(scope.row[col.field],scope.row))=='object'"> 
+	       			 <el-tag :type="col.formatter(scope.row[col.field],scope.row).type"   effect="dark" style="width:100%" >
+	       				{{col.formatter(scope.row[col.field],scope.row).value}}
+	       			</el-tag>
+	       	   </div>
+	      </template>
+       </el-table-column>
+       
+    <el-table-column   label="操作"  fixed="right"  width="100">
+              <template scope="scope" >
+                  <!-- <el-button :plain="true" v-if="true||hasPermission('venuesbook:photoreply:edit')" type="success" size="mini" 
+                  icon="el-icon-edit" @click="edit(scope.row)" ></el-button>修改 -->
+                  <el-button :plain="true" type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)"
+                  v-if="true||hasPermission('venuesbook:photoreply:remove')"  ></el-button>删除
+              </template>
+         </el-table-column>
+    </el-table>
+	 <div class="block"> <!-- 页码 -->
+    <el-pagination
+      @size-change="handleSizeChange"  @current-change="handleCurrentChange" :current-page.sync="table.sync"
+      :page-sizes="table.pagesizes"  :page-size="table.pagesize"  layout="total, sizes, prev, pager, next, jumper"  :total="table.total">
+    </el-pagination>
+  </div>
+  </el-card>
+</div>
+
+<div th:include="include/footer_element::footer"></div>
+<script th:src="@{/js/venue/photoreply/list.js}"></script>
+
+</body>
+</html>

@@ -11,23 +11,23 @@ import cn.cashbang.core.common.annotation.SysLog;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
-import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
-import cn.cashbang.core.modules.venuesbook.service.BUserService;
+import cn.cashbang.core.modules.venuesbook.entity.BPhotoReplyEntity;
+import cn.cashbang.core.modules.venuesbook.service.BPhotoReplyService;
 
 /**
- * 用户信息表
+ * 
  *
  * @author daibangzhu
  * @email xxx@daibangzhu.cn
  * @url www.daibangzhu.cn
- * @date 2020年12月22日 下午1:13:02
+ * @date 2021年2月15日 下午2:46:57
  */
 @RestController
-@RequestMapping("/venuesbook/user")
-public class BUserController extends AbstractController {
+@RequestMapping("/venuesbook/photoreply")
+public class BPhotoReplyController extends AbstractController {
 	
 	@Autowired
-	private BUserService bUserService;
+	private BPhotoReplyService bPhotoReplyService;
 	
 	/**
 	 * 列表
@@ -35,18 +35,19 @@ public class BUserController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/list")
-	public Page<BUserEntity> list(@RequestBody Map<String, Object> params) {
-		return bUserService.listBUser(params);
+	public Page<BPhotoReplyEntity> list(@RequestBody Map<String, Object> params) {
+		return bPhotoReplyService.listBPhotoReply(params);
 	}
 		
 	/**
 	 * 新增
-	 * @param bUser
+	 * @param bPhotoReply
 	 * @return
 	 */
+	@SysLog("新增")
 	@RequestMapping("/save")
-	public Result save(@RequestBody BUserEntity bUser) {
-		return bUserService.saveBUser(bUser);
+	public Result save(@RequestBody BPhotoReplyEntity bPhotoReply) {
+		return bPhotoReplyService.saveBPhotoReply(bPhotoReply);
 	}
 	
 	/**
@@ -55,18 +56,19 @@ public class BUserController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/info")
-	public Result getById(@RequestBody String id) {
-		return bUserService.getBUserById(id);
+	public Result getById(@RequestBody Long id) {
+		return bPhotoReplyService.getBPhotoReplyById(id);
 	}
 	
 	/**
 	 * 修改
-	 * @param bUser
+	 * @param bPhotoReply
 	 * @return
 	 */
+	@SysLog("修改")
 	@RequestMapping("/update")
-	public Result update(@RequestBody BUserEntity bUser) {
-		return bUserService.updateBUser(bUser);
+	public Result update(@RequestBody BPhotoReplyEntity bPhotoReply) {
+		return bPhotoReplyService.updateBPhotoReply(bPhotoReply);
 	}
 	
 	/**
@@ -74,9 +76,10 @@ public class BUserController extends AbstractController {
 	 * @param id
 	 * @return
 	 */
+	@SysLog("删除")
 	@RequestMapping("/remove")
 	public Result batchRemove(@RequestBody String[] id) {
-		return bUserService.batchRemove(id);
+		return bPhotoReplyService.batchRemove(id);
 	}
 	
 }

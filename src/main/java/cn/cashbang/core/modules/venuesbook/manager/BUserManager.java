@@ -24,7 +24,7 @@ public interface BUserManager {
 	
 	int updateBUser(BUserEntity bUser);
 	
-	int batchRemove(Long[] id);
+	int batchRemove(String[] id);
 
 	BUserEntity getUserByOpenId(String openId);
 }

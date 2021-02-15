@@ -1,5 +1,5 @@
 /**
- * banner图表js
+ * 用户信息表js
  */
 
 var vm = new Vue({
@@ -14,18 +14,17 @@ var vm = new Vue({
 		},
 		table:{//表格数据
 			  "col":[
-					/*{field : "bid", title : "主键", width : ""}, */
-					{field : "bannerDesc", title : "banner图描述", width : ""}, 
-					/*{field : "bannerImgUrl", title : "图片", width : "150px",align: 'center',
-						formatter: function(value,row,index){
-                    	return '<img style="height:100px;width:150px" src='+value+'>';
-                		}
-					}, 
-					{field : "bizztype", title : "类型", width : ""}, */
-					{field : "sortid", title : "排序(大值优先轮播)", width : ""}, 
-					{field : "isuse", title : "禁用启用", width : ""}, 
-					{field : "createTime", title : "创建时间", width : "145px"}, 
-					{field : "updateTime", title : "更新时间", width : "145px"}
+					{field : "uname", title : "用户名称", width : "110px"}, 
+					{field : "sexStr", title : "用户性别", width : ""}, 
+					{field : "birthday", title : "出生日期", width : "110px"}, 
+					{field : "mobile", title : "手机号", width : "110px"}, 
+					{field : "committeeName", title : "居委会", width : "250px"},
+					/*（1.正常 2.禁用 3.删除） */
+					{field : "statusStr", title : "用户状态", width : ""}, 
+					/*{field : "iconUrl", title : "头像地址", width : ""}, */
+					{field : "createTime", title : "注册时间", width : ""}, 
+					/*{field : "updateTime", title : "更新时间", width : ""}, 
+					{field : "openid", title : "微信唯一标识", width : ""}*/
 			  ],
 			  "pagesizes":[1,10, 20, 30, 100],//size选择器
 			  "pagesize ":10,
@@ -56,34 +55,27 @@ var vm = new Vue({
 				this.param.pageSize=size;
 			}
 			zs_post({
-				url: '../../venuesbook/banner/list?_' + $.now(),
+				url: '../../venuesbook/user/list?_' + $.now(),
 				param:th.param,
 				success:function(r){
 					console.log(r);
 					for(var i=0;i<r.rows.length;i++){
-						if(r.rows[i].isuse == 0){
-                        r.rows[i].isuse = '禁用';
+						if(r.rows[i].status == 1){
+                        r.rows[i].statusStr = '正常';
 						}
-                    	else if(r.rows[i].isuse == 1){
-                        r.rows[i].isuse = '启用';
-                    	}
-						if(r.rows[i].bizztype == 1){
-                        r.rows[i].bizztype = '首页';
-						}
-                    	else if(r.rows[i].bizztype == 2){
-                        r.rows[i].bizztype = '随拍';
+                    	else if(r.rows[i].status == 2){
+                        r.rows[i].statusStr = '禁用';
                     	}
 					}
-					
 					th.table.data=r.rows;
 					th.table.total=r.total;
 				}
-			});
+			})
 		},
 		save: function() {
 			dialogOpen({
-				title: '新增轮播图',
-				url: 'venue/banner/add.html?_' + $.now(),
+				title: '新增用户信息表',
+				url: 'venue/user/add.html?_' + $.now(),
 				width: '40%',
 				height: '80%',
 				success: function(iframeId){
@@ -97,12 +89,12 @@ var vm = new Vue({
 			var ck =[row];
 			if(checkedRow(ck)){
 				dialogOpen({
-					title: '编辑轮播图',
-					url: 'venue/banner/edit.html?_' + $.now(),
+					title: '编辑用户信息表',
+					url: 'venue/user/edit.html?_' + $.now(),
 					width: '40%',
 					height: '80%',
 					success: function(iframeId){
-						top.frames[iframeId].vm.bBannerInfo.bid = ck[0].bid;
+						top.frames[iframeId].vm.bUser.uid = ck[0].uid;
 						top.frames[iframeId].vm.setForm();
 					},
 					yes: function(iframeId){
@@ -111,14 +103,36 @@ var vm = new Vue({
 				});
 			}
 		},
+		updateStatus: function(row) {
+            var ck =[row];
+            var msg = '';
+			
+            if(row.status == 2){
+                msg = '您确定要放开此用户吗？';
+                ck[0].status=1;
+            }else{
+                msg = '您确定要禁用此用户吗？';
+                ck[0].status=2;
+            }
+            if(checkedRow(ck)){
+                $.ConfirmForm({
+					msg:msg,
+                    url: '../../venuesbook/user/update?_' + $.now(),
+                    param: ck[0],
+                    success: function(data) {
+                        $.currentIframe().vm.load();
+                    }
+                });
+            }
+        },
 		remove: function(row) {
 			var ck = [row], ids = [];	
 			if(checkedArray(ck)){
 				$.each(ck, function(idx, item){
-					ids[idx] = item.bid;
+					ids[idx] = item.uid;
 				});
 				$.RemoveForm({
-					url: '../../venuesbook/banner/remove?_' + $.now(),
+					url: '../../venuesbook/user/remove?_' + $.now(),
 			    	param: ids,
 			    	success: function(data) {
 			    		vm.load();

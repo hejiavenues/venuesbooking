@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:include="include/header_element::header('')"></head>
+<style>
+html,body
+{
+    margin: 0;
+    height: 100%;
+}
+</style>
+<body>
+  <dev id="zsvm"  style="height:100%;">
+<el-form :model="bPhotoReply" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
+padding-right:5%" >
+			 <el-form-item label="随拍Id" prop="photoId">
+			    <el-input v-model="bPhotoReply.photoId"></el-input>
+			  </el-form-item>
+			 <el-form-item label="用户id" prop="uid">
+			    <el-input v-model="bPhotoReply.uid"></el-input>
+			  </el-form-item>
+			 <el-form-item label="评论内容" prop="content">
+			    <el-input v-model="bPhotoReply.content"></el-input>
+			  </el-form-item>
+			 <el-form-item label="" prop="createTime">
+			    <el-input v-model="bPhotoReply.createTime"></el-input>
+			  </el-form-item>
+			 <el-form-item label="" prop="updateTime">
+			    <el-input v-model="bPhotoReply.updateTime"></el-input>
+			  </el-form-item>
+</el-form>
+</dev>	
+	<div th:include="include/footer_element::footer"></div>
+	<script th:src="@{/js/venue/photoreply/edit.js}"></script>
+</body>
+</html>

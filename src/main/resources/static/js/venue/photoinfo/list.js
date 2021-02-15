@@ -134,6 +134,26 @@ var vm = new Vue({
 			})
 			}
 		},
+		orgTree: function(row) {
+			console.log(row.pid);
+			var ck =[row];
+			dialogOpen({
+				id: 'layerOrgTree',
+				title: '评论列表',
+		        url: 'venue/photoreply/list.html?_' + $.now(),
+		        scroll : true,
+		        width: "1000px",
+		        height: "550px",
+				success: function(iframeId){
+					console.log("2222222222222222"+row.pid);
+					top.frames[iframeId].vm.param.reply = ck[0].pid;
+					top.frames[iframeId].vm.load();
+				},
+		        yes : function(iframeId) {
+		        	top.frames[iframeId].vm.acceptClick();
+				}
+		    })
+		},
 	 },
 	 mounted:function(){
 	 	this.load();

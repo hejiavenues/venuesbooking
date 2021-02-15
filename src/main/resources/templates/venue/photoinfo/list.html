@@ -134,7 +134,7 @@ body ,html{
             </template>
         </el-table-column>
       
-    <el-table-column   label="操作"  fixed="right"  width="200">
+    <el-table-column   label="操作"  fixed="right"  width="300">
               <template scope="scope" >
               		<el-button :plain="true" type="danger" size="mini" @click="passApply(scope.row)"
                   				v-if="scope.row.statusDesc == '待审核'"  >通过</el-button>
@@ -149,6 +149,8 @@ body ,html{
                   				v-if="scope.row.statusDesc == '待审核'"  >删除</el-button>
                     <el-button :plain="true" type="danger" size="mini" @click="remove(scope.row)"
                              v-if="scope.row.statusDesc == '已删除'"  disabled>删除</el-button>
+                    <el-button :plain="true" v-if="true||hasPermission('venuesbook:photoinfo:edit')" type="success" size="mini" 
+                  icon="el-icon-edit" @click="orgTree(scope.row)" ></el-button>评论列表
               </template>
               
          </el-table-column>
