@@ -13,7 +13,9 @@
 			bp.`piture_urls`, 
 			bp.`committee_id`, 
 			(select cname from b_committees bc where bc.`cid` = bp.`committee_id`) as committeeName,
-			bp.`status`, 
+			bp.`status`,
+            bp.`address`,
+            bp.`content_type`,
 			bp.`create_time`, 
 			bp.`update_time`
 		FROM
@@ -43,7 +45,9 @@
 			`content`, 
 			`piture_urls`, 
 			`committee_id`, 
-			`status`, 
+			`status`,
+			`address`,
+			`content_type`,
 			`create_time`, 
 			`update_time`
 		)
@@ -53,7 +57,9 @@
 			#{content}, 
 			#{pitureUrls}, 
 			#{committeeId}, 
-			#{status}, 
+			#{status},
+			#{address},
+			#{contentType},
 			#{createTime}, 
 			#{updateTime}
 		)
@@ -66,7 +72,9 @@
 			`content`, 
 			`piture_urls`, 
 			`committee_id`, 
-			`status`, 
+			`status`,
+			`address`,
+			`content_type`,
 			`create_time`, 
 			`update_time`
 		FROM

@@ -81,18 +81,19 @@ public class ApiBPhotoInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/sendPhoto")
-	public Result sendPhoto(String uid,String content,String comId,String pitureUrls) {
+	public Result sendPhoto(String uid,String content,String pitureUrls,
+                            String address,String contentTypes) {
 
 		BPhotoInfoEntity bPhotoInfo = new BPhotoInfoEntity();
 		bPhotoInfo.setUid(uid);
 		bPhotoInfo.setContent(content);
-		//bPhotoInfo.setUname("王阿姨");
 		bPhotoInfo.setStatus(0);     //状态 0.审核中，1.正常 2.删除
 		bPhotoInfo.setPitureUrls(pitureUrls);
 		String uuid = CommonUtils.createUUID();
 		bPhotoInfo.setPid(uuid);
-		bPhotoInfo.setCommitteeId(comId);
 		bPhotoInfo.setCreateTime(new Date());
+        bPhotoInfo.setAddress(address);
+        bPhotoInfo.setContentType(contentTypes);
 		return bPhotoInfoService.saveBPhotoInfo(bPhotoInfo);
 	}
 	

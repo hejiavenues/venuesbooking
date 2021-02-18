@@ -73,9 +73,39 @@ public class BPhotoInfoEntity implements Serializable {
 	 */
 	private Date updateTime;
 
+    private String address;
+
+    private String contentType;
+
+    private String remark;
+
 	private String iconUrl;
 
-	public String getIconUrl() {
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getIconUrl() {
 		return iconUrl;
 	}
 
