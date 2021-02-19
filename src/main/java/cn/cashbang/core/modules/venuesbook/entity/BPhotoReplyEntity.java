@@ -51,6 +51,7 @@ public class BPhotoReplyEntity implements Serializable {
 	 */
 	private Date updateTime;
 	
+	private String statusDesc;
 
 	public BPhotoReplyEntity() {
 		super();
@@ -118,6 +119,14 @@ public class BPhotoReplyEntity implements Serializable {
 
 	public void setUname(String uname) {
 		this.uname = uname;
+	}
+
+	public String getStatusDesc() {
+		return statusDesc;
+	}
+
+	public void setStatusDesc(String statusDesc) {
+		this.statusDesc = statusDesc;
 	}
 	
 }

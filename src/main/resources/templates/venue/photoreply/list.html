@@ -58,8 +58,12 @@ body ,html{
               <template scope="scope" >
                   <!-- <el-button :plain="true" v-if="true||hasPermission('venuesbook:photoreply:edit')" type="success" size="mini" 
                   icon="el-icon-edit" @click="edit(scope.row)" ></el-button>修改 -->
-                  <el-button :plain="true" type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)"
-                  v-if="true||hasPermission('venuesbook:photoreply:remove')"  ></el-button>删除
+                  <!-- <el-button :plain="true" type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)"
+                  v-if="true||hasPermission('venuesbook:photoreply:remove')"  ></el-button>删除 -->
+                  <el-button :plain="true" type="danger" size="mini" @click="remove(scope.row)"
+                  				v-if="scope.row.statusDesc == '正常'"  >删除</el-button>
+                    <el-button :plain="true" type="danger" size="mini" @click="remove(scope.row)"
+                             v-if="scope.row.statusDesc == '已删除'"  disabled>删除</el-button>
               </template>
          </el-table-column>
     </el-table>

@@ -7,6 +7,8 @@ import org.springframework.stereotype.Component;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
+import cn.cashbang.core.common.utils.ShiroUtils;
+import cn.cashbang.core.modules.sys.entity.SysUserEntity;
 import cn.cashbang.core.modules.venuesbook.dao.BPhotoReplyMapper;
 import cn.cashbang.core.modules.venuesbook.entity.BPhotoReplyEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BPhotoReplyManager;
@@ -28,7 +30,25 @@ public class BPhotoReplyManagerImpl implements BPhotoReplyManager {
 
 	@Override
 	public List<BPhotoReplyEntity> listBPhotoReply(Page<BPhotoReplyEntity> page, Query search) {
-		return bPhotoReplyMapper.listForPage(page, search);
+		List<BPhotoReplyEntity> lists = bPhotoReplyMapper.listForPage(page, search);
+		SysUserEntity currUser = ShiroUtils.getUserEntity();
+		boolean isSee = true;
+		if(currUser != null) {
+			List<Long> roles = currUser.getRoleIdList();
+			for(Long roleId:roles) {
+				if(roleId == 197) {
+					isSee = false;
+				}
+			}
+		}
+		for(BPhotoReplyEntity a:lists) {
+			if(!isSee) {
+				a.setStatusDesc("未知");
+			}else {
+				a.setStatusDesc("正常");
+			}
+		}
+		return lists;
 	}
 
 	@Override
