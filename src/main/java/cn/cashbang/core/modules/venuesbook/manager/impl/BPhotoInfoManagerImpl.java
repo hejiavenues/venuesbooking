@@ -41,10 +41,10 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 				bPhotoInfoEntity.setArraypitureUrl(origin);
 			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 0) {
-				bPhotoInfoEntity.setStatusDesc("待审核");
+				bPhotoInfoEntity.setStatusDesc("正常");
 			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 1) {
-				bPhotoInfoEntity.setStatusDesc("已通过");
+				bPhotoInfoEntity.setStatusDesc("正常");
 			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 2) {
 				bPhotoInfoEntity.setStatusDesc("已删除");

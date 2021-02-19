@@ -27,8 +27,8 @@
 			<if test="queryContent != null and queryContent != ''">
 				and	bp.`content` like concat('%',#{queryContent},'%')
 			</if>
-			<if test="queryStatus != null and queryStatus != ''">
-				and	bp.`status` = #{queryStatus} 
+			<if test="suoshuleixing != null and suoshuleixing != ''">
+				and CONCAT(',',bp.`content_type`,',') like CONCAT('%,',#{suoshuleixing},',%') 
 			</if>
 			  <if test="queryUserId != null and queryUserId != ''">
 				  and	bp.`uid` = #{queryUserId}

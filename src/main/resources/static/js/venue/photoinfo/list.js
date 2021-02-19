@@ -10,12 +10,14 @@ var vm = new Vue({
 			channel:parent.vm.user.channel,//saas必要参数channel
 		    pageNumber:1,//第几页
 			pageSize:10,//查询条数
-			keyword: null
+			keyword: null,
+			suoshuleixing: '',
 		},
+		avaTimes: [],
 		table:{//表格数据
 			  "col":[
 				    {field : "createTime", title : "发布时间", width : "150px"}, 
-					{field : "committeeName", title : "社区名称", width : "180px"}, 
+					{field : "address", title : "定位地址", width : "180px"}, 
 					{field : "uname", title : "发布人姓名", width : "100px"}, 
 					{field : "content", title : "内容", width : "300px"}, 
 					/*{field : "status", title : "随拍状态", width : ""},*/ 
@@ -28,7 +30,13 @@ var vm = new Vue({
 	  		   selects:[],//表格选中行
 		  },
 	},
+	created:function(){
+		this.getAllTimes();
+	},
 	methods : {
+		selectChanged (val) {
+			this.param.suoshuleixing = val;
+		},
 	    selectCases:function(selects){
 			this.table.selects=selects;
 	    },
@@ -96,6 +104,15 @@ var vm = new Vue({
 					}
 				});
 			}
+		},
+		getAllTimes:function(){
+			var th=this;
+		    zs_post({
+		    	url:'../../venuesbook/dic/getDicsByCode?typeCode=contentType',
+		    	success:function(r){
+		    		th.avaTimes=r.bDics;
+		    	}
+		    })
 		},
 		remove: function(row) {
 			var ck = [row], ids = [];	
