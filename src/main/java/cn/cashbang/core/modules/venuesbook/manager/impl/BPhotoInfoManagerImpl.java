@@ -9,6 +9,8 @@ import com.alibaba.druid.util.StringUtils;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
+import cn.cashbang.core.common.utils.ShiroUtils;
+import cn.cashbang.core.modules.sys.entity.SysUserEntity;
 import cn.cashbang.core.modules.venuesbook.dao.BPhotoInfoMapper;
 import cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BPhotoInfoManager;
@@ -31,6 +33,16 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 	@Override
 	public List<BPhotoInfoEntity> listBPhotoInfo(Page<BPhotoInfoEntity> page, Query search) {
 		List<BPhotoInfoEntity> lists = bPhotoInfoMapper.listForPage(page, search);
+		SysUserEntity currUser = ShiroUtils.getUserEntity();
+		boolean isSee = true;
+		if(currUser != null) {
+			List<Long> roles = currUser.getRoleIdList();
+			for(Long roleId:roles) {
+				if(roleId == 197) {
+					isSee = false;
+				}
+			}
+		}
 		for(BPhotoInfoEntity bPhotoInfoEntity:lists) {
 			if(!StringUtils.isEmpty(bPhotoInfoEntity.getPitureUrls())) {
 				String [] arrs = bPhotoInfoEntity.getPitureUrls().split(",");
@@ -48,6 +60,10 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 2) {
 				bPhotoInfoEntity.setStatusDesc("已删除");
+			}
+			
+			if(!isSee) {
+				bPhotoInfoEntity.setStatusDesc("未知");
 			}
 		}
 		return lists;
