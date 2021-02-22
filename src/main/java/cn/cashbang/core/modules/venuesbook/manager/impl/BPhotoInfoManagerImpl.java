@@ -44,13 +44,14 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 			}
 		}
 		for(BPhotoInfoEntity bPhotoInfoEntity:lists) {
-			/*
-			 * if(!StringUtils.isEmpty(bPhotoInfoEntity.getPitureUrls())) { String [] arrs =
-			 * bPhotoInfoEntity.getPitureUrls().split(","); String[] origin =
-			 * bPhotoInfoEntity.getArraypitureUrl(); for(int i=0;i<arrs.length;i++) {
-			 * origin[i] = "/picture/"+arrs[i]; }
-			 * bPhotoInfoEntity.setArraypitureUrl(origin); }
-			 */
+			if(!StringUtils.isEmpty(bPhotoInfoEntity.getPitureUrls())) {
+				String [] arrs = bPhotoInfoEntity.getPitureUrls().split(",");
+				String[] origin = bPhotoInfoEntity.getArraypitureUrl();
+				for(int i=0;i<arrs.length;i++) {
+					origin[i] = "/"+arrs[i];
+				}
+				bPhotoInfoEntity.setArraypitureUrl(origin);
+			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 0) {
 				bPhotoInfoEntity.setStatusDesc("正常");
 			}
