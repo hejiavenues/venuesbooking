@@ -73,7 +73,7 @@ application-properties:
         userMobileInfoEncryptFlag: true #案件详情关于用户联系人和通话记录手机号是否加密标识
         
     uploadInfo: 
-        imageurl: /root/deploy/suishoupai/piture/
+        imageurl: /root/deploy/suishoupai/picture/
         
     ins:
         ytUrl: http://218.17.200.232:66/NetPersonServlet
