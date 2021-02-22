@@ -8,7 +8,7 @@
          */
 
         function  getSmallerFile(file,w,size,resf){
-        	
+            console.log("压缩图片1")
            var allowTypes = ['image/jpg', 'image/jpeg', 'image/png'];//可处理格式
 
              if (allowTypes.indexOf(file.type) === -1) {
@@ -23,7 +23,7 @@
             }else{
             	
             	var type=file.type;
-            	var sizes=500*1024;
+            	var sizes=10*10;
             	var ws= {
                         quality: 0.2
                 	};
@@ -31,9 +31,10 @@
             		ws.quality=w;
             	}
             	if(size!=undefined){
-            		sizes=size*1024;
+            		sizes=size*10;
             	}
             	if(file.size>sizes){
+            	    console.log("压缩图片2")
             		photoCompress(file,ws,function(base64){
                 		file=convertBase64UrlToBlob(base64);
             			resf&&resf(base64,file);
@@ -73,7 +74,7 @@
                     scale = w / h;
                 w = obj.width || w;
                 h = obj.height || (w / scale);
-                var quality = 1;  // 默认图片质量为1
+                var quality = 0.2;  // 默认图片质量为1
                 //生成canvas
                 var canvas = document.createElement('canvas');
                 var ctx = canvas.getContext('2d');
