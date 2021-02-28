@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BComActivityEntryMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BComActivityEntryEntity">
+		SELECT
+			`eid`, 
+			`com_activity_id`, 
+			`uid`, 
+			`uname`, 
+			`mobile`, 
+			`ispresent`, 
+			`status`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_com_activity_entry
+		ORDER BY
+			eid DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_com_activity_entry (
+			`eid`, 
+			`com_activity_id`, 
+			`uid`, 
+			`uname`, 
+			`mobile`, 
+			`ispresent`, 
+			`status`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{eid}, 
+			#{comActivityId}, 
+			#{uid}, 
+			#{uname}, 
+			#{mobile}, 
+			#{ispresent}, 
+			#{status}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BComActivityEntryEntity">
+		SELECT
+			`eid`, 
+			`com_activity_id`, 
+			`uid`, 
+			`uname`, 
+			`mobile`, 
+			`ispresent`, 
+			`status`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_com_activity_entry
+		WHERE
+			eid = #{eid}
+	</select>
+	
+	<update id="update">
+		UPDATE b_com_activity_entry
+	 	<set>
+			<if test="comActivityId != null">`com_activity_id` = #{comActivityId}, </if>
+			<if test="uid != null">`uid` = #{uid}, </if>
+			<if test="uname != null">`uname` = #{uname}, </if>
+			<if test="mobile != null">`mobile` = #{mobile}, </if>
+			<if test="ispresent != null">`ispresent` = #{ispresent}, </if>
+			<if test="status != null">`status` = #{status}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			eid = #{eid}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_com_activity_entry
+		WHERE
+			eid IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+    <select id="getUserListById" resultType="cn.cashbang.core.modules.venuesbook.entity.BComActivityEntryEntity">
+        SELECT
+        `eid`,
+        `com_activity_id`,
+        `uid`,
+        `uname`,
+        `mobile`,
+        `ispresent`,
+        `status`,
+        `create_time`,
+        `update_time`
+        FROM
+        b_com_activity_entry
+        WHERE
+        `com_activity_id` = #{activityId}
+        <if test="uid != null"> and `uid` = #{uid} </if>
+    </select>
+
+</mapper>

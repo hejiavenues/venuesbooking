@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service.impl;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,7 +43,7 @@ public class BCommunityActivitiesServiceImpl implements BCommunityActivitiesServ
 	}
 
 	@Override
-	public Result getBCommunityActivitiesById(Long id) {
+	public Result getBCommunityActivitiesById(String id) {
 		BCommunityActivitiesEntity bCommunityActivities = bCommunityActivitiesManager.getBCommunityActivitiesById(id);
 		return CommonUtils.msg(bCommunityActivities);
 	}
@@ -59,4 +60,15 @@ public class BCommunityActivitiesServiceImpl implements BCommunityActivitiesServ
 		return CommonUtils.msg(id, count);
 	}
 
+    @Override
+    public Result listActByUserId(String uid){
+        List<BCommunityActivitiesEntity> list = bCommunityActivitiesManager.listActByUserId(uid);
+        return  Result.ok().put("raws", list);
+    }
+    
+    @Override
+    public Result listByCreateUser(String uid){
+        List<BCommunityActivitiesEntity> list = bCommunityActivitiesManager.listByCreateUser(uid);
+        return  Result.ok().put("raws", list);
+    }
 }

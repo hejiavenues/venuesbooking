@@ -37,7 +37,7 @@ public class BCommunityActivitiesManagerImpl implements BCommunityActivitiesMana
 	}
 
 	@Override
-	public BCommunityActivitiesEntity getBCommunityActivitiesById(Long id) {
+	public BCommunityActivitiesEntity getBCommunityActivitiesById(String id) {
 		BCommunityActivitiesEntity bCommunityActivities = bCommunityActivitiesMapper.getObjectById(id);
 		return bCommunityActivities;
 	}
@@ -52,5 +52,14 @@ public class BCommunityActivitiesManagerImpl implements BCommunityActivitiesMana
 		int count = bCommunityActivitiesMapper.batchRemove(id);
 		return count;
 	}
-	
+
+    @Override
+    public List<BCommunityActivitiesEntity> listActByUserId(String uid){
+        return bCommunityActivitiesMapper.listActByUserId(uid);
+    }
+
+    @Override
+    public List<BCommunityActivitiesEntity> listByCreateUser(String uid){
+        return bCommunityActivitiesMapper.listByCreateUser(uid);
+    }
 }

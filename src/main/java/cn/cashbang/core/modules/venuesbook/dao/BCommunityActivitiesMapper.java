@@ -1,9 +1,10 @@
 package cn.cashbang.core.modules.venuesbook.dao;
 
+import cn.cashbang.core.modules.sys.dao.BaseMapper;
+import cn.cashbang.core.modules.venuesbook.entity.BCommunityActivitiesEntity;
 import org.apache.ibatis.annotations.Mapper;
 
-import cn.cashbang.core.modules.venuesbook.entity.BCommunityActivitiesEntity;
-import cn.cashbang.core.modules.sys.dao.BaseMapper;
+import java.util.List;
 
 /**
  * 社区活动信息表
@@ -15,5 +16,8 @@ import cn.cashbang.core.modules.sys.dao.BaseMapper;
  */
 @Mapper
 public interface BCommunityActivitiesMapper extends BaseMapper<BCommunityActivitiesEntity> {
-	
+
+    List<BCommunityActivitiesEntity> listActByUserId(String uid);
+    List<BCommunityActivitiesEntity> listByCreateUser(String uid);
+
 }

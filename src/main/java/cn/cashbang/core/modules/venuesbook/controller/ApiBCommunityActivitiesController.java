@@ -6,7 +6,10 @@ import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
 import cn.cashbang.core.modules.sys.controller.AbstractController;
 import cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BActivityEntryEntity;
+import cn.cashbang.core.modules.venuesbook.entity.BComActivityEntryEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BCommunityActivitiesEntity;
+import cn.cashbang.core.modules.venuesbook.service.BComActivityEntryService;
 import cn.cashbang.core.modules.venuesbook.service.BCommunityActivitiesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,6 +34,9 @@ public class ApiBCommunityActivitiesController extends AbstractController {
 	
 	@Autowired
 	private BCommunityActivitiesService bCommunityActivitiesService;
+
+    @Autowired
+    private BComActivityEntryService bComActivityEntryService;
 	
 	/**
 	 * 列表
@@ -92,37 +98,72 @@ public class ApiBCommunityActivitiesController extends AbstractController {
 
 		return bCommunityActivitiesService.saveBCommunityActivities(bCommunityActivities);
 	}
-	
-	/**
+
+    /**
+     * 新增
+     * @param activityId
+     * @return
+     */
+    @SysLog("新增活动报名记录表")
+    @RequestMapping("/entryActById")
+    public Result save(String activityId,String userId) {
+
+        BComActivityEntryEntity  bActivityEntry = new  BComActivityEntryEntity();
+        bActivityEntry.setComActivityId(activityId);
+        bActivityEntry.setUid(userId);
+        bActivityEntry.setStatus(1);
+        String uuid = CommonUtils.createUUID();
+        bActivityEntry.setEid(uuid);
+        bActivityEntry.setCreateTime(new Date());
+        
+        return bComActivityEntryService.saveBComActivityEntry(bActivityEntry);
+    }
+
+    /**
+     * 取消活动报名接口
+     * @param activityId
+     * @return
+     */
+    @RequestMapping("/cancelActById")
+    public Result cancelActById(String activityId,String userId) {
+
+        BComActivityEntryEntity bActivityEntry = new BComActivityEntryEntity();
+        bActivityEntry.setComActivityId(activityId);
+        bActivityEntry.setUid(userId);
+        bActivityEntry.setStatus(2);  // 取消
+
+        return bComActivityEntryService.updateBComActivityEntry(bActivityEntry);
+    }
+
+
+    @RequestMapping("/listActByUserId")
+    public Result listActByUserId(String uid){
+
+        return  bCommunityActivitiesService.listActByUserId(uid);
+    }
+
+    @RequestMapping("/getUserListById")
+    public Result getUserListById(String activityId){
+
+        return   bComActivityEntryService.getUserListById(activityId,null);
+    }
+
+
+    @RequestMapping("/listByCreateUser")
+    public Result listByCreateUser(String uid){
+
+        return   bCommunityActivitiesService.listByCreateUser(uid);
+    }
+
+    /**
 	 * 根据id查询详情
-	 * @param id
+	 * @param activityId
 	 * @return
 	 */
-	@RequestMapping("/info")
-	public Result getById(@RequestBody Long id) {
-		return bCommunityActivitiesService.getBCommunityActivitiesById(id);
-	}
-	
-	/**
-	 * 修改
-	 * @param bCommunityActivities
-	 * @return
-	 */
-	@SysLog("修改社区活动信息表")
-	@RequestMapping("/update")
-	public Result update(@RequestBody BCommunityActivitiesEntity bCommunityActivities) {
-		return bCommunityActivitiesService.updateBCommunityActivities(bCommunityActivities);
-	}
-	
-	/**
-	 * 删除
-	 * @param id
-	 * @return
-	 */
-	@SysLog("删除社区活动信息表")
-	@RequestMapping("/remove")
-	public Result batchRemove(@RequestBody Long[] id) {
-		return bCommunityActivitiesService.batchRemove(id);
+	@RequestMapping("/getActById")
+	public Result getById(String activityId)
+    {
+		return bCommunityActivitiesService.getBCommunityActivitiesById(activityId);
 	}
 	
 }

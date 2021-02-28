@@ -23,7 +23,7 @@ import cn.cashbang.core.modules.venuesbook.service.BCommunityActivitiesService;
  * @date 2021年2月27日 PM9:46:01
  */
 @RestController
-@RequestMapping("/venuesbook")
+@RequestMapping("/venuesbook/comactivity")
 public class BCommunityActivitiesController extends AbstractController {
 	
 	@Autowired
@@ -56,7 +56,7 @@ public class BCommunityActivitiesController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/info")
-	public Result getById(@RequestBody Long id) {
+	public Result getById(@RequestBody String id) {
 		return bCommunityActivitiesService.getBCommunityActivitiesById(id);
 	}
 	

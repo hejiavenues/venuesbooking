@@ -1,5 +1,6 @@
 package cn.cashbang.core.modules.venuesbook.service;
 
+import java.util.List;
 import java.util.Map;
 
 import cn.cashbang.core.common.entity.Page;
@@ -20,10 +21,14 @@ public interface BCommunityActivitiesService {
 	
 	Result saveBCommunityActivities(BCommunityActivitiesEntity bCommunityActivities);
 	
-	Result getBCommunityActivitiesById(Long id);
+	Result getBCommunityActivitiesById(String id);
 	
 	Result updateBCommunityActivities(BCommunityActivitiesEntity bCommunityActivities);
 	
 	Result batchRemove(Long[] id);
-	
+
+    Result listActByUserId(String uid);
+
+    Result listByCreateUser(String uid);
+
 }

@@ -20,10 +20,13 @@ public interface BCommunityActivitiesManager {
 	
 	int saveBCommunityActivities(BCommunityActivitiesEntity bCommunityActivities);
 	
-	BCommunityActivitiesEntity getBCommunityActivitiesById(Long id);
+	BCommunityActivitiesEntity getBCommunityActivitiesById(String id);
 	
 	int updateBCommunityActivities(BCommunityActivitiesEntity bCommunityActivities);
 	
 	int batchRemove(Long[] id);
-	
+
+    List<BCommunityActivitiesEntity> listActByUserId(String uid);
+
+    List<BCommunityActivitiesEntity> listByCreateUser(String uid);
 }

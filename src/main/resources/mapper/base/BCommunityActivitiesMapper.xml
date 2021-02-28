@@ -11,7 +11,8 @@
 			`activity_count`, 
 			`activity_type`, 
 			`activity_content`, 
-			`activity_time`, 
+			`activity_time`,
+			address,
 			`create_time`, 
 			`update_time`
 		FROM
@@ -28,7 +29,8 @@
 			`activity_count`, 
 			`activity_type`, 
 			`activity_content`, 
-			`activity_time`, 
+			`activity_time`,
+			address,
 			`create_time`, 
 			`update_time`
 		)
@@ -39,7 +41,8 @@
 			#{activityCount}, 
 			#{activityType}, 
 			#{activityContent}, 
-			#{activityTime}, 
+			#{activityTime},
+			#{address},
 			#{createTime}, 
 			#{updateTime}
 		)
@@ -53,7 +56,8 @@
 			`activity_count`, 
 			`activity_type`, 
 			`activity_content`, 
-			`activity_time`, 
+			`activity_time`,
+			adress,
 			`create_time`, 
 			`update_time`
 		FROM
@@ -61,6 +65,43 @@
 		WHERE
 			com_activity_id = #{comActivityId}
 	</select>
+
+    <select id="listActByUserId" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommunityActivitiesEntity">
+        SELECT
+        ba.`com_activity_id`,
+        ba.`uid`,
+        ba.`activity_name`,
+        ba.`activity_count`,
+        ba.`activity_type`,
+        ba.`activity_content`,
+        ba.`address`,
+        ba.`activity_time`
+        FROM
+        b_com_activity_entry bae left join b_community_activities ba
+        on bae.com_activity_id = ba.com_activity_id
+        where bae.status = 1 and bae.uid=#{uid}
+        order by bae.create_time desc
+    </select>
+
+
+    <select id="listByCreateUser" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommunityActivitiesEntity">
+        SELECT
+        `com_activity_id`,
+        `uid`,
+        `activity_name`,
+        `activity_count`,
+        `activity_type`,
+        `activity_content`,
+        `activity_time`,
+        address,
+        `create_time`,
+        `update_time`
+        FROM
+        b_community_activities
+        where uid=#{uid}
+        ORDER BY
+        com_activity_id DESC
+    </select>
 	
 	<update id="update">
 		UPDATE b_community_activities
