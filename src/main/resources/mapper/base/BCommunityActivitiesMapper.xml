@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BCommunityActivitiesMapper">
+	
+	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommunityActivitiesEntity">
+		SELECT
+			`com_activity_id`, 
+			`uid`, 
+			`activity_name`, 
+			`activity_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`activity_time`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_community_activities
+		ORDER BY
+			com_activity_id DESC
+	</select>
+	
+	<insert id="save">
+		INSERT INTO b_community_activities (
+			`com_activity_id`, 
+			`uid`, 
+			`activity_name`, 
+			`activity_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`activity_time`, 
+			`create_time`, 
+			`update_time`
+		)
+		VALUES (
+			#{comActivityId}, 
+			#{uid}, 
+			#{activityName}, 
+			#{activityCount}, 
+			#{activityType}, 
+			#{activityContent}, 
+			#{activityTime}, 
+			#{createTime}, 
+			#{updateTime}
+		)
+	</insert>
+	
+	<select id="getObjectById" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommunityActivitiesEntity">
+		SELECT
+			`com_activity_id`, 
+			`uid`, 
+			`activity_name`, 
+			`activity_count`, 
+			`activity_type`, 
+			`activity_content`, 
+			`activity_time`, 
+			`create_time`, 
+			`update_time`
+		FROM
+			b_community_activities
+		WHERE
+			com_activity_id = #{comActivityId}
+	</select>
+	
+	<update id="update">
+		UPDATE b_community_activities
+	 	<set>
+			<if test="uid != null">`uid` = #{uid}, </if>
+			<if test="activityName != null">`activity_name` = #{activityName}, </if>
+			<if test="activityCount != null">`activity_count` = #{activityCount}, </if>
+			<if test="activityType != null">`activity_type` = #{activityType}, </if>
+			<if test="activityContent != null">`activity_content` = #{activityContent}, </if>
+			<if test="activityTime != null">`activity_time` = #{activityTime}, </if>
+			<if test="createTime != null">`create_time` = #{createTime}, </if>
+			<if test="updateTime != null">`update_time` = #{updateTime}</if>
+		</set>
+		WHERE
+			com_activity_id = #{comActivityId}
+	</update>
+	
+	<delete id="batchRemove">
+		DELETE
+		FROM
+			b_community_activities
+		WHERE
+			com_activity_id IN
+		<foreach item="id" collection="array" open="(" separator="," close=")">
+			#{id}
+		</foreach>
+	</delete>
+
+</mapper>
