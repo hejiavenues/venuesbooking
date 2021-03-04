@@ -25,6 +25,9 @@ body ,html{
 		        <el-input v-model="param.queryName" placeholder="发布人姓名" @keyup.enter.native="load(0,0)"></el-input>
 		  </el-form-item>
 		 <el-form-item label="" >
+		        <el-input v-model="param.queryAddress" placeholder="定位地址" @keyup.enter.native="load(0,0)"></el-input>
+		  </el-form-item>
+		 <el-form-item label="" >
 		        <el-input v-model="param.queryContent" placeholder="包含内容" @keyup.enter.native="load(0,0)"></el-input>
 		  </el-form-item>
 		 <el-form-item label="" prop="param.suoshuleixing">

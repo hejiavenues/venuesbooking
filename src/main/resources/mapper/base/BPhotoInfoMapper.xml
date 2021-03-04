@@ -24,6 +24,9 @@
 			<if test="queryName != null and queryName != ''">
 				and	exists (select 1 from b_user bu1 where bu1.`uid` = bp.`uid` and bu1.uname like concat('%',#{queryName},'%')) 
 			</if>
+			<if test="queryAddress != null and queryAddress != ''">
+				and	bp.`address` like concat('%',#{queryAddress},'%')
+			</if>
 			<if test="queryContent != null and queryContent != ''">
 				and	bp.`content` like concat('%',#{queryContent},'%')
 			</if>
