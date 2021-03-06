@@ -61,7 +61,7 @@
 			</if>
 		</where>
 		ORDER BY
-			update_time DESC
+        create_time DESC
 	</select>
 	
 	<insert id="save">
