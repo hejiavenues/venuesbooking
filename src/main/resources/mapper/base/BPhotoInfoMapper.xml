@@ -8,6 +8,7 @@
 			bp.`pid`, 
 			bp.`uid`, 
 			(select `uname` from b_user u where u.`uid` = bp.`uid` ) as uname,
+			(select `mobile` from b_user u where u.`uid` = bp.`uid` ) as mobile,
 		    (select icon_url from b_user u where u.`uid` = bp.`uid` ) as iconUrl,
 			bp.`content`, 
 			bp.`piture_urls`, 
@@ -23,6 +24,9 @@
 		  <where>
 			<if test="queryName != null and queryName != ''">
 				and	exists (select 1 from b_user bu1 where bu1.`uid` = bp.`uid` and bu1.uname like concat('%',#{queryName},'%')) 
+			</if>
+			<if test="queryMobile != null and queryMobile != ''">
+				and	exists (select 1 from b_user bu1 where bu1.`uid` = bp.`uid` and bu1.mobile like concat('%',#{queryMobile},'%')) 
 			</if>
 			<if test="queryAddress != null and queryAddress != ''">
 				and	bp.`address` like concat('%',#{queryAddress},'%')

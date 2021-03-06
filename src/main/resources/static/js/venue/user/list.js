@@ -15,8 +15,8 @@ var vm = new Vue({
 		table:{//表格数据
 			  "col":[
 					{field : "uname", title : "用户名称", width : "110px"}, 
-					{field : "sexStr", title : "用户性别", width : ""}, 
-					{field : "birthday", title : "出生日期", width : "110px"}, 
+					/*{field : "sexStr", title : "用户性别", width : ""}, 
+					{field : "birthday", title : "出生日期", width : "110px"}, */
 					{field : "mobile", title : "手机号", width : "110px"}, 
 					{field : "committeeName", title : "居委会", width : "250px"},
 					/*（1.正常 2.禁用 3.删除） */

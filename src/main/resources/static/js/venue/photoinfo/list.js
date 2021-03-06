@@ -19,6 +19,7 @@ var vm = new Vue({
 				    {field : "createTime", title : "发布时间", width : "150px"}, 
 					{field : "address", title : "定位地址", width : "180px"}, 
 					{field : "uname", title : "发布人姓名", width : "100px"}, 
+					{field : "mobile", title : "发布人手机号", width : "100px"}, 
 					{field : "content", title : "内容", width : "300px"}, 
 					/*{field : "status", title : "随拍状态", width : ""},*/ 
 			  ],

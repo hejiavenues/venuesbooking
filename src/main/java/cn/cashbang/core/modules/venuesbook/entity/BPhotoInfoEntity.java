@@ -30,6 +30,10 @@ public class BPhotoInfoEntity implements Serializable {
 	 * 用户id
 	 */
 	private String uname;
+	/**
+	 * 用户id
+	 */
+	private String mobile;
 	
 	/**
 	 * 内容
@@ -211,6 +215,14 @@ public class BPhotoInfoEntity implements Serializable {
 
 	public void setStatusDesc(String statusDesc) {
 		this.statusDesc = statusDesc;
+	}
+
+	public String getMobile() {
+		return mobile;
+	}
+
+	public void setMobile(String mobile) {
+		this.mobile = mobile;
 	}
 	
 }
