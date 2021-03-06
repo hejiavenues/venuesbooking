@@ -89,7 +89,7 @@ application-properties:
         bsManage: saas_bs_manage
         international: false   #国际化   
         saveTokenType: redis
-        sysName: 金顶街文明随手拍 #系统名称
+        sysName: 金顶街人人拍管理后台 #系统名称
         #京东金融解析用
         SECRETKEY: MIICdgIBADANBgkqhkiG9w0BAQEFAASCAmAwggJcAgEAAoGBAIJmmSFEDQetLYp5nSMEG5Su4LewxD95DhloNH262ap6GKtRrtCvhbdPKW4t58IeLPvZhobBL3A69dve340FxkXGZSB5n9hMUoG03xlIZyTuznlFDQuKK8zwg5t+F9ZxZLtxJA6+cb96g6T87dTybXGNem9PygS8V9HLzQXJT1SdAgMBAAECgYAyBpY8ctTk2wUbmKg15L+H/Mbs8X14NEK6cIWirmoOwqRwJPgByzRrLI1iXW4JxHXRcJPxYm+GiLgFT61Hdq2nTp15iaYUzSFLO2+HUHpmbd9tQP13vFIICiKWFk4oE2SfKzz/wHfL0oAKFI0VixPqqXoPnqRxo/8yIQLDmCXggQJBAMD71c61D1swjR8epYMFcmKXecM2eLzi4xTf0uflf9gNC7jM8A/AKE+7kIrR06r9/pilGKCxOh0jhHoZqHHp+hECQQCs+z3D/U/X4UEWGbOSiOjwJOH5gxKCPqA4BsB+NHj/ui7V7Y+67/FwbdG55vR33gJ4UYeNG64rHn2Um9ZwU8XNAkAsgiiWqwWmp3T0x3Gu3TO7b2oizs5b6gwrhU+0MichIikg7wsy5sOlWAIHMkuaNUhh1jnu3dEkZUupiX9i/m6xAkEAn4qV3BbdNjHmUtjfm440sZCC7xspzgCuyx3HGl+RHeN9YQfbYcH+AAD5xykxXwDfbFNd3xKhn9leX9sfe7h4HQJASXvqV2gRhA0mS5Dp2hQ3INkpyBxRActcYbjhuQtTyYpBGONbD3UsI0EbMy1bZPw00DqqMLb9eXqsAghaV7pENg==
         IPRestriction: false #ip限制
