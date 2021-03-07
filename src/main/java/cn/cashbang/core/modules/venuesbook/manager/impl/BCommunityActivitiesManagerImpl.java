@@ -48,7 +48,7 @@ public class BCommunityActivitiesManagerImpl implements BCommunityActivitiesMana
 	}
 
 	@Override
-	public int batchRemove(Long[] id) {
+	public int batchRemove(String[] id) {
 		int count = bCommunityActivitiesMapper.batchRemove(id);
 		return count;
 	}

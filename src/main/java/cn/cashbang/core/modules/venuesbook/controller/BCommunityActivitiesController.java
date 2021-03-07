@@ -78,7 +78,7 @@ public class BCommunityActivitiesController extends AbstractController {
 	 */
 	@SysLog("删除社区活动信息表")
 	@RequestMapping("/remove")
-	public Result batchRemove(@RequestBody Long[] id) {
+	public Result batchRemove(@RequestBody String[] id) {
 		return bCommunityActivitiesService.batchRemove(id);
 	}
 	

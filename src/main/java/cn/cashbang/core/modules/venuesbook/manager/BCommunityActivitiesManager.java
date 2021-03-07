@@ -24,7 +24,7 @@ public interface BCommunityActivitiesManager {
 	
 	int updateBCommunityActivities(BCommunityActivitiesEntity bCommunityActivities);
 	
-	int batchRemove(Long[] id);
+	int batchRemove(String[] id);
 
     List<BCommunityActivitiesEntity> listActByUserId(String uid);
 

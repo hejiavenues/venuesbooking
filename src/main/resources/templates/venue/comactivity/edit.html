@@ -12,9 +12,6 @@ html,body
   <dev id="zsvm"  style="height:100%;">
 <el-form :model="bCommunityActivities" size=" small"  status-icon :rules="rules" ref="ruleForm" label-width="100px" class="demo-ruleForm"  style="overflow-y:auto;height:95%;
 padding-right:5%" >
-			 <el-form-item label="发起人id" prop="uid">
-			    <el-input v-model="bCommunityActivities.uid"></el-input>
-			  </el-form-item>
 			 <el-form-item label="活动名称" prop="activityName">
 			    <el-input v-model="bCommunityActivities.activityName"></el-input>
 			  </el-form-item>
@@ -28,17 +25,18 @@ padding-right:5%" >
 			    <el-input v-model="bCommunityActivities.activityContent"></el-input>
 			  </el-form-item>
 			 <el-form-item label="活动时段" prop="activityTime">
-			    <el-input v-model="bCommunityActivities.activityTime"></el-input>
-			  </el-form-item>
-			 <el-form-item label="创建时间" prop="createTime">
-			    <el-input v-model="bCommunityActivities.createTime"></el-input>
-			  </el-form-item>
-			 <el-form-item label="更新时间" prop="updateTime">
-			    <el-input v-model="bCommunityActivities.updateTime"></el-input>
+                 <el-date-picker
+                         v-model="bCommunityActivities.activityTime"
+                         :picker-options="pickerOptions1"
+                         type="date"
+                         format="yyyy-MM-dd"
+                         value-format="yyyy-MM-dd"
+                         placeholder="选择日期">
+                 </el-date-picker>
 			  </el-form-item>
 </el-form>
 </dev>	
 	<div th:include="include/footer_element::footer"></div>
-	<script th:src="@{/js/venuesbook/edit.js}"></script>
+	<script th:src="@{/js/venue/comactivity/edit.js}"></script>
 </body>
 </html>

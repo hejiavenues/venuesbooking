@@ -14,8 +14,8 @@ var vm = new Vue({
 		},
 		table:{//表格数据
 			  "col":[
-										{field : "comActivityId", title : "活动id", width : ""}, 
-					{field : "uid", title : "发起人id", width : ""}, 
+                    // {field : "comActivityId", title : "活动id", width : ""},
+					{field : "userName", title : "发起人昵称", width : ""},
 					{field : "activityName", title : "活动名称", width : ""}, 
 					{field : "activityCount", title : "活动人数", width : ""}, 
 					{field : "activityType", title : "活动类型", width : ""}, 
@@ -53,7 +53,7 @@ var vm = new Vue({
 				this.param.pageSize=size;
 			}
 			zs_post({
-				url: '../../venuesbook/list?_' + $.now(),
+				url: '../../venuesbook/comactivity/list?_' + $.now(),
 				param:th.param,
 				success:function(r){
 					console.log(r);
@@ -65,7 +65,7 @@ var vm = new Vue({
 		save: function() {
 			dialogOpen({
 				title: '新增社区活动信息表',
-				url: 'venuesbook/add.html?_' + $.now(),
+				url: 'venue/comactivity/add.html?_' + $.now(),
 				width: '40%',
 				height: '80%',
 				success: function(iframeId){
@@ -80,7 +80,7 @@ var vm = new Vue({
 			if(checkedRow(ck)){
 				dialogOpen({
 					title: '编辑社区活动信息表',
-					url: 'venuesbook/edit.html?_' + $.now(),
+					url: 'venue/comactivity/edit.html?_' + $.now(),
 					width: '40%',
 					height: '80%',
 					success: function(iframeId){
@@ -100,7 +100,7 @@ var vm = new Vue({
 					ids[idx] = item.comActivityId;
 				});
 				$.RemoveForm({
-					url: '../../venuesbook/remove?_' + $.now(),
+					url: '../../venuesbook/comactivity/remove?_' + $.now(),
 			    	param: ids,
 			    	success: function(data) {
 			    		vm.load();

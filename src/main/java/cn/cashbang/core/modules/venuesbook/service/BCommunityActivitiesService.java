@@ -25,7 +25,7 @@ public interface BCommunityActivitiesService {
 	
 	Result updateBCommunityActivities(BCommunityActivitiesEntity bCommunityActivities);
 	
-	Result batchRemove(Long[] id);
+	Result batchRemove(String[] id);
 
     Result listActByUserId(String uid);
 

@@ -55,7 +55,7 @@ public class BCommunityActivitiesServiceImpl implements BCommunityActivitiesServ
 	}
 
 	@Override
-	public Result batchRemove(Long[] id) {
+	public Result batchRemove(String[] id) {
 		int count = bCommunityActivitiesManager.batchRemove(id);
 		return CommonUtils.msg(id, count);
 	}

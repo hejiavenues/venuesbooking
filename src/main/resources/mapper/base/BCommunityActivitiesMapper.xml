@@ -6,7 +6,8 @@
 	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BCommunityActivitiesEntity">
 		SELECT
 			`com_activity_id`, 
-			`uid`, 
+			`uid`,
+			(select uname from b_user bu1 where bu1.`uid` = ba.`uid`) as userName,
 			`activity_name`, 
 			`activity_count`, 
 			`activity_type`, 
@@ -16,7 +17,7 @@
 			`create_time`, 
 			`update_time`
 		FROM
-			b_community_activities
+			b_community_activities  ba
 		ORDER BY
 			com_activity_id DESC
 	</select>
@@ -24,7 +25,7 @@
 	<insert id="save">
 		INSERT INTO b_community_activities (
 			`com_activity_id`, 
-			`uid`, 
+			`uid`,
 			`activity_name`, 
 			`activity_count`, 
 			`activity_type`, 
@@ -57,7 +58,7 @@
 			`activity_type`, 
 			`activity_content`, 
 			`activity_time`,
-			adress,
+			address,
 			`create_time`, 
 			`update_time`
 		FROM
