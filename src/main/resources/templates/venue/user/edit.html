@@ -15,42 +15,40 @@ padding-right:5%" >
 			 <el-form-item label="用户名称" prop="uname">
 			    <el-input v-model="bUser.uname"></el-input>
 			  </el-form-item>
-			 <el-form-item label="用户性别（1.男 0.女）" prop="sex">
-			    <el-input v-model="bUser.sex"></el-input>
-			  </el-form-item>
-			 <el-form-item label="出生日期" prop="birthday">
-			    <el-input v-model="bUser.birthday"></el-input>
-			  </el-form-item>
 			 <el-form-item label="手机号" prop="mobile">
 			    <el-input v-model="bUser.mobile"></el-input>
 			  </el-form-item>
 			 <el-form-item label="居委会id" prop="committeeId">
-			    <el-input v-model="bUser.committeeId"></el-input>
+			    <!--<el-input v-model="bUser.committeeId"></el-input>-->
+
+                 <el-select v-model="bUser.committeeId" placeholder="请选择" style="width:14em" filterable>
+                     <el-option v-for="us in committees " :label="us.cname" :value="us.cid"></el-option>
+                 </el-select>
 			  </el-form-item>
-			 <el-form-item label="角色id （1.普通用户 2.召集人）" prop="userRole">
-			    <el-input v-model="bUser.userRole"></el-input>
-			  </el-form-item>
-			 <el-form-item label="用户年龄" prop="userAge">
-			    <el-input v-model="bUser.userAge"></el-input>
-			  </el-form-item>
-			 <el-form-item label="登录密码" prop="password">
-			    <el-input v-model="bUser.password"></el-input>
-			  </el-form-item>
-			 <el-form-item label="用户状态（1.正常 2.禁用 3.删除）" prop="status">
-			    <el-input v-model="bUser.status"></el-input>
-			  </el-form-item>
-			 <el-form-item label="头像地址" prop="iconUrl">
-			    <el-input v-model="bUser.iconUrl"></el-input>
-			  </el-form-item>
-			 <el-form-item label="创建时间" prop="createTime">
-			    <el-input v-model="bUser.createTime"></el-input>
-			  </el-form-item>
-			 <el-form-item label="更新时间" prop="updateTime">
-			    <el-input v-model="bUser.updateTime"></el-input>
-			  </el-form-item>
-			 <el-form-item label="微信唯一标识" prop="openid">
-			    <el-input v-model="bUser.openid"></el-input>
-			  </el-form-item>
+			 <!--<el-form-item label="角色id （1.普通用户 2.召集人）" prop="userRole">-->
+			    <!--<el-input v-model="bUser.userRole"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="用户年龄" prop="userAge">-->
+			    <!--<el-input v-model="bUser.userAge"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="登录密码" prop="password">-->
+			    <!--<el-input v-model="bUser.password"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="用户状态（1.正常 2.禁用 3.删除）" prop="status">-->
+			    <!--<el-input v-model="bUser.status"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="头像地址" prop="iconUrl">-->
+			    <!--<el-input v-model="bUser.iconUrl"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="创建时间" prop="createTime">-->
+			    <!--<el-input v-model="bUser.createTime"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="更新时间" prop="updateTime">-->
+			    <!--<el-input v-model="bUser.updateTime"></el-input>-->
+			  <!--</el-form-item>-->
+			 <!--<el-form-item label="微信唯一标识" prop="openid">-->
+			    <!--<el-input v-model="bUser.openid"></el-input>-->
+			  <!--</el-form-item>-->
 </el-form>
 </dev>	
 	<div th:include="include/footer_element::footer"></div>

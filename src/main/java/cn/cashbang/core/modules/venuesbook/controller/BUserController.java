@@ -2,6 +2,7 @@ package cn.cashbang.core.modules.venuesbook.controller;
 
 import java.util.Map;
 
+import com.alibaba.druid.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,6 +57,9 @@ public class BUserController extends AbstractController {
 	 */
 	@RequestMapping("/info")
 	public Result getById(@RequestBody String id) {
+        if(!StringUtils.isEmpty(id)) {
+            id = id.replace("\"", "");
+        }
 		return bUserService.getBUserById(id);
 	}
 	
