@@ -48,7 +48,7 @@ public class ApiBUserController extends AbstractController {
 	 */
 	@RequestMapping("/uerRegister")
 	public Map<String, Object> uerRegister(String uname,Integer sex,String birthday,String mobile,
-										   String committeeId, String openId,String iconUrl){
+										   String committeeId, String openId,String iconUrl,Integer userRole){
 
 		System.out.println("-----------------"+uname);
 
@@ -60,7 +60,12 @@ public class ApiBUserController extends AbstractController {
 		bUser.setSex(sex);
 		bUser.setUname(uname);
 		bUser.setMobile(mobile);
-		bUser.setUserRole(1);
+		if(userRole!=null){
+            bUser.setUserRole(userRole);
+        } else{
+            bUser.setUserRole(1);
+        }
+
 		bUser.setStatus(1);
 		String uuid = CommonUtils.createUUID();
 		bUser.setUid(uuid);

@@ -40,6 +40,12 @@
 			  <if test="queryUserId != null and queryUserId != ''">
 				  and	bp.`uid` = #{queryUserId}
 			  </if>
+              <if test="committeeId != null and committeeId != ''">
+                  and	bp.`committee_id` = #{committeeId}
+              </if>
+              <if test="operateId != null and operateId != ''">
+                  and	bp.`operate_id` = #{operateId}
+              </if>
               and bp.`status` != 2
 			</where>
 		ORDER BY
@@ -99,6 +105,7 @@
 			<if test="pitureUrls != null">`piture_urls` = #{pitureUrls}, </if>
 			<if test="committeeId != null">`committee_id` = #{committeeId}, </if>
 			<if test="status != null">`status` = #{status}, </if>
+            <if test="operateId != null">`operate_id` = #{operateId}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}</if>
 		</set>

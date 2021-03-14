@@ -85,6 +85,16 @@ public class BPhotoInfoEntity implements Serializable {
 
 	private String iconUrl;
 
+	private String operateId;
+
+    public String getOperateId() {
+        return operateId;
+    }
+
+    public void setOperateId(String operateId) {
+        this.operateId = operateId;
+    }
+
     public String getAddress() {
         return address;
     }

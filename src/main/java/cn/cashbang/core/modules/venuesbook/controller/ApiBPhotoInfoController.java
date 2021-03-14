@@ -39,7 +39,7 @@ public class ApiBPhotoInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/getPhotoList")
-	public  Map<String, Object> getPhotoList(int page,String uid) {
+	public  Map<String, Object> getPhotoList(int page,String uid,String committeeId,String operateId) {
 
 		Map<String, Object> params = new HashMap<>();
 		Map<String, Object> result = new HashMap<>();
@@ -49,12 +49,26 @@ public class ApiBPhotoInfoController extends AbstractController {
 		
 		if(StringUtils.isNotBlank(uid)){
 			params.put("queryUserId",uid);
-			params.put("queryStatus",null);
+			//params.put("queryStatus",null);
 		}
 		else {
 			params.put("queryUserId",null);
-			params.put("queryStatus",1);
+			//params.put("queryStatus",1);
 		}
+
+        if(StringUtils.isNotBlank(committeeId)){
+            params.put("committeeId",committeeId);
+        }
+        else {
+            params.put("committeeId",null);
+        }
+
+        if(StringUtils.isNotBlank(operateId)){
+            params.put("operateId",operateId);
+        }
+        else {
+            params.put("operateId",null);
+        }
 
 
 
@@ -74,6 +88,16 @@ public class ApiBPhotoInfoController extends AbstractController {
 		}
 		return result;
 	}
+
+    @RequestMapping("/getOperateCount")
+    public  Map<String, Integer> getOperateCount(String operateId) {
+
+        Map<String, Integer> result = new HashMap<>();
+        result.put("all",100);
+        result.put("month",50);
+        result.put("week",10);
+        return  result;
+    }
 		
 	/**
 	 * 新增
@@ -82,7 +106,7 @@ public class ApiBPhotoInfoController extends AbstractController {
 	 */
 	@RequestMapping("/sendPhoto")
 	public Result sendPhoto(String uid,String content,String pitureUrls,
-                            String address,String contentTypes) {
+                            String address,String contentTypes,String committeeId) {
 
 		BPhotoInfoEntity bPhotoInfo = new BPhotoInfoEntity();
 		bPhotoInfo.setUid(uid);
@@ -94,6 +118,7 @@ public class ApiBPhotoInfoController extends AbstractController {
 		bPhotoInfo.setCreateTime(new Date());
         bPhotoInfo.setAddress(address);
         bPhotoInfo.setContentType(contentTypes);
+        bPhotoInfo.setCommitteeId(committeeId);
 		return bPhotoInfoService.saveBPhotoInfo(bPhotoInfo);
 	}
 	
@@ -107,15 +132,19 @@ public class ApiBPhotoInfoController extends AbstractController {
 		return bPhotoInfoService.getBPhotoInfoById(id);
 	}
 	
-//	/**
-//	 * 修改
-//	 * @param bPhotoInfo
-//	 * @return
-//	 */
-//	@RequestMapping("/update")
-//	public Result update(@RequestBody BPhotoInfoEntity bPhotoInfo) {
-//		return bPhotoInfoService.updateBPhotoInfo(bPhotoInfo);
-//	}
+	/**
+	 * 修改随拍的状态（3已处理）
+	 * @param operateId
+	 * @return
+	 */
+	@RequestMapping("/updateStatus")
+	public Result update(String pid,String operateId,Integer status) {
+        BPhotoInfoEntity bPhotoInfo = new BPhotoInfoEntity();
+        bPhotoInfo.setPid(pid);
+        bPhotoInfo.setStatus(status);
+        bPhotoInfo.setOperateId(operateId);
+		return bPhotoInfoService.updateBPhotoInfo(bPhotoInfo);
+	}
 	
 	/**
 	 * 删除
