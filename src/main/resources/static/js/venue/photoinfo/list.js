@@ -14,14 +14,16 @@ var vm = new Vue({
 			suoshuleixing: '',
 		},
 		avaTimes: [],
+        committees: [],
 		table:{//表格数据
 			  "col":[
 				    {field : "createTime", title : "发布时间", width : "150px"}, 
-					{field : "address", title : "定位地址", width : "180px"}, 
-					{field : "uname", title : "发布人姓名", width : "100px"}, 
-					{field : "mobile", title : "发布人手机号", width : "100px"}, 
-					{field : "content", title : "内容", width : "300px"}, 
-					/*{field : "status", title : "随拍状态", width : ""},*/ 
+					// {field : "address", title : "定位地址", width : "180px"},
+                    {field : "uname", title : "发布人姓名", width : "100px"},
+                    {field : "committeeName", title : "所属社区", width : "180px"},
+					{field : "mobile", title : "发布人手机号", width : "100px"},
+                    {field : "statusDesc", title : "处理状态", width : ""},
+					{field : "content", title : "内容", width : "300px"}
 			  ],
 			  "pagesizes":[1,10, 20, 30, 100],//size选择器
 			  "pagesize ":10,
@@ -33,6 +35,7 @@ var vm = new Vue({
 	},
 	created:function(){
 		this.getAllTimes();
+        this.getComs();
 	},
 	methods : {
 		selectChanged (val) {
@@ -88,6 +91,24 @@ var vm = new Vue({
 				},
 			});
 		},
+        update: function(row) {
+            var ck =[row];
+            if(checkedRow(ck)){
+                dialogOpen({
+                    title: '新增处理结果和评论',
+                    url: 'venue/photoinfo/deal.html?_' + $.now(),
+                    width: '40%',
+                    height: '40%',
+                    success: function(iframeId){
+                        top.frames[iframeId].vm.bPhotoInfo.pid = ck[0].pid;
+                        top.frames[iframeId].vm.setForm();
+                    },
+                    yes: function(iframeId){
+                        top.frames[iframeId].vm.acceptClick();
+                    }
+                });
+            }
+        },
 		edit: function(row) {
 			var ck =[row];
 			if(checkedRow(ck)){
@@ -115,6 +136,15 @@ var vm = new Vue({
 		    	}
 		    })
 		},
+        getComs:function(){
+            var th=this;
+            zs_post({
+                url:'../../venuesbook/committee/list?_' + $.now(),
+                success:function(r){
+                    th.committees=r.rows;
+                }
+            })
+        },
 		remove: function(row) {
 			var ck = [row], ids = [];	
 			if(checkedArray(ck)){

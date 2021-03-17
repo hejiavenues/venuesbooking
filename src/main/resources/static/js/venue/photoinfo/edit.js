@@ -28,6 +28,14 @@ var vm = new Vue({
 		    	param: vm.bPhotoInfo.pid,
 		    	success: function(data) {
 		    		vm.bPhotoInfo = data;
+                    if(data.status == 0){
+                        vm.bPhotoInfo.status = '已发布';
+                    }else if(data.status == 1){
+                        vm.bPhotoInfo.status = '处理中';
+                    }else if(data.status == 3){
+                        vm.bPhotoInfo.status = '已处理';
+                    };
+
 		    	}
 			});
 		},
@@ -37,7 +45,7 @@ var vm = new Vue({
 		  ["ruleForm"].validate(function(yes,b){
 				if(yes){
 			 $.ConfirmForm({
-				    	url: '../../venuesbook/photoinfo/update?_' + $.now(),
+				    	url: '../../venuesbook/photoinfo/updateStaus?_' + $.now(),
 				    	param: vm.bPhotoInfo,
 				    	success: function(data) {
 				    		$.currentIframe().vm.load();

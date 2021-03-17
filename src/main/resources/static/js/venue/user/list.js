@@ -14,13 +14,14 @@ var vm = new Vue({
 		},
 		table:{//表格数据
 			  "col":[
-					{field : "uname", title : "用户名称", width : "200px"}, 
+					{field : "uname", title : "用户名称", width : "100px"},
 					/*{field : "sexStr", title : "用户性别", width : ""}, 
 					{field : "birthday", title : "出生日期", width : "110px"}, */
 					{field : "mobile", title : "手机号", width : "110px"}, 
-					{field : "committeeName", title : "居委会", width : "350px"},
+					{field : "committeeName", title : "居委会", width : "250px"},
 					/*（1.正常 2.禁用 3.删除） */
 					{field : "statusStr", title : "用户状态", width : "110px"},
+                    {field : "userRoleDes", title : "用户角色", width : "110px"},
 					/*{field : "iconUrl", title : "头像地址", width : ""}, */
 					{field : "createTime", title : "注册时间", width : ""},
 					/*{field : "updateTime", title : "更新时间", width : ""}, 

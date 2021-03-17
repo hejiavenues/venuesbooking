@@ -34,15 +34,15 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 	public List<BPhotoInfoEntity> listBPhotoInfo(Page<BPhotoInfoEntity> page, Query search) {
 		List<BPhotoInfoEntity> lists = bPhotoInfoMapper.listForPage(page, search);
 		SysUserEntity currUser = ShiroUtils.getUserEntity();
-		boolean isSee = true;
-		if(currUser != null) {
-			List<Long> roles = currUser.getRoleIdList();
-			for(Long roleId:roles) {
-				if(roleId == 197) {
-					isSee = false;
-				}
-			}
-		}
+//		boolean isSee = true;
+//		if(currUser != null) {
+//			List<Long> roles = currUser.getRoleIdList();
+//			for(Long roleId:roles) {
+//				if(roleId == 197) {
+//					isSee = false;
+//				}
+//			}
+//		}
 		for(BPhotoInfoEntity bPhotoInfoEntity:lists) {
 			if(!StringUtils.isEmpty(bPhotoInfoEntity.getPitureUrls())) {
 				String [] arrs = bPhotoInfoEntity.getPitureUrls().split(",");
@@ -53,18 +53,21 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 				bPhotoInfoEntity.setArraypitureUrl(origin);
 			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 0) {
-				bPhotoInfoEntity.setStatusDesc("正常");
+				bPhotoInfoEntity.setStatusDesc("已发布");
 			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 1) {
-				bPhotoInfoEntity.setStatusDesc("正常");
+				bPhotoInfoEntity.setStatusDesc("处理中");
 			}
 			if(bPhotoInfoEntity.getStatus().intValue() == 2) {
 				bPhotoInfoEntity.setStatusDesc("已删除");
 			}
-			
-			if(!isSee) {
-				bPhotoInfoEntity.setStatusDesc("未知");
-			}
+            if(bPhotoInfoEntity.getStatus().intValue() == 3) {
+                bPhotoInfoEntity.setStatusDesc("已处理");
+            }
+
+//			if(!isSee) {
+//				bPhotoInfoEntity.setStatusDesc("未知");
+//			}
 		}
 		return lists;
 	}
@@ -75,7 +78,7 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 	}
 
 	@Override
-	public BPhotoInfoEntity getBPhotoInfoById(Long id) {
+	public BPhotoInfoEntity getBPhotoInfoById(String id) {
 		BPhotoInfoEntity bPhotoInfo = bPhotoInfoMapper.getObjectById(id);
 		return bPhotoInfo;
 	}
@@ -96,5 +99,52 @@ public class BPhotoInfoManagerImpl implements BPhotoInfoManager {
 		int count = bPhotoInfoMapper.passApply(id);
 		return count;
 	}
-	
+
+    @Override
+    public int getOperateCount(String operateId, String week, String month){
+        int count = bPhotoInfoMapper.getOperateCount(operateId,week,month);
+        return count;
+    }
+
+    @Override
+    public List<BPhotoInfoEntity> listReplyPage(Page<BPhotoInfoEntity> page, Query search) {
+        List<BPhotoInfoEntity> lists = bPhotoInfoMapper.listReplyPage(page, search);
+        SysUserEntity currUser = ShiroUtils.getUserEntity();
+        boolean isSee = true;
+//        if(currUser != null) {
+//            List<Long> roles = currUser.getRoleIdList();
+//            for(Long roleId:roles) {
+//                if(roleId == 197) {
+//                    isSee = false;
+//                }
+//            }
+//        }
+        for(BPhotoInfoEntity bPhotoInfoEntity:lists) {
+            if(!StringUtils.isEmpty(bPhotoInfoEntity.getPitureUrls())) {
+                String [] arrs = bPhotoInfoEntity.getPitureUrls().split(",");
+                String[] origin = bPhotoInfoEntity.getArraypitureUrl();
+                for(int i=0;i<arrs.length;i++) {
+                    origin[i] = "/"+arrs[i];
+                }
+                bPhotoInfoEntity.setArraypitureUrl(origin);
+            }
+            if(bPhotoInfoEntity.getStatus().intValue() == 0) {
+                bPhotoInfoEntity.setStatusDesc("已发布");
+            }
+            if(bPhotoInfoEntity.getStatus().intValue() == 1) {
+                bPhotoInfoEntity.setStatusDesc("处理中");
+            }
+            if(bPhotoInfoEntity.getStatus().intValue() == 2) {
+                bPhotoInfoEntity.setStatusDesc("已删除");
+            }
+            if(bPhotoInfoEntity.getStatus().intValue() == 3) {
+                bPhotoInfoEntity.setStatusDesc("已处理");
+            }
+
+            if(!isSee) {
+                bPhotoInfoEntity.setStatusDesc("未知");
+            }
+        }
+        return lists;
+    }
 }

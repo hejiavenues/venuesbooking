@@ -4,7 +4,9 @@ import java.util.Map;
 
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Result;
+import cn.cashbang.core.modules.sys.entity.SysUserEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.web.multipart.MultipartFile;
 
 /**
@@ -21,7 +23,7 @@ public interface BPhotoInfoService {
 	
 	Result saveBPhotoInfo(BPhotoInfoEntity bPhotoInfo);
 	
-	Result getBPhotoInfoById(Long id);
+	Result getBPhotoInfoById(String id);
 	
 	Result updateBPhotoInfo(BPhotoInfoEntity bPhotoInfo);
 	
@@ -30,5 +32,10 @@ public interface BPhotoInfoService {
 	Result saveImage(MultipartFile imgFile,String type);
 
 	Result passApply(String[] id);
-	
+
+    int getOperateCount(String operateId, String week, String month);
+
+    Page<BPhotoInfoEntity> listReplyPage(Map<String, Object> params);
+
+    Result updateStaus(BPhotoInfoEntity bPhotoInfo, SysUserEntity user);
 }

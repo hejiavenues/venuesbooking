@@ -82,12 +82,6 @@ public class BUserServiceImpl implements BUserService {
 	@Override
 	public Result getBUserById(String id) {
 		BUserEntity bUser = bUserManager.getBUserById(id);
-//		BConvenerInfoEntity con = bConvenerInfoManager.getBConvenerInfoById(id);
-//		if(con!=null) {
-//			if(con.getStatus()==0){
-				bUser.setUserRole(0);  // 召集人审核中状态
-//			}
-//		}
 		return CommonUtils.msg(bUser);
 	}
 

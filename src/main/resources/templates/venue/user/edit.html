@@ -25,6 +25,15 @@ padding-right:5%" >
                      <el-option v-for="us in committees " :label="us.cname" :value="us.cid"></el-option>
                  </el-select>
 			  </el-form-item>
+            <el-form-item label="用户角色" prop="userRole" class="divHeight-54">
+                <el-select v-model="bUser.userRole" placeholder="请选择">
+                    <el-option label="普通用户" value="1"></el-option>
+                    <el-option label="居委会" value="2"></el-option>
+                    <el-option label="物业" value="3"></el-option>
+                    <el-option label="综合治理" value="4"></el-option>
+                    <el-option label="工作人员" value="5"></el-option>
+                </el-select>
+            </el-form-item>
 			 <!--<el-form-item label="角色id （1.普通用户 2.召集人）" prop="userRole">-->
 			    <!--<el-input v-model="bUser.userRole"></el-input>-->
 			  <!--</el-form-item>-->

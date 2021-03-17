@@ -88,8 +88,20 @@ public class BUserEntity implements Serializable {
 
 	private String committeeName;
 
+    /**
+     * 角色id （1.普通用户 2.召集人）
+     */
+    private String userRoleDes;
 
-	public String getCommitteeName() {
+    public String getUserRoleDes() {
+        return userRoleDes;
+    }
+
+    public void setUserRoleDes(String userRoleDes) {
+        this.userRoleDes = userRoleDes;
+    }
+
+    public String getCommitteeName() {
 		return committeeName;
 	}
 

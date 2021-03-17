@@ -27,12 +27,17 @@ body ,html{
 		 <el-form-item label="" >
 		        <el-input v-model="param.queryMobile" placeholder="发布人手机号" @keyup.enter.native="load(0,0)"></el-input>
 		  </el-form-item>
-		 <el-form-item label="" >
-		        <el-input v-model="param.queryAddress" placeholder="定位地址" @keyup.enter.native="load(0,0)"></el-input>
-		  </el-form-item>
+		 <!--<el-form-item label="" >-->
+		        <!--<el-input v-model="param.queryAddress" placeholder="定位地址" @keyup.enter.native="load(0,0)"></el-input>-->
+		  <!--</el-form-item>-->
 		 <el-form-item label="" >
 		        <el-input v-model="param.queryContent" placeholder="包含内容" @keyup.enter.native="load(0,0)"></el-input>
 		  </el-form-item>
+           <el-form-item label="" prop="param.committeeId">
+               <el-select v-model="param.committeeId" placeholder="请选择所属社区" style="width:14em" filterable>
+                   <el-option v-for="us in committees " :label="us.cname" :value="us.cid"></el-option>
+               </el-select>
+           </el-form-item>
 		 <el-form-item label="" prop="param.suoshuleixing">
 			    <el-select v-model="param.suoshuleixing" placeholder="请选择所属内容" style="width:14em" filterable @change="selectChanged">
 				    <el-option v-for="u in avaTimes " :label="u.name" :value="u.code"></el-option>
@@ -147,11 +152,12 @@ body ,html{
                   				v-if="scope.row.statusDesc == '已删除'"  disabled>通过</el-button> -->
                   				
               		<el-button :plain="true" type="danger" size="mini" @click="remove(scope.row)"
-                  				v-if="scope.row.statusDesc == '正常'"  >删除</el-button>
-                    <el-button :plain="true" type="danger" size="mini" @click="remove(scope.row)"
-                             v-if="scope.row.statusDesc == '已删除'"  disabled>删除</el-button>
-                    <el-button :plain="true" v-if="true||hasPermission('venuesbook:photoinfo:edit')" type="success" size="mini" 
-                  icon="el-icon-edit" @click="orgTree(scope.row)" ></el-button>评论列表
+                  				v-if="scope.row.statusDesc == '已发布'"  >删除</el-button>
+                    <el-button :plain="true" type="success" size="mini" @click="update(scope.row)"
+                             v-if="scope.row.statusDesc == '已发布' || scope.row.statusDesc == '处理中'">处理</el-button>
+                    <el-button :plain="true" v-if="true||hasPermission('venuesbook:photoinfo:edit')"
+                               type="success" size="mini"
+                  icon="el-icon-edit" @click="orgTree(scope.row)" >评论列表</el-button>
               </template>
               
          </el-table-column>

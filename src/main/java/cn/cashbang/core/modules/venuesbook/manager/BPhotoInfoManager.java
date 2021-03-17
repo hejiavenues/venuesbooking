@@ -20,12 +20,15 @@ public interface BPhotoInfoManager {
 	
 	int saveBPhotoInfo(BPhotoInfoEntity bPhotoInfo);
 	
-	BPhotoInfoEntity getBPhotoInfoById(Long id);
+	BPhotoInfoEntity getBPhotoInfoById(String id);
 	
 	int updateBPhotoInfo(BPhotoInfoEntity bPhotoInfo);
 	
 	int batchRemove(String[] id);
 
 	int passApply(String[] id);
-	
+
+    int getOperateCount(String operateId, String week, String month);
+
+    List<BPhotoInfoEntity> listReplyPage(Page<BPhotoInfoEntity> page, Query query);
 }

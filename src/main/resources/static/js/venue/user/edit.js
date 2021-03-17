@@ -36,6 +36,21 @@ var vm = new Vue({
 		    	param: vm.bUser.uid,
 		    	success: function(data) {
 		    		vm.bUser = data;
+                    if(data.userRole == 1){
+                        vm.bUser.userRole = '普通用户';
+                    }else if(data.userRole == 2){
+                        vm.bUser.userRole = '居委会';
+                    }
+                    else if(data.userRole == 3){
+                        vm.bUser.userRole = '物业';
+                    }
+                    else if(data.userRole == 4){
+                        vm.bUser.userRole = '综合治理';
+                    }
+                    else if(data.userRole == 5){
+                        vm.bUser.userRole = '工作人员';
+                    }
+                    ;
 		    	}
 			});
 		},

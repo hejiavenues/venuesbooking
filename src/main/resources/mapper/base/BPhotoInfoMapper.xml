@@ -96,6 +96,21 @@
 		WHERE
 			pid = #{pid}
 	</select>
+
+    <select id="getOperateCount" resultType="int">
+        SELECT
+        count(*)
+        FROM
+        b_photo_info bp right join b_photo_reply r on r.photo_id = bp.pid
+        where r.uid =#{operateId}
+        and bp.status != 2
+        <if test="month != null and month != ''">
+            and  DATE_FORMAT(r.create_time, '%Y%m') = DATE_FORMAT(CURDATE( ) , '%Y%m' )
+        </if>
+        <if test="week != null and week != ''">
+            and  YEARWEEK(date_format(r.create_time,'%Y-%m-%d')) = YEARWEEK(now())
+        </if>
+    </select>
 	
 	<update id="update">
 		UPDATE b_photo_info
@@ -134,5 +149,33 @@
 			#{id}
 		</foreach>
 	</update>
+
+    <select id="listReplyPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity">
+        SELECT
+        bp.`pid`,
+        bp.`uid`,
+        (select `uname` from b_user u where u.`uid` = bp.`uid` ) as uname,
+        (select `mobile` from b_user u where u.`uid` = bp.`uid` ) as mobile,
+        (select icon_url from b_user u where u.`uid` = bp.`uid` ) as iconUrl,
+        bp.`content`,
+        bp.`piture_urls`,
+        bp.`committee_id`,
+        (select cname from b_committees bc where bc.`cid` = bp.`committee_id`) as committeeName,
+        bp.`status`,
+        bp.`address`,
+        bp.`content_type`,
+        bp.`create_time`,
+        bp.`update_time`
+        FROM
+        b_photo_info bp right join b_photo_reply r on r.photo_id = bp.pid
+        <where>
+            <if test="queryUserId != null and queryUserId != ''">
+                and	r.uid = #{queryUserId}
+            </if>
+            and bp.`status` != 2
+        </where>
+        group by bp.`pid`,bp.create_time
+        ORDER BY bp.create_time DESC
+    </select>
 
 </mapper>

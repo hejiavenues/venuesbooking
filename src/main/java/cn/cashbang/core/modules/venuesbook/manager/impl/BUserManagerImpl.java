@@ -40,6 +40,21 @@ public class BUserManagerImpl implements BUserManager {
 			}else if(bu.getSex().intValue() == 0) {
 				bu.setSexStr("女");
 			}
+           // 1 普通用户 2居委会3物业4综合治理 5 工作人员
+            if(bu.getUserRole().intValue() == 1) {
+                bu.setUserRoleDes("普通用户");
+            }else if(bu.getUserRole().intValue() == 2) {
+                bu.setUserRoleDes("居委会");
+            }
+            else if(bu.getUserRole().intValue() == 3) {
+                bu.setUserRoleDes("物业");
+            }
+            else if(bu.getUserRole().intValue() == 4) {
+                bu.setUserRoleDes("综合治理");
+            }
+            else if(bu.getUserRole().intValue() == 5) {
+                bu.setUserRoleDes("工作人员");
+            }
 		}
 		return lists;
 	}

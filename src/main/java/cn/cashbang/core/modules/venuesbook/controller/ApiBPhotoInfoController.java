@@ -70,8 +70,6 @@ public class ApiBPhotoInfoController extends AbstractController {
             params.put("operateId",null);
         }
 
-
-
 		params.put("sortOrde","asc");
 
 		Page<BPhotoInfoEntity> list =  bPhotoInfoService.listBPhotoInfo(params);
@@ -82,20 +80,65 @@ public class ApiBPhotoInfoController extends AbstractController {
 			result.put("msg","查询成功！");
 		}
 		else{
-			result.put("code",-1);
+			result.put("code",0);
 			result.put("rows",null);
 			result.put("msg","没有查询到数据！");
 		}
 		return result;
 	}
 
-    @RequestMapping("/getOperateCount")
-    public  Map<String, Integer> getOperateCount(String operateId) {
+    /**
+     * 查询“我关注的人人拍”列表
+     * @param page
+     * @return
+     */
+    @RequestMapping("/getPhotoListReply")
+    public  Map<String, Object> getPhotoListReply(int page,String operateId) {
 
-        Map<String, Integer> result = new HashMap<>();
-        result.put("all",100);
-        result.put("month",50);
-        result.put("week",10);
+        Map<String, Object> params = new HashMap<>();
+        Map<String, Object> result = new HashMap<>();
+
+        params.put("pageNumber",page);
+        params.put("pageSize",10);
+
+        if(StringUtils.isNotBlank(operateId)){
+            params.put("queryUserId",operateId);
+        }
+        else {
+            params.put("queryUserId",null);
+        }
+        params.put("sortOrde","asc");
+
+        Page<BPhotoInfoEntity> list =  bPhotoInfoService.listReplyPage(params);
+        if(list.getTotal()>0){
+            result.put("code",0);
+            result.put("rows",list.getRows());
+            result.put("page",page);
+            result.put("msg","查询成功！");
+        }
+        else{
+            result.put("code",0);
+            result.put("rows",null);
+            result.put("msg","没有查询到数据！");
+        }
+        return result;
+    }
+
+    @RequestMapping("/getOperateCount")
+    public  Map<String, Object> getOperateCount(String operateId) {
+
+        int all = bPhotoInfoService.getOperateCount(operateId,null,null);
+        int week = bPhotoInfoService.getOperateCount(operateId,"week",null);
+        int month = bPhotoInfoService.getOperateCount(operateId,null,"month");
+        Map<String, Integer> counts = new HashMap<>();
+        counts.put("all",all);
+        counts.put("month",week);
+        counts.put("week",month);
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("code",0);
+        result.put("rows",counts);
+        result.put("msg","查询成功！");
         return  result;
     }
 		
@@ -128,7 +171,7 @@ public class ApiBPhotoInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/info")
-	public Result getById(Long id) {
+	public Result getById(String id) {
 		return bPhotoInfoService.getBPhotoInfoById(id);
 	}
 	

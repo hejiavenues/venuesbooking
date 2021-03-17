@@ -9,10 +9,10 @@ import java.util.Map;
 import cn.cashbang.core.common.utils.SpringContextUtils;
 import cn.cashbang.core.common.utils.StringUtils;
 import cn.cashbang.core.common.utils.WebUtils;
-import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
-import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
-import cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity;
+import cn.cashbang.core.modules.sys.entity.SysUserEntity;
+import cn.cashbang.core.modules.venuesbook.entity.*;
 import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
+import cn.cashbang.core.modules.venuesbook.manager.BPhotoReplyManager;
 import cn.cashbang.core.modules.venuesbook.manager.BUserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,7 +21,6 @@ import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
-import cn.cashbang.core.modules.venuesbook.entity.BPhotoInfoEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BPhotoInfoManager;
 import cn.cashbang.core.modules.venuesbook.service.BPhotoInfoService;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,6 +45,9 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
     @Autowired
     private BAccessTokenManager bAccessTokenManager;
 
+    @Autowired
+    private BPhotoReplyManager bPhotoReplyManager;
+
 	@Override
 	public Page<BPhotoInfoEntity> listBPhotoInfo(Map<String, Object> params) {
 		Query query = new Query(params);
@@ -53,6 +55,14 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 		bPhotoInfoManager.listBPhotoInfo(page, query);
 		return page;
 	}
+
+    @Override
+    public Page<BPhotoInfoEntity> listReplyPage(Map<String, Object> params) {
+        Query query = new Query(params);
+        Page<BPhotoInfoEntity> page = new Page<>(query);
+        bPhotoInfoManager.listReplyPage(page, query);
+        return page;
+    }
 
 	@Override
 	public Result saveBPhotoInfo(BPhotoInfoEntity role) {
@@ -87,7 +97,10 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 	}
 
 	@Override
-	public Result getBPhotoInfoById(Long id) {
+	public Result getBPhotoInfoById(String id) {
+        if(!com.alibaba.druid.util.StringUtils.isEmpty(id)) {
+            id = id.replace("\"", "");
+        }
 		BPhotoInfoEntity bPhotoInfo = bPhotoInfoManager.getBPhotoInfoById(id);
 		return CommonUtils.msg(bPhotoInfo);
 	}
@@ -97,6 +110,25 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 		int count = bPhotoInfoManager.updateBPhotoInfo(bPhotoInfo);
 		return CommonUtils.msg(count);
 	}
+
+    @Override
+    public Result updateStaus(BPhotoInfoEntity bPhotoInfo,SysUserEntity user) {
+
+        BPhotoReplyEntity bPhotoReply = new BPhotoReplyEntity();
+        bPhotoReply.setContent(bPhotoInfo.getRemark());
+        bPhotoReply.setPhotoContent(bPhotoInfo.getContent());
+        bPhotoReply.setUid("1");
+        String uuid = CommonUtils.createUUID();
+        bPhotoReply.setReply(uuid);
+        bPhotoReply.setCreateTime(new Date());
+        bPhotoReply.setPhotoId(bPhotoInfo.getPid());
+
+        int count2 = bPhotoReplyManager.saveBPhotoReply(bPhotoReply);
+
+        int count = bPhotoInfoManager.updateBPhotoInfo(bPhotoInfo);
+
+        return CommonUtils.msg(count);
+    }
 
 	@Override
 	public Result batchRemove(String[] id) {
@@ -172,4 +204,10 @@ public class BPhotoInfoServiceImpl implements BPhotoInfoService {
 		int count = bPhotoInfoManager.passApply(id);
 		return CommonUtils.msg(id, count);
 	}
+
+    @Override
+    public int getOperateCount(String operateId, String week, String month){
+        int count = bPhotoInfoManager.getOperateCount(operateId,week,month);
+        return count;
+    }
 }

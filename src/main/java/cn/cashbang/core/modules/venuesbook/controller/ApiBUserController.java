@@ -60,11 +60,15 @@ public class ApiBUserController extends AbstractController {
 		bUser.setSex(sex);
 		bUser.setUname(uname);
 		bUser.setMobile(mobile);
-		if(userRole!=null){
-            bUser.setUserRole(userRole);
-        } else{
-            bUser.setUserRole(1);
-        }
+//		if(userRole!=null){
+//            bUser.setUserRole(userRole);
+//
+//            if(userRole>2){
+//                bUser.setCommitteeId("5316e43ffb63490b8142c15effef1937");
+//            }
+//        } else{
+           bUser.setUserRole(1);
+//        }
 
 		bUser.setStatus(1);
 		String uuid = CommonUtils.createUUID();

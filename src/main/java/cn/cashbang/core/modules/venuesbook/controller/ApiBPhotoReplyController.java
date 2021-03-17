@@ -58,7 +58,7 @@ public class ApiBPhotoReplyController extends AbstractController {
         else{
             result.put("code",-1);
             result.put("rows",null);
-            result.put("msg","没有查询到数据！");
+            result.put("msg","还没有人评论过，快来评论吧！");
         }
 
 		return result;

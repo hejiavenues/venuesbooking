@@ -2,6 +2,7 @@ package cn.cashbang.core.modules.venuesbook.controller;
 
 import java.util.Map;
 
+import cn.cashbang.core.modules.sys.entity.SysUserEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -55,7 +56,7 @@ public class BPhotoInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/info")
-	public Result getById(@RequestBody Long id) {
+	public Result getById(@RequestBody String id) {
 		return bPhotoInfoService.getBPhotoInfoById(id);
 	}
 	
@@ -68,6 +69,18 @@ public class BPhotoInfoController extends AbstractController {
 	public Result update(@RequestBody BPhotoInfoEntity bPhotoInfo) {
 		return bPhotoInfoService.updateBPhotoInfo(bPhotoInfo);
 	}
+
+    /**
+     * 修改
+     * @param bPhotoInfo
+     * @return
+     */
+    @RequestMapping("/updateStaus")
+    public Result updateStaus(@RequestBody BPhotoInfoEntity bPhotoInfo) {
+
+        SysUserEntity user=getUser();
+        return bPhotoInfoService.updateStaus(bPhotoInfo,user);
+    }
 	
 	/**
 	 * 删除
