@@ -40,8 +40,8 @@ var vm=new Vue({
 					if (th.zs_loc == null || th.zs_loc == "zh") {
 						th.msg=
 								"欢迎您," + user.chnName + "(" + user.username
-										+ "),部门:("
-										+ user.orgName + ")。";
+										+ /* "),部门:("
+										+ user.orgName +  */")。";
 						th.base="基本信息";
 					} else if (vm.zs_loc == "en") {
 						th.msg=

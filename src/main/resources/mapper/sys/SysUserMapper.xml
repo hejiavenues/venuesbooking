@@ -7,7 +7,7 @@
 		SELECT
 			u.`user_id`,
 			u.`org_id`,
-			o.`name` AS orgName,
+			<!-- o.`name` AS orgName, -->
 			u.`username`,
 			u.`chn_name`,
 			u.`email`,
@@ -18,7 +18,7 @@
 			u.channel
 		FROM
 			sys_user u
-		LEFT JOIN sys_org o ON u.org_id = o.org_id
+		<!-- LEFT JOIN sys_org o ON u.org_id = o.org_id --> 
 		<where>
 			<if test="username != null and username.trim() != ''">
 				AND u.username LIKE concat('%',#{username},'%') 
@@ -27,9 +27,9 @@
 				OR u.chn_name LIKE concat('%',#{username},'%') 
 			</if>
 			
-			<if test="orgIdPath != null and orgIdPath.trim() != ''">
+			<!-- <if test="orgIdPath != null and orgIdPath.trim() != ''">
 				AND o.org_id_path LIKE concat(#{orgIdPath},'%') 
-			</if>
+			</if> -->
 			
 			<if test="noAdmin != null and noAdmin.trim() != ''">
 			AND  not exists (select * from sys_user_role a  left join sys_role b on a.role_id=b.role_id  where a.user_id=u.user_id and  b.role_sign=#{noAdmin} )
@@ -39,10 +39,10 @@
 			AND trim(u.channel) =#{channel}
 			</if>
 			
-			<if test="code != null and code.trim() != ''">
+			<!-- <if test="code != null and code.trim() != ''">
 				AND( o.code=#{code} or  
 				      o.parent_id= (select org_id  from sys_org where code = #{code} ))
-			</if>
+			</if> -->
 			
 		    <if test="userId != null ">
 				AND u.user_id=#{userId}

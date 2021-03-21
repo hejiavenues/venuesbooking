@@ -21,19 +21,22 @@
 	            <td class="formValue">
 					<input type="text" class="form-control" placeholder="密码" v-model="user.password" isvalid="yes" checkexpession="NotNull">
 	            </td>
-	            
-        		<td class="formTitle">所属机构<span>*</span></td>
+	            <td class="formTitle">邮箱</td>
+	            <td class="formValue">
+					<input type="text" class="form-control" placeholder="邮箱" v-model="user.email">
+	            </td>
+        		<!-- <td class="formTitle">所属机构<span>*</span></td>
 	            <td class="formValue">
 					<input type="text" class="form-control pointer" placeholder="所属机构" v-model="user.orgName" @click="orgTree" isvalid="yes" checkexpession="NotNull"readonly="readonly">
-	            </td>
+	            </td> -->
         		
         	</tr>
         	<tr>
         	
-        		<td class="formTitle">渠道<template v-if="show_"><span>*</span></template></td>
+        		<!-- <td class="formTitle">渠道<template v-if="show_"><span>*</span></template></td>
 	            <td class="formValue">
-					<!-- <input type="text" class="form-control" placeholder="渠道" readonly="readonly" 
-					v-model="user.channel"  id='userChannel_' > -->
+					<input type="text" class="form-control" placeholder="渠道" readonly="readonly" 
+					v-model="user.channel"  id='userChannel_' >
 					
 					<select v-model="user.channel" class="form-control"  id='userChannel_' checkexpession="NotNull" isvalid="yes" disabled="disabled">
 				      <option v-for="channel in channelMsg.rows" :value=" channel.channelCode " :disabled="false" >
@@ -41,13 +44,8 @@
      				 </option>
             		</select>
 				
-	            </td>
+	            </td> -->
 	            
-        		<td class="formTitle">邮箱</td>
-	            <td class="formValue">
-					<input type="text" class="form-control" placeholder="邮箱" v-model="user.email">
-	            </td>
-        	</tr>
         	<tr>
         	 <td class="formTitle">手机号</td>
 	            <td class="formValue">

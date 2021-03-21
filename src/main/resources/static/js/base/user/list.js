@@ -129,7 +129,7 @@ var vm = new Vue({
 					field : "chnName",
 					title : "用户姓名",
 					width : "100px"
-				},{
+				},/*{
 					field : "orgName",
 					title : "所属机构",
 					width : "100px"
@@ -137,7 +137,7 @@ var vm = new Vue({
 					field : "channel",
 					title : "渠道",
 					width : "100px"
-				}, {
+				},*/ {
 					field : "email",
 					title : "邮箱",
 					width : "100px"
