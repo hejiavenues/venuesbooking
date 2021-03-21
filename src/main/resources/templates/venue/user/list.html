@@ -21,9 +21,12 @@ body ,html{
      <el-collapse-item title="" name="1" > -->
      
 	   <el-form ref="form"  :inline="true" label-width="80px" size="mini"><!-- 搜索框 -->
-		 <el-form-item label="" >
-		        <el-input v-model="param.keyword" placeholder="请输入查询关键字" @keyup.enter.native="load(0,0)"></el-input>
-		  </el-form-item>
+           <el-form-item label="" >
+               <el-input v-model="param.uname" placeholder="请输入用户名称" @keyup.enter.native="load(0,0)"></el-input>
+           </el-form-item>
+           <el-form-item label="" >
+               <el-input v-model="param.mobile" placeholder="请输入用户手机号" @keyup.enter.native="load(0,0)"></el-input>
+           </el-form-item>
 		  
 		 <el-form-item>
 		  <el-button onclick="reload();"   icon="el-icon-refresh"   ></el-button>

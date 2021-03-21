@@ -21,7 +21,18 @@
 			bu.`create_time`, 
 			bu.`update_time`
 		FROM
-			b_user bu 
+			b_user bu
+        <where>
+            <if test="uname != null and uname != ''">
+                and	bu.`uname` like concat('%',#{uname},'%')
+            </if>
+            <if test="mobile != null and mobile != ''">
+                and	bu.`mobile`like concat('%',#{mobile},'%')
+            </if>
+            <if test="userrole != null and userrole != '' and userrole != 0">
+                and	bu.`user_role` = #{userrole}
+            </if>
+        </where>
 		ORDER BY
 			bu.`create_time` DESC 
 	</select>
