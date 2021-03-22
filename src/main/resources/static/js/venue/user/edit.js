@@ -13,8 +13,8 @@ var vm = new Vue({
 
 		    uname: [ {  required: true, message: '用户名称', trigger: 'blur' } ],
 		    mobile: [ {  required: true, message: '手机号', trigger: 'blur' } ], 
-		    committeeId: [ {  required: true, message: '居委会id', trigger: 'blur' } ], 
-		    userRole: [ {  required: true, message: '角色id （1.普通用户 2.召集人）', trigger: 'blur' } ]
+		    committeeId: [ {  required: true, message: '居委会名称', trigger: 'blur' } ],
+		    userRole: [ {  required: false, message: '用户角色', trigger: 'blur' } ]
 		    // userAge: [ {  required: true, message: '用户年龄', trigger: 'blur' } ],
 		    // password: [ {  required: true, message: '登录密码', trigger: 'blur' } ],
 		    // status: [ {  required: true, message: '用户状态（1.正常 2.禁用 3.删除）', trigger: 'blur' } ],
