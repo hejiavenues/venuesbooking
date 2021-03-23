@@ -65,9 +65,18 @@ public class BConvenerInfoEntity implements Serializable {
 	 * 更新时间
 	 */
 	private Date updateTime;
-	
 
-	public BConvenerInfoEntity() {
+	private String teamContent;
+
+    public String getTeamContent() {
+        return teamContent;
+    }
+
+    public void setTeamContent(String teamContent) {
+        this.teamContent = teamContent;
+    }
+
+    public BConvenerInfoEntity() {
 		super();
 	}
 

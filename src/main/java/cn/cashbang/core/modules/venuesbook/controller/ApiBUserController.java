@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -88,6 +89,24 @@ public class ApiBUserController extends AbstractController {
 
 		return bUserService.loginUser(code);
 	}
+
+    /**
+     * 十点之前不能预约
+     * @param
+     * @return
+     */
+    @RequestMapping("/canBook")
+    public Result canBook(){
+
+        Calendar c = Calendar.getInstance();
+        int hour = c.get(Calendar.HOUR_OF_DAY);
+        if(hour>=9 & hour<23) {
+            return Result.ok("可以预约");
+        }
+        else {
+            return Result.error("每天九点以后才可以预约！");
+        }
+    }
 	
 	/**
 	 * 根据id查询用户详情

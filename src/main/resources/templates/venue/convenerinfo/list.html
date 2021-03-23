@@ -73,7 +73,7 @@ body ,html{
                         placement="right"
                         title=""
                         trigger="hover">
-                    <img :src="scope.row.idcardFrontUrl"/>
+                    <img :src="scope.row.idcardFrontUrl" width="500"/>
                     <img slot="reference" :src="scope.row.idcardFrontUrl" :alt="scope.row.idcardFrontUrl" style="max-height: 33px;max-width: 130px">
                 </el-popover>
             </template>
@@ -89,7 +89,7 @@ body ,html{
                         placement="right"
                         title=""
                         trigger="hover">
-                    <img :src="scope.row.idcardBackUrl"/>
+                    <img :src="scope.row.idcardBackUrl" width="500"/>
                     <img slot="reference" :src="scope.row.idcardBackUrl" :alt="scope.row.idcardBackUrl" style="max-height: 33px;max-width: 130px">
                 </el-popover>
             </template>

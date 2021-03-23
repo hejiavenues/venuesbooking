@@ -36,7 +36,8 @@ public class ApiBConvenerInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/applyConvener")
-	public Result applyConvener(String userId,String idcardFrontUrl,String idcardBackUrl,Integer activityId) {
+	public Result applyConvener(String userId,String idcardFrontUrl,String idcardBackUrl,Integer activityId
+    ,String teamContent) {
 
 		BConvenerInfoEntity  bConvenerInfo=new BConvenerInfoEntity();
 
@@ -47,6 +48,7 @@ public class ApiBConvenerInfoController extends AbstractController {
 		bConvenerInfo.setStatus(0); // 审核中
 		bConvenerInfo.setUid(userId);
 		bConvenerInfo.setCreateTime(new Date());
+        bConvenerInfo.setTeamContent(teamContent);
 		return bConvenerInfoService.saveBConvenerInfo(bConvenerInfo);
 	}
 	

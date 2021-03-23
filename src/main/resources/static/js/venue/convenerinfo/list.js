@@ -15,8 +15,9 @@ var vm = new Vue({
 		table:{//表格数据
 			  "col":[
 					{field : "uname", title : "召集人姓名", width : "100px"}, 
-					{field : "mobile", title : "召集人电话", width : "120px"}, 
-					{field : "committeeName", title : "所属居委会", width : "180px"}, 
+					{field : "mobile", title : "召集人电话", width : "120px"},
+                  {field : "teamContent", title : "团队名称", width : "120px"},
+                  {field : "committeeName", title : "所属居委会", width : "180px"},
 					/*{field : "createTime", title : "创建时间", width : ""}, 
 					{field : "updateTime", title : "更新时间", width : ""}*/
 			  ],
