@@ -100,7 +100,7 @@ public class ApiBUserController extends AbstractController {
 
         Calendar c = Calendar.getInstance();
         int hour = c.get(Calendar.HOUR_OF_DAY);
-        if(hour>=9 & hour<23) {
+        if(hour>=9) {
             return Result.ok("可以预约");
         }
         else {

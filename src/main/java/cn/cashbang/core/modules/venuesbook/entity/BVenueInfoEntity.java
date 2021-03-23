@@ -82,7 +82,20 @@ public class BVenueInfoEntity implements Serializable {
 	 */
 	private String supportActiveTypeDes;
 
-	public String getSupportActiveTypeDes() {
+    /**
+     * 最大容纳人数
+     */
+    private Integer status;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getSupportActiveTypeDes() {
 		return supportActiveTypeDes;
 	}
 

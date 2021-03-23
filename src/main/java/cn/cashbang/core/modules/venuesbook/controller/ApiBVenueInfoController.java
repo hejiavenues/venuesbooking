@@ -61,6 +61,8 @@ public class ApiBVenueInfoController extends AbstractController {
 		params.put("queryComId",queryComId);
 		params.put("queryActType",queryActType);
 		params.put("queryCount",queryCount);
+        params.put("queryWechat","0");
+
 		params.put("sortOrde","asc");
 
 		Page<BVenueInfoEntity> list = bVenueInfoService.listBVenueInfo(params);

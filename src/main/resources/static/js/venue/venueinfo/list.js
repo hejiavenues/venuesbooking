@@ -14,8 +14,9 @@ var vm = new Vue({
 		},
 		table:{//表格数据
 			  "col":[
-					{field : "venueName", title : "场馆名称", width : "150px"}, 
-					{field : "maxPeople", title : "最大容纳人数", width : "100px"}, 
+					{field : "venueName", title : "场馆名称", width : "100px"},
+                  {field : "status", title : "状态", width : "100px"},
+                  {field : "maxPeople", title : "最大容纳人数", width : "100px"},
 					{field : "address", title : "场馆地址", width : "200px"}, 
 					{field : "describtion", title : "场馆简介", width : "200px"}, 
 					{field : "committeeName", title : "所属居委会", width : "150px"}, 
@@ -57,6 +58,14 @@ var vm = new Vue({
 				param:th.param,
 				success:function(r){
 					console.log(r);
+                    for(var i=0;i<r.rows.length;i++){
+                        if(r.rows[i].status == 0){
+                            r.rows[i].status = '可用';
+                        }
+                        else if(r.rows[i].status == 1){
+                            r.rows[i].status = '隐藏';
+                        }
+                    }
 					th.table.data=r.rows;
 					th.table.total=r.total;
 				}

@@ -13,7 +13,8 @@
 			bvi.`committee_id`, 
 			(select cname from b_committees bc where bc.cid = bvi.committee_id) as committeeName,
 			bvi.`support_active_type`, 
-			bvi.`icon_url`, 
+			bvi.`icon_url`,
+            bvi.status,
 			bvi.`create_time`, 
 			bvi.`update_time`
 		FROM
@@ -34,7 +35,9 @@
 			<if test="queryCount != null and queryCount != ''">
 				<![CDATA[  and	bvi.max_people <= #{queryCount}   ]]>
 			</if>
-				
+            <if test="queryWechat != null and queryWechat != ''">
+                and	bvi.status = 0
+            </if>
 			</where>
 		ORDER BY
 			venue_id DESC
@@ -76,7 +79,8 @@
 			`describtion`, 
 			`committee_id`, 
 			`support_active_type`, 
-			`icon_url`, 
+			`icon_url`,
+			status,
 			`create_time`, 
 			`update_time`
 		FROM
@@ -94,7 +98,8 @@
 			`describtion`, 
 			`committee_id`, 
 			`support_active_type`, 
-			`icon_url`, 
+			`icon_url`,
+			status,
 			`create_time`, 
 			`update_time`
 		FROM
@@ -113,6 +118,7 @@
 			<if test="committeeId != null">`committee_id` = #{committeeId}, </if>
 			<if test="supportActiveType != null">`support_active_type` = #{supportActiveType}, </if>
 			<if test="iconUrl != null">`icon_url` = #{iconUrl}, </if>
+            <if test="status != null">`status` = #{status}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}</if>
 		</set>

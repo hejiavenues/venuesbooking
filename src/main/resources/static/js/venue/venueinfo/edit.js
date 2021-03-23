@@ -18,8 +18,9 @@ var vm = new Vue({
 		rules:{//form 规则
 		
 			    venueId: [ {  required: true, message: '主键', trigger: 'blur' } ], 
-		    venueName: [ {  required: true, message: '场馆名称', trigger: 'blur' } ], 
-		    maxPeople: [ {  required: true, message: '最大容纳人数', trigger: 'blur' } ], 
+		    venueName: [ {  required: true, message: '场馆名称', trigger: 'blur' } ],
+            status: [ {  required: true, message: '状态', trigger: 'blur' } ],
+            maxPeople: [ {  required: true, message: '最大容纳人数', trigger: 'blur' } ],
 		    address: [ {  required: true, message: '场馆地址', trigger: 'blur' } ], 
 			supportActiveType: [ {  required: true, message: '支持的活动类型', trigger: 'blur' } ], 
 		    /*committeeId: [ {  required: true, message: '所属居委会id', trigger: 'blur' } ], 
@@ -62,6 +63,11 @@ var vm = new Vue({
 		    	success: function(data) {
 		    		vm.bVenueInfo = data;
 					vm.imageUrl = data.iconUrl;
+                    if(data.status == 0){
+                        vm.bVenueInfo.status = '可用';
+                    }else if(data.status == 1){
+                        vm.bVenueInfo.status = '隐藏';
+                    };
 		    	}
 			});
 		},
@@ -69,6 +75,13 @@ var vm = new Vue({
 		
 		  this.$refs
 		  ["ruleForm"].validate(function(yes,b){
+              if(vm.bVenueInfo.status == '可用'){
+                  vm.bVenueInfo.status = 0;
+              }else if(vm.bVenueInfo.status == '隐藏'){
+                  vm.bVenueInfo.status = 1;
+              };
+              console.log("--------"+vm.bVenueInfo.status )
+
 				if(yes){
 			 /*$.ConfirmForm({
 				    	url: '../../venuesbook/venueinfo/update?_' + $.now(),
