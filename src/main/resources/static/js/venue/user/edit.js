@@ -67,6 +67,23 @@ var vm = new Vue({
 		
 		  this.$refs
 		  ["ruleForm"].validate(function(yes,b){
+
+              if(vm.bUser.userRole == '普通用户'){
+                  vm.bUser.userRole = 1;
+              }else if(vm.bUser.userRole == '居委会'){
+                  vm.bUser.userRole = 2;
+              }
+              else if(vm.bUser.userRole == '物业'){
+                  vm.bUser.userRole = 3;
+              }
+              else if(vm.bUser.userRole == '综合治理'){
+                  vm.bUser.userRole = 4;
+              }
+              else if(vm.bUser.userRole == '工作人员'){
+                  vm.bUser.userRole = 5;
+              }
+              ;
+
 				if(yes){
 			 $.ConfirmForm({
 				    	url: '../../venuesbook/user/update?_' + $.now(),
