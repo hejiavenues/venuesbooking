@@ -48,7 +48,7 @@
             </if>
 			</where>
 		ORDER BY
-			ba.activity_id DESC
+			ba.create_time DESC
 	</select>
 
 	<select id="listActByUserId" resultType="cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity">

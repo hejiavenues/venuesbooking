@@ -158,7 +158,11 @@
 	</delete>
 
 	<select id="getBookStatusById" resultType="cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity">
-		select book_status from b_venue_book where venue_id=#{arg0}
+		select
+		book_status ,
+		(select uname from b_user bu1 where bu1.`uid` = b.`user_id`) as userName,
+		activity_content
+		from b_venue_book b where venue_id=#{arg0}
 		and book_date = #{arg1} and book_time = #{arg2}
 	</select>
 

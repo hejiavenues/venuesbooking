@@ -65,18 +65,18 @@
 
 	<select id="getTeamUserById" resultType="cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity">
 		SELECT
-		`teid`,
-		`tid`,
-		uid,
-		`mobile`,
-		`uname`,
-		`status`,
-		`create_time`,
-		`update_time`
+		e.`teid`,
+		e.`tid`,
+		e.uid,
+		u.`mobile`,
+		u.`uname`,
+		e.`status`,
+		e.`create_time`,
+		e.`update_time`
 		FROM
-		b_team_entry
+		b_team_entry e left join b_user u on e.uid = u.uid
 		WHERE
-		tid = #{tid}
+		e.tid = #{tid}
 	</select>
 	
 	<update id="update">

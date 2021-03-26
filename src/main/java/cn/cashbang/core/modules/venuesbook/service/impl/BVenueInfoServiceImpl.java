@@ -282,6 +282,7 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 
 				JSONObject time = new JSONObject();
 				time.put("time",bDics.get(i).getName());
+                time.put("orderInfo","");
 
 				if("19:00-21:00".equals(bDics.get(i).getName())){
 					time.put("state",1);
@@ -295,6 +296,7 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 					time.put("state",0);
 					if(entity!=null){
 						time.put("state",entity.getBookStatus());
+                        time.put("orderInfo",entity.getUserName()+" "+entity.getActivityContent());
 					}
 				}
 

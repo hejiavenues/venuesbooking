@@ -65,6 +65,13 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 	@Override
 	public Result saveBActivities(BActivitiesEntity role,String bookDate,String bookTime) {
 
+        BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
+                role.getVenueId(),bookDate,bookTime);
+
+        if(entity!=null){
+            return Result.error("该时段已经被人抢先预约，请预约其他空闲时段。");
+        }
+
         int count = 0;
         BAccessTokenEntity token = bAccessTokenManager.getBAccessTokenById(1L);
         String content = role.getActivityContent()+role.getActivityIdName();
