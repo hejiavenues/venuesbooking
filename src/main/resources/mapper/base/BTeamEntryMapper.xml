@@ -64,15 +64,10 @@
 	</select>
 
 	<select id="getTeamUserById" resultType="cn.cashbang.core.modules.venuesbook.entity.BTeamEntryEntity">
-		SELECT
-		e.`teid`,
-		e.`tid`,
-		e.uid,
+	    SELECT
+        DISTINCT
 		u.`mobile`,
-		u.`uname`,
-		e.`status`,
-		e.`create_time`,
-		e.`update_time`
+		u.`uname`
 		FROM
 		b_team_entry e left join b_user u on e.uid = u.uid
 		WHERE

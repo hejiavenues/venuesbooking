@@ -273,7 +273,9 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 
 			JSONObject object = new JSONObject();
 			String date = dateList.get(k);
-			object.put("date",date);
+            String[] dateweek = date.split(",");
+			object.put("date",dateweek[0]);
+            object.put("week",dateweek[1]);
 			JSONArray array = new  JSONArray();
 
 			List<BDicEntity> bDics =bDicManager.getDicsByCode("avaTime");
@@ -291,7 +293,7 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 					String venueId = bVenueInfo.getVenueId();
 					// 根据场馆Id日期和时间段，判断该场馆的状态
 					BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
-							venueId,date,bDics.get(i).getName());
+							venueId,dateweek[0],bDics.get(i).getName());
 
 					time.put("state",0);
 					if(entity!=null){

@@ -50,11 +50,53 @@ public class DateUtil {
 			Calendar  calender=Calendar.getInstance();
 			calender.setTime(new Date());
 			calender.add(Calendar.DAY_OF_MONTH, 7+k);
-			dateList.add(sf.format(calender.getTime()));
+
+            String week = "";
+            int weekday = calender.get(Calendar.DAY_OF_WEEK);
+            if (weekday == 1) {
+                week = "周日";
+            } else if (weekday == 2) {
+                week = "周一";
+            } else if (weekday == 3) {
+                week = "周二";
+            } else if (weekday == 4) {
+                week = "周三";
+            } else if (weekday == 5) {
+                week = "周四";
+            } else if (weekday == 6) {
+                week = "周五";
+            } else if (weekday == 7) {
+                week = "周六";
+            }
+			dateList.add(sf.format(calender.getTime())+","+week);
 
 		}
 		return dateList;
 	}
+
+    private String getWeek() {
+        String week = "";
+        Date today = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(today);
+        int weekday = c.get(Calendar.DAY_OF_WEEK);
+        if (weekday == 1) {
+            week = "周日";
+        } else if (weekday == 2) {
+            week = "周一";
+        } else if (weekday == 3) {
+            week = "周二";
+        } else if (weekday == 4) {
+            week = "周三";
+        } else if (weekday == 5) {
+            week = "周四";
+        } else if (weekday == 6) {
+            week = "周五";
+        } else if (weekday == 7) {
+            week = "周六";
+        }
+        return week;
+    }
 	
 	/***
 	 * 根据当前还款日期和每期还款日计算最后还款日期

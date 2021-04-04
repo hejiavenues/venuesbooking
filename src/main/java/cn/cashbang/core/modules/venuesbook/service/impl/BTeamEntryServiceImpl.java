@@ -3,6 +3,7 @@ package cn.cashbang.core.modules.venuesbook.service.impl;
 import java.util.List;
 import java.util.Map;
 
+import cn.cashbang.core.modules.venuesbook.entity.BActivityEntryEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,6 +39,17 @@ public class BTeamEntryServiceImpl implements BTeamEntryService {
 
 	@Override
 	public Result saveBTeamEntry(BTeamEntryEntity role) {
+
+//        // 查询是不是已经报加入过了
+//        List<BActivityEntryEntity> entityList = bActivityEntryManager
+//                .getUserListById(role.getActivityId(),role.getUid());
+//
+//        if(entityList!=null){
+//            if(entityList.size()>0){
+//                return  Result.error("您已经报名该活动，不能再重复报名！");
+//            }
+//        }
+
 		int count = bTeamEntryManager.saveBTeamEntry(role);
 		return CommonUtils.msg(count);
 	}
