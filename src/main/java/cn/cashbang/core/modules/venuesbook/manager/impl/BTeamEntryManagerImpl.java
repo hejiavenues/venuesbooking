@@ -62,4 +62,9 @@ public class BTeamEntryManagerImpl implements BTeamEntryManager {
 	public int updateTeamStatus(String tid,String uid){
 		return bTeamEntryMapper.updateTeamStatus(tid,uid);
 	}
+	
+	@Override
+	public void removeEntry(String tid){
+		bTeamEntryMapper.deleteByTid(tid);
+	}
 }

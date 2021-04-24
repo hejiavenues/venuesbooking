@@ -24,7 +24,7 @@ public interface BTeamService {
 	
 	Result updateBTeam(BTeamEntity bTeam);
 	
-	Result batchRemove(Long[] id);
+	Result batchRemove(String[] id);
 	
 	Result listTeamByUserId(String uid);
 

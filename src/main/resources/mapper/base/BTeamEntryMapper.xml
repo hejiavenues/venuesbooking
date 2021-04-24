@@ -104,5 +104,13 @@
 			#{id}
 		</foreach>
 	</delete>
+	
+	<delete id="deleteByTid">
+		DELETE
+		FROM
+			b_team_entry
+		WHERE
+			tid = #{tid}
+	</delete>
 
 </mapper>

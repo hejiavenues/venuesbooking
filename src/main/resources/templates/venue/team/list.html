@@ -69,14 +69,16 @@ body ,html{
 	      </template>
        </el-table-column>
        
-    	<el-table-column   label="操作"  fixed="right"  width="200">
+    	<el-table-column   label="操作"  fixed="right"  width="300px">
               <template scope="scope" >
               	  <el-button :plain="true" type="danger" size="mini"
                              v-if="scope.row.statusStr == '报名中'" @click="updateStatus(scope.row)">关闭</el-button>
                   <el-button :plain="true" type="success" size="mini"
                              v-if="scope.row.statusStr == '已关闭'" @click="updateStatus(scope.row)">放开</el-button>
-                  <el-button :plain="true" v-if="true||hasPermission('venuesbook:activities:edit')" type="success" size="mini" 
-                  icon="el-icon-edit" @click="orgTree(scope.row)" ></el-button>报名列表
+                  <el-button :plain="true" v-if="true||hasPermission('venuesbook:team:edit')" type="success" size="mini" 
+                  icon="el-icon-edit" @click="orgTree(scope.row)" >报名列表</el-button>
+                  <el-button :plain="true" type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)"
+                  v-if="true||hasPermission('venuesbook:team:remove')"  >删除</el-button>
               </template>
          </el-table-column>
     </el-table>

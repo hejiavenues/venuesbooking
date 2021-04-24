@@ -75,7 +75,7 @@ public class BTeamController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/remove")
-	public Result batchRemove(@RequestBody Long[] id) {
+	public Result batchRemove(@RequestBody String[] id) {
 		return bTeamService.batchRemove(id);
 	}
 	

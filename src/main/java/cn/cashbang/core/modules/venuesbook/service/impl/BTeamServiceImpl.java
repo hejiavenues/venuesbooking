@@ -7,6 +7,8 @@ import cn.cashbang.core.common.utils.StringUtils;
 import cn.cashbang.core.common.utils.WebUtils;
 import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
 import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
+import cn.cashbang.core.modules.venuesbook.manager.BTeamEntryManager;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,6 +33,8 @@ public class BTeamServiceImpl implements BTeamService {
 
 	@Autowired
 	private BTeamManager bTeamManager;
+	@Autowired
+	private BTeamEntryManager bTeamEntryManager;
 
 	@Autowired
 	private BAccessTokenManager bAccessTokenManager;
@@ -92,8 +96,11 @@ public class BTeamServiceImpl implements BTeamService {
 	}
 
 	@Override
-	public Result batchRemove(Long[] id) {
+	public Result batchRemove(String[] id) {
 		int count = bTeamManager.batchRemove(id);
+		for(String iid : id) {
+			bTeamEntryManager.removeEntry(iid);
+		}
 		return CommonUtils.msg(id, count);
 	}
 

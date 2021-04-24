@@ -61,7 +61,7 @@ public class BTeamManagerImpl implements BTeamManager {
 	}
 
 	@Override
-	public int batchRemove(Long[] id) {
+	public int batchRemove(String[] id) {
 		int count = bTeamMapper.batchRemove(id);
 		return count;
 	}

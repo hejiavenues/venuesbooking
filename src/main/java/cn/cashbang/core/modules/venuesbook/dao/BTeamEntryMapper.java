@@ -20,6 +20,8 @@ import java.util.List;
 public interface BTeamEntryMapper extends BaseMapper<BTeamEntryEntity> {
 
     List<BTeamEntryEntity> getTeamUserById(String tid);
+    
+    void deleteByTid(String tid);
 
     int updateTeamStatus(@Param("tid") String tid, @Param("uid") String uid);
 }
