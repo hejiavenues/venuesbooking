@@ -46,6 +46,9 @@
               <if test="operateId != null and operateId != ''">
                   and	bp.`operate_id` = #{operateId}
               </if>
+              <if test="queryStatus != null and queryStatus != ''">
+                  and	bp.`status` = #{queryStatus}
+              </if>
               and bp.`status` != 2
 			</where>
 		ORDER BY

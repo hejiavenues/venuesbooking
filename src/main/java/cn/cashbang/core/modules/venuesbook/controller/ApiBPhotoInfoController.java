@@ -39,7 +39,8 @@ public class ApiBPhotoInfoController extends AbstractController {
 	 * @return
 	 */
 	@RequestMapping("/getPhotoList")
-	public  Map<String, Object> getPhotoList(int page,String uid,String committeeId,String operateId) {
+	public  Map<String, Object> getPhotoList(int page,String uid,String committeeId,String operateId,
+    String queryStatus) {
 
 		Map<String, Object> params = new HashMap<>();
 		Map<String, Object> result = new HashMap<>();
@@ -61,6 +62,15 @@ public class ApiBPhotoInfoController extends AbstractController {
         }
         else {
             params.put("committeeId",null);
+        }
+
+        if(StringUtils.isNotBlank(queryStatus)){
+
+            params.put("queryStatus",queryStatus);
+        }
+        else {
+
+            params.put("queryStatus",null);
         }
 
         if(StringUtils.isNotBlank(operateId)){
