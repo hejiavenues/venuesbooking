@@ -100,7 +100,7 @@ public class HttpClientUtils {
 		HttpPost httpPost = new HttpPost(uri);
 		
 		
-		httpPost.setHeader("Content-Type","application/json;charset=UTF-8");
+	//	httpPost.setHeader("Content-Type","application/json;charset=UTF-8");
 
 		  //组织请求参数  
         List<NameValuePair> paramList = new ArrayList<NameValuePair>();  

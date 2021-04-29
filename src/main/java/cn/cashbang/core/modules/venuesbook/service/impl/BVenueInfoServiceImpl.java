@@ -3,12 +3,9 @@ package cn.cashbang.core.modules.venuesbook.service.impl;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
-import cn.cashbang.core.common.utils.DateUtil;
+import cn.cashbang.core.common.utils.*;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.BeanUtils;
@@ -21,8 +18,6 @@ import com.alibaba.druid.util.StringUtils;
 import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.common.entity.Result;
-import cn.cashbang.core.common.utils.CommonUtils;
-import cn.cashbang.core.common.utils.SpringContextUtils;
 import cn.cashbang.core.modules.venuesbook.entity.BBannerInfoEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BDicEntity;
 import cn.cashbang.core.modules.venuesbook.entity.BUpdateVenueTime;
@@ -312,4 +307,72 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 
 		return Result.ok().put("scheduleData", result);
 	}
+
+    @Override
+    public Result bindRoomLock(String venueId,String venueName,String lockData) {
+	    String clientId="6d41739156ab4a31b517a73990913db6";
+	    String accessToken="23213669f41fc9a9a0fbe2a9850563d0";
+	    String requestUrl="https://api.sciener.com/v3/lock/initialize";
+
+        Map<String,String> params = new HashMap<>();
+        // params.put("access_token",accessToken);
+        params.put("clientId",clientId);
+        params.put("accessToken",accessToken);
+        params.put("lockData",lockData);
+        params.put("lockAlias",venueName);
+        // 获得日历对象
+        Calendar c = Calendar. getInstance ();
+        // 获得当前时间的毫秒值
+        long todayTime = c.getTimeInMillis();
+        params.put("date",String.valueOf(todayTime));
+
+        try {
+            String res = HttpClientUtils.doPostForm(requestUrl,params);
+            System.out.println("初始化锁接口返回结果："+res);
+            JSONObject result =  JSONObject.parseObject(res);
+            String lockId = result.getString("lockId");
+            String keyId = result.getString("keyId");
+            BVenueInfoEntity bVenueInfo = new BVenueInfoEntity();
+            bVenueInfo.setVenueId(venueId);
+            bVenueInfo.setLockId(lockId);
+            bVenueInfo.setKeyId(keyId);
+            bVenueInfo.setLockData(lockData);
+            bVenueInfoManager.updateBVenueInfo(bVenueInfo);
+
+//            // 生成密码
+//            String requestUrlPwd="https://api.sciener.com/v3/keyboardPwd/get";
+//            Map<String,String> params2 = new HashMap<>();
+//            params2.put("clientId",clientId);
+//            params2.put("accessToken",accessToken);
+//            params2.put("lockId",lockId);
+//            params2.put("keyboardPwdVersion","4");
+//            params2.put("keyboardPwdType","3");
+//            params2.put("startDate",String.valueOf(todayTime));
+//            params2.put("endDate",String.valueOf(todayTime+1000000000L));
+//            params2.put("date",String.valueOf(todayTime));
+//            String resPwd = HttpPostUtil.sendPostRequest(requestUrlPwd,params2);
+//            System.out.println("设置密码接口返回结果："+resPwd);
+//
+//            JSONObject resultPwd =  JSONObject.parseObject(resPwd);
+//            String keyboardPwdId = resultPwd.getString("keyboardPwdId");
+//            String keyboardPwd = resultPwd.getString("keyboardPwd");
+//
+//            BVenueBookEntity bbe = new BVenueBookEntity();
+//            bbe.setId(CommonUtils.createUUID());
+//            bbe.setBookStatus(1);
+//            bbe.setUserId("xtjytesttest");
+//            bbe.setVenueId(venueId);
+//            bbe.setKeyboardPwd(keyboardPwd);
+//            bbe.setKeyboardPwdId(keyboardPwdId);
+//            bbe.setCreateTime(new Date());
+//            bbe.setUpdateTime(new Date());
+//            bVenueBookManager.saveBVenueBook(bbe);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error().put("msg","绑定锁失败!");
+        }
+
+        return Result.ok().put("msg","绑定锁成功!");
+    }
 }

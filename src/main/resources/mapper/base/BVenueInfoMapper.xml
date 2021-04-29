@@ -15,6 +15,8 @@
 			bvi.`support_active_type`, 
 			bvi.`icon_url`,
             bvi.status,
+            bvi.lock_id,
+            bvi.key_id,
 			bvi.`create_time`, 
 			bvi.`update_time`
 		FROM
@@ -81,7 +83,9 @@
 			`support_active_type`, 
 			`icon_url`,
 			status,
-			`create_time`, 
+			`create_time`,
+			lock_id,
+			key_id,
 			`update_time`
 		FROM
 			b_venue_info
@@ -119,7 +123,10 @@
 			<if test="supportActiveType != null">`support_active_type` = #{supportActiveType}, </if>
 			<if test="iconUrl != null">`icon_url` = #{iconUrl}, </if>
             <if test="status != null">`status` = #{status}, </if>
-			<if test="createTime != null">`create_time` = #{createTime}, </if>
+            <if test="createTime != null">`create_time` = #{createTime}, </if>
+            <if test="lockId != null">`lock_id` = #{lockId}, </if>
+			<if test="keyId != null">`key_id` = #{keyId}, </if>
+            <if test="lockData != null">`lock_data` = #{lockData}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}</if>
 		</set>
 		WHERE

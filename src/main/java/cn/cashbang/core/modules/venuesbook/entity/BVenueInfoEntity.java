@@ -83,9 +83,45 @@ public class BVenueInfoEntity implements Serializable {
 	private String supportActiveTypeDes;
 
     /**
-     * 最大容纳人数
+     * 场馆状态
      */
     private Integer status;
+
+    /**
+     * 锁Id
+     */
+    private String lockId;
+
+    /**
+     * 管理员钥匙Id
+     */
+    private String keyId;
+
+    private String lockData;
+
+    public String getLockData() {
+        return lockData;
+    }
+
+    public void setLockData(String lockData) {
+        this.lockData = lockData;
+    }
+
+    public String getLockId() {
+        return lockId;
+    }
+
+    public void setLockId(String lockId) {
+        this.lockId = lockId;
+    }
+
+    public String getKeyId() {
+        return keyId;
+    }
+
+    public void setKeyId(String keyId) {
+        this.keyId = keyId;
+    }
 
     public Integer getStatus() {
         return status;

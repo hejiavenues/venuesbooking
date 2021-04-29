@@ -87,6 +87,26 @@ public class BVenueBookEntity implements Serializable {
 	
 	private String userName;
 
+    private String keyboardPwdId;
+
+    private String keyboardPwd;
+
+    public String getKeyboardPwdId() {
+        return keyboardPwdId;
+    }
+
+    public void setKeyboardPwdId(String keyboardPwdId) {
+        this.keyboardPwdId = keyboardPwdId;
+    }
+
+    public String getKeyboardPwd() {
+        return keyboardPwd;
+    }
+
+    public void setKeyboardPwd(String keyboardPwd) {
+        this.keyboardPwd = keyboardPwd;
+    }
+
     public String getUserName() {
         return userName;
     }

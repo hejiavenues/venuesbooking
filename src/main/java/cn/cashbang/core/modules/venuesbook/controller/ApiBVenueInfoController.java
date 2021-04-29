@@ -14,6 +14,7 @@ import com.alibaba.druid.util.StringUtils;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -188,5 +189,16 @@ public class ApiBVenueInfoController extends AbstractController {
 		return bVenueInfoService.updateAllUnableTime(bVenueInfo);
 	}
 
-	
+    /**
+     * 绑定智能锁
+     * @param venueId
+     * @return
+     */
+    @RequestMapping("/bindRoomLock")
+    public Result bindRoomLock(String venueId,String venueName,String lockData) {
+        System.out.println(lockData);
+        return bVenueInfoService.bindRoomLock(venueId,venueName,lockData);
+    }
+
+
 }

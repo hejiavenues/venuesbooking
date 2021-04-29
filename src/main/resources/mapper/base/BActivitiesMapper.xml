@@ -4,23 +4,25 @@
 <mapper namespace="cn.cashbang.core.modules.venuesbook.dao.BActivitiesMapper">
 	
 	<select id="listForPage" resultType="cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity">
-		SELECT
-			ba.`activity_id`, 
-			ba.`venue_id`, 
-			(select venue_name from b_venue_info bvi where bvi.venue_id = ba.venue_id) as venueName,
-			ba.`uid`, 
-			(select uname from b_user bu1 where bu1.`uid` = ba.`uid`) as userName,
-			ba.`activity_id_name`, 
-			ba.`activity_count`, 
-			ba.`activity_type`, 
-			ba.`activity_content`, 
-			ba.`activity_icon_url`, 
-			ba.`status`, 
-			ba.`activity_time`, 
-			ba.`create_time`, 
-			ba.`update_time`
-		FROM
-			b_activities ba 
+        SELECT
+            ba.`activity_id`,
+            ba.`venue_id`,
+            (select venue_name from b_venue_info bvi where bvi.venue_id = ba.venue_id) as venueName,
+            ba.`uid`,
+            (select uname from b_user bu1 where bu1.`uid` = ba.`uid`) as userName,
+            ba.`activity_id_name`,
+            ba.`activity_count`,
+            ba.`activity_type`,
+            ba.`activity_content`,
+            ba.`activity_icon_url`,
+            ba.`status`,
+            ba.`activity_time`,
+            bv.keyboard_pwd,
+            ba.`create_time`,
+            ba.`update_time`
+        FROM
+        b_activities ba
+        left join b_venue_book bv on ba.activity_id = bv.activity_id
 			<where>
 			<if test="cgName != null and cgName != ''">
 				and	exists (select 1 from b_venue_info bvi where bvi.`venue_id` = ba.`venue_id` and bvi.venue_name like concat('%',#{cgName},'%')) 
@@ -115,10 +117,12 @@
 			a.`activity_time`,
 			i.venue_name,
 			i.address,
+			bv.keyboard_pwd,
 			a.`create_time`,
 			a.`update_time`
 		FROM
 			b_activities a	    left join b_venue_info i on a.venue_id=i.venue_id
+			left join b_venue_book bv on a.activity_id = bv.activity_id
 		WHERE
 			a.activity_id = #{activityId}
 	</select>

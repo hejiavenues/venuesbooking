@@ -17,6 +17,7 @@
 			`status`, 
 			`icon_url`,
 			openId,
+			show_ble_lock,
 			`create_time`, 
 			`update_time`
 		FROM
@@ -75,6 +76,7 @@
 			`status`, 
 			`icon_url`,
 			openId,
+			show_ble_lock,
 			`create_time`, 
 			`update_time`
 		FROM
@@ -97,6 +99,7 @@
 		`status`,
 		`icon_url`,
 		openId,
+		show_ble_lock,
 		`create_time`,
 		`update_time`
 		FROM

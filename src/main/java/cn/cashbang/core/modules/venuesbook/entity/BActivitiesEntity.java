@@ -101,6 +101,17 @@ public class BActivitiesEntity implements Serializable {
 	 */
 	private Date updateTime;
 
+
+    private String keyboardPwd;
+
+    public String getKeyboardPwd() {
+        return keyboardPwd;
+    }
+
+    public void setKeyboardPwd(String keyboardPwd) {
+        this.keyboardPwd = keyboardPwd;
+    }
+
     public String getBookDate() {
         return bookDate;
     }

@@ -10,7 +10,8 @@
 			`venue_id`, 
 			`book_date`, 
 			`book_time`, 
-			`book_status`, 
+			`book_status`,
+			keyboard_pwd,
 			`create_time`, 
 			`update_time`
 		FROM
@@ -29,6 +30,7 @@
 		`book_date`,
 		`book_time`,
 		`book_status`,
+		keyboard_pwd,
 		`create_time`,
 		`update_time`
 		FROM
@@ -61,6 +63,7 @@
 		b.activity_id,
 		b.activity_content,
 		b.user_id,
+        b.keyboard_pwd,
 		b.create_time
 		from
 		b_venue_book b
@@ -90,6 +93,8 @@
 			`book_status`,
 			activity_id,
 		    activity_content,
+		    keyboard_pwd_Id,
+		    keyboard_pwd,
 			`create_time`, 
 			`update_time`
 		)
@@ -102,6 +107,8 @@
 			#{bookStatus},
 			#{activityId},
 			#{activityContent},
+			#{keyboardPwdId},
+			#{keyboardPwd},
 			#{createTime}, 
 			#{updateTime}
 		)
@@ -131,6 +138,8 @@
 			<if test="bookDate != null">`book_date` = #{bookDate}, </if>
 			<if test="bookTime != null">`book_time` = #{bookTime}, </if>
 			<if test="bookStatus != null">`book_status` = #{bookStatus}, </if>
+            <if test="keyboardPwdId != null">`keyboard_pwd_Id` = #{keyboardPwdId}, </if>
+            <if test="keyboardPwd != null">`keyboard_pwd` = #{keyboardPwd}, </if>
 			<if test="createTime != null">`create_time` = #{createTime}, </if>
 			<if test="updateTime != null">`update_time` = #{updateTime}</if>
 		</set>

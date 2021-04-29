@@ -84,8 +84,17 @@ public class BUserEntity implements Serializable {
 
 	private String committeeName;
 
+    private String showBleLock;
 
-	public String getCommitteeName() {
+    public String getShowBleLock() {
+        return showBleLock;
+    }
+
+    public void setShowBleLock(String showBleLock) {
+        this.showBleLock = showBleLock;
+    }
+
+    public String getCommitteeName() {
 		return committeeName;
 	}
 

@@ -15,7 +15,8 @@ var vm = new Vue({
 		table:{//表格数据
 			  "col":[
 					{field : "venueName", title : "场馆名称", width : "100px"},
-                  {field : "status", title : "状态", width : "100px"},
+                  {field : "status", title : "状态", width : "50px"},
+                  {field : "lockId", title : "智能锁", width : "50px"},
                   {field : "maxPeople", title : "最大容纳人数", width : "100px"},
 					{field : "address", title : "场馆地址", width : "200px"}, 
 					{field : "describtion", title : "场馆简介", width : "200px"}, 

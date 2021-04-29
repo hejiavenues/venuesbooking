@@ -3,6 +3,10 @@ package cn.cashbang.core.common.utils;
 import org.apache.shiro.crypto.hash.SimpleHash;
 import org.apache.shiro.util.ByteSource;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 /**
  * MD5加密工具
  *
@@ -39,5 +43,19 @@ public class MD5Utils {
 		String newPassword = new SimpleHash(ALGORITH_NAME, pswd, ByteSource.Util.bytes(username + SALT), HASH_ITERATIONS).toHex();
 		return newPassword;
 	}
-	
+
+    public static void main(String[] args) {
+       //System.out.println(MD5Utils.encrypt("jdj123456"));
+
+//        SimpleDateFormat date = new SimpleDateFormat("yyyyMMddHHmmssSSS");
+//        String format = date.format(new Date(System.currentTimeMillis()));
+//        System.out.println("当前时间："+format);
+
+        // 获得日历对象
+        Calendar c = Calendar. getInstance ();
+// 获得当前时间的毫秒值
+        long todayTime = c.getTimeInMillis();
+
+        System.out.println("当前时间："+todayTime);
+    }
 }

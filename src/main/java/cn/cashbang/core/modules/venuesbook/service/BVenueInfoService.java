@@ -36,5 +36,5 @@ public interface BVenueInfoService {
 	Result updateAllUnableTime(BUpdateVenueTime bVenueInfo);
 
 	Result getBookStatusList(BUpdateVenueTime bVenueInfo);
-	
+    Result bindRoomLock(String venueId,String venueName,String lockData);
 }
