@@ -2,19 +2,17 @@ package cn.cashbang.core.modules.venuesbook.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
+import cn.cashbang.core.common.utils.HttpPostUtil;
 import cn.cashbang.core.common.utils.SpringContextUtils;
 import cn.cashbang.core.common.utils.WebUtils;
-import cn.cashbang.core.modules.venuesbook.entity.BAccessTokenEntity;
-import cn.cashbang.core.modules.venuesbook.entity.BUserEntity;
-import cn.cashbang.core.modules.venuesbook.entity.BVenueBookEntity;
-import cn.cashbang.core.modules.venuesbook.manager.BAccessTokenManager;
-import cn.cashbang.core.modules.venuesbook.manager.BActivityEntryManager;
-import cn.cashbang.core.modules.venuesbook.manager.BVenueBookManager;
+import cn.cashbang.core.modules.venuesbook.entity.*;
+import cn.cashbang.core.modules.venuesbook.manager.*;
+import com.alibaba.fastjson.JSONObject;
+import groovy.transform.Synchronized;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,8 +22,6 @@ import cn.cashbang.core.common.entity.Page;
 import cn.cashbang.core.common.entity.Query;
 import cn.cashbang.core.common.entity.Result;
 import cn.cashbang.core.common.utils.CommonUtils;
-import cn.cashbang.core.modules.venuesbook.entity.BActivitiesEntity;
-import cn.cashbang.core.modules.venuesbook.manager.BActivitiesManager;
 import cn.cashbang.core.modules.venuesbook.service.BActivitiesService;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -52,6 +48,9 @@ public class BActivitiesServiceImpl implements BActivitiesService {
     @Autowired
     private BActivityEntryManager bActivityEntryManager;
 
+    @Autowired
+    private BVenueInfoManager bVenueInfoManager;
+
 
     @Override
 	public Page<BActivitiesEntity> listBActivities(Map<String, Object> params) {
@@ -62,8 +61,17 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 		return page;
 	}
 
+	@Synchronized
 	@Override
 	public Result saveBActivities(BActivitiesEntity role,String bookDate,String bookTime) {
+
+        String clientId="6d41739156ab4a31b517a73990913db6";
+        String accessToken="23213669f41fc9a9a0fbe2a9850563d0";
+        // 获得日历对象
+        Calendar c = Calendar. getInstance ();
+        // 获得当前时间的毫秒值
+        long todayTime = c.getTimeInMillis();
+
 
         BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
                 role.getVenueId(),bookDate,bookTime);
@@ -89,26 +97,78 @@ public class BActivitiesServiceImpl implements BActivitiesService {
             code = WebUtils.msgCheck(tokenString,content);
         }
         if("0".equals(code)){
-            
-            int r2 = bActivitiesManager.saveBActivities(role);
 
-            // 生成一条预约记录
-            BVenueBookEntity bVenueBook = new BVenueBookEntity();
-            bVenueBook.setBookStatus(2); // 已预约
-            bVenueBook.setBookTime(bookTime);
-            bVenueBook.setBookDate(bookDate);
-            bVenueBook.setUserId(role.getUid());
-            bVenueBook.setVenueId(role.getVenueId());
-            bVenueBook.setActivityId(role.getActivityId());
-            bVenueBook.setActivityContent(role.getActivityContent());
-            String uuid = CommonUtils.createUUID();
-            bVenueBook.setId(uuid);
-            bVenueBook.setCreateTime(new Date());
-            int r1= bVenueBookManager.saveBVenueBook(bVenueBook);
-            count = r1+r2;
+
+            try {
+
+                String time =bookTime;
+                String timearray[] = time.split("-");
+                String date = bookDate+" " + timearray[0]+":00 000";
+                System.out.println("开始时间："+date);
+                String date2 = bookDate+" " + timearray[1]+":00 000";
+                System.out.println("结束时间："+date2);
+               // try {
+                    Calendar calendar = Calendar.getInstance();
+                    calendar.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").parse(date));
+                    String startDate = String.valueOf(calendar.getTimeInMillis()-900000L);
+                    System.out.println("日期1对应毫秒：" + startDate);
+                    calendar.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").parse(date2));
+                    String endDate = String.valueOf(calendar.getTimeInMillis());
+                    System.out.println("日期2对应毫秒：" + endDate);
+
+//                } catch (ParseException e) {
+//                    e.printStackTrace();
+//                }
+
+                int r2 = bActivitiesManager.saveBActivities(role);
+                BVenueInfoEntity venueInfo = bVenueInfoManager.getBVenueInfoById(role.getVenueId());
+
+                if(venueInfo == null || cn.cashbang.core.common.utils.StringUtils.isEmpty(venueInfo.getLockId()))  {
+                    return Result.error().put("msg","该房间还没有绑定锁!");
+                }
+
+                //            // 生成密码
+                String requestUrlPwd="https://api.sciener.com/v3/keyboardPwd/get";
+                Map<String,String> params2 = new HashMap<>();
+                params2.put("clientId",clientId);
+                params2.put("accessToken",accessToken);
+                params2.put("lockId",venueInfo.getLockId());
+                params2.put("keyboardPwdVersion","4");
+                params2.put("keyboardPwdType","3");
+                params2.put("startDate",startDate);
+                params2.put("endDate",endDate);
+                params2.put("date",String.valueOf(todayTime));
+                String resPwd = HttpPostUtil.sendPostRequest(requestUrlPwd,params2);
+                System.out.println("设置密码接口返回结果："+resPwd);
+
+                JSONObject resultPwd =  JSONObject.parseObject(resPwd);
+                String keyboardPwdId = resultPwd.getString("keyboardPwdId");
+                String keyboardPwd = resultPwd.getString("keyboardPwd");
+                
+                // 生成一条预约记录
+                BVenueBookEntity bVenueBook = new BVenueBookEntity();
+                bVenueBook.setBookStatus(2); // 已预约
+                bVenueBook.setBookTime(bookTime);
+                bVenueBook.setBookDate(bookDate);
+                bVenueBook.setUserId(role.getUid());
+                bVenueBook.setVenueId(role.getVenueId());
+                bVenueBook.setActivityId(role.getActivityId());
+                bVenueBook.setActivityContent(role.getActivityContent());
+                String uuid = CommonUtils.createUUID();
+                bVenueBook.setId(uuid);
+                bVenueBook.setCreateTime(new Date());
+                bVenueBook.setKeyboardPwd(keyboardPwd);
+                bVenueBook.setKeyboardPwdId(keyboardPwdId);
+                int r1= bVenueBookManager.saveBVenueBook(bVenueBook);
+                count = r1+r2;
 
             if(count==2){
                 count = 1;
+            }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                return Result.error().put("msg","房间密码获取失败!");
             }
         }
         else {
@@ -152,25 +212,57 @@ public class BActivitiesServiceImpl implements BActivitiesService {
             }
         }
 
-//        BAccessTokenEntity token = bAccessTokenManager.getBAccessTokenById(1L);
-//        String content = role.getActivityContent()+role.getActivityIdName();
-//        String code = WebUtils.msgCheck(token.getAccessToken(),content);
-//        System.out.println("content"+content);
-//        if("40001".equals(code)||"42001".equals(code)){
-//            String tokenString = WebUtils.getAccessToken();
-//            if(cn.cashbang.core.common.utils.StringUtils.isNotBlank(tokenString)){
-//
-//                BAccessTokenEntity bAccessToken = new BAccessTokenEntity();
-//                bAccessToken.setId(1);
-//                bAccessToken.setAccessToken(tokenString);
-//                bAccessTokenManager.updateBAccessToken(bAccessToken);
-//            }
-//            code = WebUtils.msgCheck(tokenString,content);
-//        }
-//        if("0".equals(code)){
 
             role.setActivityIconUrl("/picture/"+fileName);
             int r2 = bActivitiesManager.saveBActivities(role);
+
+        try {
+
+            String clientId="6d41739156ab4a31b517a73990913db6";
+            String accessToken="23213669f41fc9a9a0fbe2a9850563d0";
+            // 获得日历对象
+            Calendar c = Calendar. getInstance ();
+            // 获得当前时间的毫秒值
+            long todayTime = c.getTimeInMillis();
+
+            String time =bookTime;
+            String timearray[] = time.split("-");
+            String date = bookDate+" " + timearray[0]+":00 000";
+            System.out.println("开始时间："+date);
+            String date2 = bookDate+" " + timearray[1]+":00 000";
+            System.out.println("结束时间："+date2);
+            // try {
+            Calendar calendar = Calendar.getInstance();
+            calendar.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").parse(date));
+            String startDate = String.valueOf(calendar.getTimeInMillis()-900000L);
+            System.out.println("日期1对应毫秒：" + startDate);
+            calendar.setTime(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss SSS").parse(date2));
+            String endDate = String.valueOf(calendar.getTimeInMillis());
+            System.out.println("日期2对应毫秒：" + endDate);
+
+            BVenueInfoEntity venueInfo = bVenueInfoManager.getBVenueInfoById(role.getVenueId());
+
+            if(venueInfo == null || cn.cashbang.core.common.utils.StringUtils.isEmpty(venueInfo.getLockId()))  {
+                return Result.error().put("msg","该房间还没有绑定锁!");
+            }
+
+            //            // 生成密码
+            String requestUrlPwd="https://api.sciener.com/v3/keyboardPwd/get";
+            Map<String,String> params2 = new HashMap<>();
+            params2.put("clientId",clientId);
+            params2.put("accessToken",accessToken);
+            params2.put("lockId",venueInfo.getLockId());
+            params2.put("keyboardPwdVersion","4");
+            params2.put("keyboardPwdType","3");
+            params2.put("startDate",startDate);
+            params2.put("endDate",endDate);
+            params2.put("date",String.valueOf(todayTime));
+            String resPwd = HttpPostUtil.sendPostRequest(requestUrlPwd,params2);
+            System.out.println("设置密码接口返回结果："+resPwd);
+
+            JSONObject resultPwd =  JSONObject.parseObject(resPwd);
+            String keyboardPwdId = resultPwd.getString("keyboardPwdId");
+            String keyboardPwd = resultPwd.getString("keyboardPwd");
 
             // 生成一条预约记录
             BVenueBookEntity bVenueBook = new BVenueBookEntity();
@@ -184,16 +276,18 @@ public class BActivitiesServiceImpl implements BActivitiesService {
             String uuid2 = CommonUtils.createUUID();
             bVenueBook.setId(uuid2);
             bVenueBook.setCreateTime(new Date());
+            bVenueBook.setKeyboardPwd(keyboardPwd);
+            bVenueBook.setKeyboardPwdId(keyboardPwdId);
             int r1= bVenueBookManager.saveBVenueBook(bVenueBook);
             count = r1+r2;
 
             if(count==2){
                 count = 1;
             }
-//        }
-//        else {
-//            return Result.error("上传的信息中含有敏感内容，请修改后再上传。");
-//        }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error().put("msg","房间密码获取失败!");
+        }
 
         return CommonUtils.msg(count);
     }

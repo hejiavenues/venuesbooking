@@ -37,4 +37,6 @@ public interface BVenueInfoService {
 
 	Result getBookStatusList(BUpdateVenueTime bVenueInfo);
     Result bindRoomLock(String venueId,String venueName,String lockData);
+
+    Result getRoomLockPwd(String venueId);
 }

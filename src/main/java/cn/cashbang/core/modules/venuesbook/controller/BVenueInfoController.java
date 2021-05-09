@@ -128,5 +128,19 @@ public class BVenueInfoController extends AbstractController {
 	public Result batchRemove(@RequestBody String[] id) {
 		return bVenueInfoService.batchRemove(id);
 	}
-	
+
+    /**
+     * 获取锁密码
+     * @param venueId
+     * @return
+     */
+    @RequestMapping("/getRoomLockPwd")
+    public Result getRoomLockPwd(@RequestBody String venueId) {
+
+        if(!StringUtils.isEmpty(venueId)) {
+            venueId = venueId.replace("\"", "");
+        }
+        System.out.println("venueId:"+venueId);
+        return bVenueInfoService.getRoomLockPwd(venueId);
+    }
 }

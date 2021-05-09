@@ -90,6 +90,8 @@ body ,html{
                   icon="el-icon-edit" @click="editTime(scope.row)" ></el-button>场馆禁用时间设置
                   <el-button :plain="true" type="danger" size="mini" icon="el-icon-delete" @click="remove(scope.row)"
                   v-if="true||hasPermission('venuesbook:venueinfo:remove')"  ></el-button>删除
+                  <el-button :plain="true" v-if="true||hasPermission('venuesbook:venueinfo:edit')" type="success" size="mini"
+                             icon="el-icon-edit" @click="getPwd(scope.row)" ></el-button>生成密码
               </template>
     </el-table-column>
     </el-table>

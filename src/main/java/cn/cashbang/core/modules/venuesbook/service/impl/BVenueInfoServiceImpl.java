@@ -375,4 +375,54 @@ public class BVenueInfoServiceImpl implements BVenueInfoService {
 
         return Result.ok().put("msg","绑定锁成功!");
     }
+
+    @Override
+    public Result getRoomLockPwd(String venueId) {
+        String clientId="6d41739156ab4a31b517a73990913db6";
+        String accessToken="23213669f41fc9a9a0fbe2a9850563d0";
+        String requestUrl="https://api.sciener.com/v3/lock/initialize";
+
+        // 获得日历对象
+        Calendar c = Calendar. getInstance ();
+        // 获得当前时间的毫秒值
+        long todayTime = c.getTimeInMillis();
+
+        BVenueInfoEntity venueInfo = bVenueInfoManager.getBVenueInfoById(venueId);
+
+        try {
+
+            if(venueInfo == null || cn.cashbang.core.common.utils.StringUtils.isEmpty(venueInfo.getLockId()))  {
+                return Result.error().put("msg","该房间还没有绑定锁!");
+            }
+
+            // 生成密码
+            String requestUrlPwd="https://api.sciener.com/v3/keyboardPwd/get";
+            Map<String,String> params2 = new HashMap<>();
+            params2.put("clientId",clientId);
+            params2.put("accessToken",accessToken);
+            params2.put("lockId",venueInfo.getLockId());
+            params2.put("keyboardPwdVersion","4");
+            params2.put("keyboardPwdType","2");
+            params2.put("startDate",String.valueOf(todayTime));
+            //params2.put("endDate",String.valueOf(todayTime+1000000000L));
+            params2.put("date",String.valueOf(todayTime));
+            String resPwd = HttpPostUtil.sendPostRequest(requestUrlPwd,params2);
+            System.out.println("设置密码接口返回结果："+resPwd);
+
+            JSONObject resultPwd =  JSONObject.parseObject(resPwd);
+            String keyboardPwdId = resultPwd.getString("keyboardPwdId");
+            String keyboardPwd = resultPwd.getString("keyboardPwd");
+
+            BVenueInfoEntity bVenueInfo = new  BVenueInfoEntity();
+            bVenueInfo.setVenueId(venueId);
+            bVenueInfo.setLockPwd(keyboardPwd);
+            bVenueInfoManager.updateBVenueInfo(bVenueInfo);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Result.error().put("msg","获取密码失败!");
+        }
+
+        return Result.ok().put("msg","获取密码成功!");
+    }
 }

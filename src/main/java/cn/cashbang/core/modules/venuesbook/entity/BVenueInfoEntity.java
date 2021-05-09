@@ -99,6 +99,16 @@ public class BVenueInfoEntity implements Serializable {
 
     private String lockData;
 
+    private String lockPwd;
+
+    public String getLockPwd() {
+        return lockPwd;
+    }
+
+    public void setLockPwd(String lockPwd) {
+        this.lockPwd = lockPwd;
+    }
+
     public String getLockData() {
         return lockData;
     }

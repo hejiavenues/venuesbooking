@@ -199,6 +199,4 @@ public class ApiBVenueInfoController extends AbstractController {
         System.out.println(lockData);
         return bVenueInfoService.bindRoomLock(venueId,venueName,lockData);
     }
-
-
 }
