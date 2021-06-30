@@ -76,4 +76,9 @@ public class BVenueBookServiceImpl implements BVenueBookService {
 	public BVenueBookEntity countUserBookTime(String uid){
 		return bVenueBookManager.countUserBookTime(uid);
 	}
+
+    @Override
+    public BVenueBookEntity getBookStatusById(String venueId,String bookDate,String bookTime){
+        return bVenueBookManager.getBookStatusById(venueId,bookDate,bookTime);
+    }
 }

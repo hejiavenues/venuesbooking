@@ -80,7 +80,7 @@
 				<!--<![CDATA[  and b.create_time>#{createTime} ]]>-->
 			<!--</if>-->
 		</where>
-		order by b.create_time asc
+		order by b.create_time desc
 	</select>
 	
 	<insert id="save">
@@ -173,6 +173,7 @@
 		activity_content
 		from b_venue_book b where venue_id=#{arg0}
 		and book_date = #{arg1} and book_time = #{arg2}
+		limit 1
 	</select>
 
     <delete id="deleteByActivityId">

@@ -51,6 +51,9 @@ public class BActivitiesServiceImpl implements BActivitiesService {
     @Autowired
     private BVenueInfoManager bVenueInfoManager;
 
+    @Autowired
+    private BConvenerInfoManager bConvenerInfoManager;
+
 
     @Override
 	public Page<BActivitiesEntity> listBActivities(Map<String, Object> params) {
@@ -72,12 +75,16 @@ public class BActivitiesServiceImpl implements BActivitiesService {
         // 获得当前时间的毫秒值
         long todayTime = c.getTimeInMillis();
 
-
-        BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
-                role.getVenueId(),bookDate,bookTime);
-
-        if(entity!=null){
-            return Result.error("该时段已经被人抢先预约，请预约其他空闲时段。");
+        // 如果已经不是召集人不能再预约场馆
+        BConvenerInfoEntity con = bConvenerInfoManager.getBConvenerInfoById(role.getUid());
+        if(con!=null) {
+            System.out.print("当前用户的状态是");
+            if(con.getStatus()!=1){
+                return Result.error("很抱歉，您没有召集人权限不能预约场馆，请联系管理员。");
+            }
+        }
+        else{
+            return Result.error("很抱歉，您没有召集人权限不能预约场馆，请联系管理员。");
         }
 
         int count = 0;
@@ -120,7 +127,6 @@ public class BActivitiesServiceImpl implements BActivitiesService {
 //                    e.printStackTrace();
 //                }
 
-                int r2 = bActivitiesManager.saveBActivities(role);
                 BVenueInfoEntity venueInfo = bVenueInfoManager.getBVenueInfoById(role.getVenueId());
 
                 if(venueInfo == null || cn.cashbang.core.common.utils.StringUtils.isEmpty(venueInfo.getLockId()))  {
@@ -159,16 +165,27 @@ public class BActivitiesServiceImpl implements BActivitiesService {
                 bVenueBook.setCreateTime(new Date());
                 bVenueBook.setKeyboardPwd(keyboardPwd);
                 bVenueBook.setKeyboardPwdId(keyboardPwdId);
-                int r1= bVenueBookManager.saveBVenueBook(bVenueBook);
-                count = r1+r2;
 
-            if(count==2){
-                count = 1;
-            }
+                BVenueBookEntity entity = bVenueBookManager.getBookStatusById(
+                        role.getVenueId(),bookDate,bookTime);
+
+                if(entity==null){
+
+                    int r2 = bActivitiesManager.saveBActivities(role);
+                    int r1= bVenueBookManager.saveBVenueBook(bVenueBook);
+                    count = r1+r2;
+                }
+                else {
+                    return Result.error("该时段已经被人抢先预约，请预约其他空闲时段。");
+                }
+
+                if(count==2){
+                    count = 1;
+                }
 
             } catch (Exception e) {
                 e.printStackTrace();
-                return Result.error().put("msg","房间密码获取失败!");
+                return Result.error().put("msg","该时段已经被人抢先预约，请预约其他空闲时段!");
             }
         }
         else {

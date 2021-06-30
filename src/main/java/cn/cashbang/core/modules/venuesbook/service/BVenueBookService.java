@@ -33,4 +33,6 @@ public interface BVenueBookService {
 	Result queryBookByUserId(String userId,String activityId);
 
 	BVenueBookEntity countUserBookTime(String uid);
+
+    BVenueBookEntity getBookStatusById(String venueId,String bookDate,String bookTime);
 }

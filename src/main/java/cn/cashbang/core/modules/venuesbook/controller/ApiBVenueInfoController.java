@@ -127,6 +127,17 @@ public class ApiBVenueInfoController extends AbstractController {
 			return result;
 		}
 
+		// 判断是否存在重复预约的情况
+        BVenueBookEntity entity = bVenueBookService.getBookStatusById(
+                venueId,bookDate,bookTime);
+        if(entity!=null){
+
+            result.put("code",1);
+            result.put("msg","该时段已经被人抢先预约，请预约其他空闲时段。");
+            return result;
+        }
+
+
 		// 生成活动信息
 		BActivitiesEntity bActivities = new BActivitiesEntity();
 		bActivities.setActivityContent(activityContent);
